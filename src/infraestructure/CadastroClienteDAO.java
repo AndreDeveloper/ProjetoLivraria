@@ -30,7 +30,7 @@ public class CadastroClienteDAO {
 		ps.setString(8, clt.getBairro());
 		ps.setString(9,clt.getCidade());
 		ps.setString(10, clt.getUf());
-		ps.setInt(11, clt.getCep());
+		ps.setString(11, clt.getCep());
 		ps.setString(12,clt.getEmail());
 		ps.setString(13,clt.getTelefone());
 		ps.setString(14, clt.getCelular());
@@ -55,7 +55,7 @@ public void AtualizaCliente (ClienteEntity clt)throws SQLException{
 	ps.setString(8, clt.getBairro());
 	ps.setString(9,clt.getCidade());
 	ps.setString(10, clt.getUf());
-	ps.setInt(11, clt.getCep());
+	ps.setString(11, clt.getCep());
 	ps.setString(12,clt.getEmail());
 	ps.setString(13,clt.getTelefone());
 	ps.setString(14, clt.getCelular());
@@ -85,7 +85,7 @@ public ClienteEntity ConsultaCliente (ClienteEntity clt)throws SQLException{
 		clt.setBairro(rs.getString("Bairro"));
 		clt.setCidade(rs.getString("Cidade"));
 		clt.setUf(rs.getString("UF"));
-		clt.setCep(rs.getInt("CEP"));
+		clt.setCep(rs.getString("CEP"));
 		clt.setEmail(rs.getString("Email"));
 		clt.setTelefone(rs.getString("Telefone"));
 		clt.setCelular(rs.getString("Celular"));
@@ -125,7 +125,7 @@ public List<ClienteEntity> ConsultaCliente()throws SQLException {
 		clt.setBairro(rs.getString("Bairro"));
 		clt.setCidade(rs.getString("Cidade"));
 		clt.setUf(rs.getString("UF"));
-		clt.setCep(rs.getInt("CEP"));
+		clt.setCep(rs.getString("CEP"));
 		clt.setEmail(rs.getString("Email"));
 		clt.setTelefone(rs.getString("Telefone"));
 		clt.setCelular(rs.getString("Celular"));

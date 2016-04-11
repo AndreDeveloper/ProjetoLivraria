@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import entity.ClienteEntity;
@@ -21,52 +22,54 @@ public class EvBtnClienteConcluirCad implements ActionListener {
 	//JLabel lblNome, lblCPF, lblRg, lblCep, lblLogradouro, lblNumero, lblComplemento, lblBairro, lblUf, lblCidade, lblEmail, lblTelefone, lblCelular;
 	
 	
-	
 	JTextField nome;
 	JTextField cpf;
 	JTextField rg;
 	JTextField cep;
-	JTextField logradouro;
-	JTextField numero;
 	JTextField complemento;
+	JTextField logradouro;
 	JTextField bairro;
-	JComboBox cbUf;
-	JComboBox<EnderecoEntity> cidade;
+	JTextField uf;
+	JTextField cidade;
 	JTextField email;
 	JTextField telefone;
 	JTextField celular;
-	
+	JTextField numero;
+	JPasswordField senha;
 	JButton btnCadastrar;
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	JComboBox cbSexo;
+	String sexo;
 	
-	/*
+	
+	
 
 
-
-
+	
+	
+	
+	
 	public EvBtnClienteConcluirCad(JTextField nome, JTextField cpf, JTextField rg, JTextField cep,
-			JTextField logradouro, JTextField numero, JTextField complemento, JTextField bairro, JComboBox cbUf,
-			JTextField cidade, JTextField email, JTextField telefone, JTextField celular, JButton btnCadastrar) {
+			JTextField complemento, JTextField logradouro, JTextField bairro, JTextField uf, JTextField cidade,
+			JTextField email, JTextField telefone, JTextField celular, JTextField numero, JPasswordField senha,
+			JButton btnCadastrar, JComboBox cbSexo, String sexo) {
 		super();
 		this.nome = nome;
 		this.cpf = cpf;
 		this.rg = rg;
 		this.cep = cep;
-		this.logradouro = logradouro;
-		this.numero = numero;
 		this.complemento = complemento;
+		this.logradouro = logradouro;
 		this.bairro = bairro;
-		this.cbUf = cbUf;
+		this.uf = uf;
 		this.cidade = cidade;
 		this.email = email;
 		this.telefone = telefone;
 		this.celular = celular;
+		this.numero = numero;
+		this.senha = senha;
 		this.btnCadastrar = btnCadastrar;
+		this.cbSexo = cbSexo;
+		this.sexo = sexo;
 	}
 
 
@@ -83,6 +86,10 @@ public class EvBtnClienteConcluirCad implements ActionListener {
 		email.setText("");
 		telefone.setText("");
 		celular.setText("");
+		uf.setText("");
+		cbSexo.setSelectedIndex(0);
+		senha.setText("");
+		
 		
 	
 		
@@ -97,16 +104,18 @@ public class EvBtnClienteConcluirCad implements ActionListener {
 		clt.setCpf(cpf.getText());
 		
 		clt.setRg(rg.getText());
-		clt.setCep(Integer.parseInt(cep.getText()));
+		clt.setCep(cep.getText());
 		clt.setLogradouro(logradouro.getText());
 		clt.setNumero(Integer.parseInt(numero.getText()));
 		clt.setComplemento(complemento.getText());
 		clt.setBairro(bairro.getText());
-		clt.setUf("SP");
+		clt.setUf(uf.getText());
 		clt.setCidade(cidade.getText());
 		clt.setEmail(email.getText());
 		clt.setTelefone(telefone.getText());
 		clt.setCelular(celular.getText());
+		clt.setSexo(sexo);
+		
 		System.out.println(clt.toString());
 		
 	
@@ -127,7 +136,7 @@ public class EvBtnClienteConcluirCad implements ActionListener {
 
 	System.out.println("Passei aqui");
 	}
-*/
+
 
 
 

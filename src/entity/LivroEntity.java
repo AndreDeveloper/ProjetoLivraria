@@ -31,7 +31,10 @@ public class LivroEntity {
 	public void setImagem(ImageIcon imagem) {
 		this.imagem = imagem;
 	}
+	
+	
 
+	
 	/*
 	 * public LivroEntity(int isbn, String tituloLivro, String nomeAutor,
 	 * ======= >>>>>>> branch 'master' of
@@ -57,6 +60,14 @@ public class LivroEntity {
 	 * resumo; this.precoCusto = precoCusto; this.precoVenda = precoVenda;
 	 * this.margemLucro = margemLucro; this.qtdeEmEstoque = qtdeEmEstoque; }
 	 */
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public int getIsbn() {
 		return isbn;

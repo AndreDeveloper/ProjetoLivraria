@@ -5,18 +5,12 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class JDBCUtil {
+public class JDBCCEP {
 
 	private static String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-<<<<<<< HEAD
-	private static String JDBC_URL = "jdbc:mysql://localhost/livraria";
-	private static String JDBC_USER = "root";
-	private static String JDBC_PASSWORD = "sql1234";
-=======
-	private static String JDBC_URL = "jdbc:mysql://mysql.asgardprint.com.br/asgardprint01";
-	private static String JDBC_USER = "asgardprint01";
-	private static String JDBC_PASSWORD = "ads2016";
->>>>>>> cc137189a0891539ccf2819a18b7dd17ec7f6a29
+	private static String JDBC_URL = "jdbc:mysql://mysql.asgardprint.com.br/asgardprint03";
+	private static String JDBC_USER = "asgardprint03";
+	private static String JDBC_PASSWORD = "*****";
 	private static Driver driver = null;
 
 	public static synchronized Connection getConnection() throws SQLException {

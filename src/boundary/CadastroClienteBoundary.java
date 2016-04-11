@@ -3,32 +3,43 @@ package boundary;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.PageAttributes;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import com.mysql.fabric.xmlrpc.base.Array;
+import com.sun.corba.se.spi.orbutil.fsm.Action;
+
 import control.EvBtnClienteConcluirCad;
-import control.evComboboxCidade;
-import control.evComboboxUF;
-import entity.CidadeEntity;
+
+import control.evBuscaCEP;
+
 import entity.EnderecoEntity;
-import entity.UfEntity;
+
 
 
 public class CadastroClienteBoundary {
@@ -37,16 +48,20 @@ public class CadastroClienteBoundary {
 	JTextField cpf;
 	JTextField rg;
 	JTextField cep;
-	JTextField logradouro;
-	JTextField numero;
 	JTextField complemento;
+	JTextField logradouro;
 	JTextField bairro;
-	JComboBox <UfEntity>cbUf;
-	JComboBox <CidadeEntity>cbCidade;
+	JTextField uf;
+	JTextField cidade;
 	JTextField email;
 	JTextField telefone;
 	JTextField celular;
-	String ufSelecionado;
+	JTextField numero;
+	JPasswordField senha;
+	JComboBox cbSexo;
+	String sexo;
+	
+	
 	
 	public CadastroClienteBoundary() {
 		// TODO Auto-generated constructor stub
@@ -87,7 +102,9 @@ public class CadastroClienteBoundary {
 	
 	}
 	public JComponent Centro(){
-		JPanel panelCentro = new JPanel(new GridLayout(14,1,10,10));
+		JPanel panelCentro = new JPanel(new GridLayout(15,1,10,10));
+		
+		
 		
 		panelCentro.setBackground(Color.WHITE);
 		
@@ -95,11 +112,15 @@ public class CadastroClienteBoundary {
 		lblNome = new JLabel("*Nome Completo: ");
 		panelCentro.add(lblNome);
 		nome = new JTextField(30);
+		
 		panelCentro.add(nome);
 		
 		lblCPF = new JLabel("*CPF: ");
 		panelCentro.add(lblCPF);
-		cpf = new JTextField(10);
+		
+		cpf = new JTextField();
+		cpf.setPreferredSize(new Dimension(5,2));
+//		cpf.setMinimumSize(new Dimension(1,2));
 		panelCentro.add(cpf);
 		
 		lblRg = new JLabel("*RG: ");
@@ -111,6 +132,45 @@ public class CadastroClienteBoundary {
 		panelCentro.add(lblCep);
 		cep = new JTextField(10);
 		panelCentro.add(cep);
+		
+		evBuscaCEP buscacep = new evBuscaCEP();
+		
+		FocusListener focoCep = new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+				
+				List<EnderecoEntity> end = new ArrayList<EnderecoEntity>();
+				end = buscacep.buscaPorCep(cep.getText());
+				for(EnderecoEntity endereco: end){
+					
+					
+					bairro.setText(endereco.getBairro());
+
+					
+					uf.setText(endereco.getUf());
+					
+					cidade.setText(endereco.getCidade());
+					logradouro.setText(endereco.getLogradouro());
+					
+				}
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+				
+			}
+		};
+		cep.addFocusListener(focoCep);
+		
+		
+		
+		
 		
 		
 		
@@ -133,60 +193,32 @@ public class CadastroClienteBoundary {
 		lblBairro = new JLabel("*Bairro: ");
 		panelCentro.add(lblBairro);
 		bairro = new JTextField(30);
+		
 		panelCentro.add(bairro);
 		
 		lblUf = new JLabel("*UF");
 		panelCentro.add(lblUf);
-		cbUf = new JComboBox<UfEntity>();
-		
-		evComboboxUF comboUf = new evComboboxUF(cbUf);
-		
-		comboUf.listaUF();
-		cbUf.setSelectedIndex(25);
-		panelCentro.add(cbUf);
-		
+		uf = new JTextField(2);
+		panelCentro.add(uf);
 		
 		lblCidade = new JLabel("*Cidade: ");
 		panelCentro.add(lblCidade);
-		cbCidade = new JComboBox<CidadeEntity>();
+		cidade = new JTextField(30);
+		panelCentro.add(cidade);
 		
+		
+<<<<<<< HEAD
 		final evComboboxCidade comboCidade= new evComboboxCidade (cbCidade);
 
 		comboCidade.listaCidade(cbUf.getSelectedIndex()+1);
-		
-		cbCidade.setSelectedIndex(564);
-		
-		ActionListener comboboxUfcidade = new ActionListener() {
-			
-			
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-				//String ufSelecionado = ;
-				int ufSelecionado = cbUf.getSelectedIndex()+1;
-				comboCidade.listaCidade(ufSelecionado);
-				
-				
-			}
-		};
-		cbUf.addActionListener(comboboxUfcidade);
-		
-		ActionListener comboCity = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println(cbCidade.getSelectedIndex()+1);
-				
-			}
-		};
-		
-		cbCidade.addActionListener(comboCity);
+=======
+>>>>>>> cc137189a0891539ccf2819a18b7dd17ec7f6a29
 		
 		
-		panelCentro.add(cbCidade);
+		
+		
+		
+		
 		
 		
 		
@@ -194,7 +226,7 @@ public class CadastroClienteBoundary {
 		
 		JLabel lblSexo = new JLabel("*Sexo");
 		panelCentro.add(lblSexo);
-		JComboBox cbSexo = new JComboBox();
+		cbSexo = new JComboBox();
 		Vector Sexo = new Vector();
 		Sexo.add("");
 		Sexo.add("Masculino");
@@ -204,17 +236,32 @@ public class CadastroClienteBoundary {
 			cbSexo.addItem(Sexo.get(i));
 			
 		}
-		
-		
-		
-		
+			
 		panelCentro.add(cbSexo);
+		
+		ActionListener recebeSexo = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				sexo =(String) cbSexo.getSelectedItem();
+				
+				
+			}
+		};
+		cbSexo.addActionListener(recebeSexo);
+		
 		
 		lblEmail = new JLabel("*Email: ");
 		panelCentro.add(lblEmail);
 		email = new JTextField(30);
 		panelCentro.add(email);
 		
+
+		JLabel lblSenha = new JLabel("Senha: ");
+		panelCentro.add(lblSenha);
+		senha = new JPasswordField();
+		panelCentro.add(senha);
 		
 		lblTelefone = new JLabel("*Telefone: ");
 		panelCentro.add(lblTelefone);
@@ -227,7 +274,7 @@ public class CadastroClienteBoundary {
 		panelCentro.add(celular);
 		
 	
-		
+
 		
 
 		
@@ -258,16 +305,13 @@ public class CadastroClienteBoundary {
 		PanelSul.add(btnCadastrar, BorderLayout.EAST);
 		btnCadastrar.setBackground(Color.GREEN);
 		btnCadastrar.setForeground(Color.WHITE);
-//	
-//	EvBtnClienteConcluirCad btnCadController = 
-//			new EvBtnClienteConcluirCad(nome, cpf, rg, cep,
-//					logradouro, numero, complemento,
-//					bairro, cbUf, cidade, email, 
-//					telefone, celular, btnCadastrar);
-//					
-//					
-//	btnCadastrar.addActionListener(btnCadController);
-//	
+
+	EvBtnClienteConcluirCad btnCadController = 
+			new EvBtnClienteConcluirCad(nome, cpf, rg, cep, complemento, logradouro, bairro, uf, cidade, email, telefone, celular, numero, senha, btnCadastrar, cbSexo, sexo);
+					
+					
+	btnCadastrar.addActionListener(btnCadController);
+	
 		
 		return PanelSul;
 	}
@@ -279,10 +323,10 @@ public class CadastroClienteBoundary {
 	
 	
 	
-	public static void main(String[] args) {
+	//public static void main(String[] args) {
 		
-		new CadastroClienteBoundary();
-	}
+		//new CadastroClienteBoundary();
+	//}
 	
 
 }

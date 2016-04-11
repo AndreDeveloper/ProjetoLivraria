@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.CidadeEntity;
+
 import entity.EnderecoEntity;
-import entity.UfEntity;
+
 
 public class LocalidadeDAO {
 	
@@ -18,70 +18,78 @@ public class LocalidadeDAO {
 	
 	public LocalidadeDAO()throws SQLException{
 		
-		con =JDBCUtil.getConnection();
+		con =JDBCCEP.getConnection();
 		
 		
 		
 	}
 
-	public List<UfEntity> ConsultaUf() throws SQLException{
+	public List<EnderecoEntity> ConsultaEndereco(String cep) throws SQLException{
 		
 		
 		
 		
 
-		List<UfEntity> listaUF = new ArrayList<UfEntity>();
+		List<EnderecoEntity> Endereco = new ArrayList<EnderecoEntity>();
 		
 		
+			int codBairroSequencialIni=0;
 		
-		
-			String sql = "SELECT id, uf from estado ORDER BY id";
-			PreparedStatement ps = con.prepareStatement(sql);
+			String sql = "SELECT log_tipo_logradouro as tipo_logradouro,log_no as nome_rua,bai_nu_sequencial_ini, ufe_sg as siglauf FROM log_logradouro WHERE cep ="+cep;
+			PreparedStatement ps = con.prepareStatement(sql);	
 			ResultSet rs = ps.executeQuery();
+			EnderecoEntity end = new EnderecoEntity();
+			String SiglaUF="" ;
 			while(rs.next()){
-				EnderecoEntity uf = new EnderecoEntity();
-				uf.setIdUf(rs.getInt("id"));
-				uf.setUf(rs.getString("uf"));
-				listaUF.add(uf);
-				
+			String nome_rua =rs.getString("tipo_logradouro")+ " " +rs.getString("nome_rua");
+			SiglaUF = rs.getString("siglauf");
+			end.setLogradouro(nome_rua);
+			end.setUf(SiglaUF);
+			codBairroSequencialIni =rs.getInt("bai_nu_sequencial_ini");
 			}
+			
+			rs.close();
+			ps.close();
+			
+            sql= "SELECT  bai_no as nome_do_bairro FROM  log_bairro WHERE bai_nu_sequencial="+codBairroSequencialIni;
+            ps=con.prepareStatement(sql);
+            
+            rs=ps.executeQuery();
+            
+            while(rs.next()){
+            	
+            	
+			end.setBairro(rs.getString("nome_do_bairro"));
+            }
+            
+            
+            
+            rs.close();
+			ps.close();
+			
+            sql= "SELECT ufe_no as cidade FROM log_faixa_uf WHERE ufe_sg = '"+SiglaUF+"'";
+            ps=con.prepareStatement(sql);
+            
+            rs=ps.executeQuery();
+            
+            while(rs.next()){
+            	
+            	
+			end.setCidade(rs.getString("cidade"));
+            }
+				
+				Endereco.add(end);
+				
+			
 			rs.close();
 			ps.close();
 		
-		return listaUF;
+		return Endereco;
 			
 		
 	}
 	
-	public List<CidadeEntity> ConsultaCidade(int ufSelecionado) throws SQLException{
-		
-		
-		
-		
-		
-		List<CidadeEntity> listaCidade = new ArrayList<CidadeEntity>();
-		
-		
-		
-		
-		String sql = "SELECT id, nome, estado from cidade where estado ="+ufSelecionado;
-		PreparedStatement ps = con.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery();
-		while(rs.next()){
-			CidadeEntity cidade = new CidadeEntity();
-			cidade.setIdCidade(rs.getInt("id"));
-			cidade.setCidade(rs.getString("nome"));
-			cidade.setIdUf(rs.getInt("estado"));
-			listaCidade.add(cidade);
-			
-		}
-		rs.close();
-		ps.close();
-		
-		return listaCidade;
-		
-		
-	}
+	
 	
 	
 	

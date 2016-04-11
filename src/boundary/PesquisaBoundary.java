@@ -290,4 +290,9 @@ public class PesquisaBoundary {
 		painel.setBorder(BorderFactory.createEmptyBorder());
 	 }
 	 
+	 public static void main(String[] args) {
+			new PesquisaBoundary().tela.setVisible(true);
+
+		}
+	 
 }

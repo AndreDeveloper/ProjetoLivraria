@@ -1,24 +1,26 @@
 package entity;
 
-public class EnderecoEntity extends UfEntity{
+public class EnderecoEntity {
 	
 	private String logradouro;
 	private int numero;
 	private String bairro;
-	private int cep;
-	
 	private String complemento;
 	private String cidade;
-	private int idCidade;
+	private String cep;
+	private String uf;
+	
+	
+	
 	
 
-	public int getIdCidade() {
-		return idCidade;
+	public String getUf() {
+		return uf;
 	}
-	public void setIdCidade(int idCidade) {
-		this.idCidade = idCidade;
+	public void setUf(String uf) {
+		this.uf = uf;
 	}
-	
+
 	public int getNumero() {
 		return numero;
 	}
@@ -37,12 +39,7 @@ public class EnderecoEntity extends UfEntity{
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
 	}
-	public int getCep() {
-		return cep;
-	}
-	public void setCep(int cep) {
-		this.cep = cep;
-	}
+	
 	public String getComplemento() {
 		return complemento;
 	}
@@ -54,6 +51,12 @@ public class EnderecoEntity extends UfEntity{
 	}
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
+	}
+	public String getCep() {
+		return cep;
+	}
+	public void setCep(String cep) {
+		this.cep = cep;
 	}
 
 	

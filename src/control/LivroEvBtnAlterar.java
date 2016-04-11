@@ -97,8 +97,21 @@ public class LivroEvBtnAlterar implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		if (TelaLivro.validaCampos())
+		if (validaCampos())
 			acao();
+	}
+	public boolean validaCampos() {
+		if (txtISBN.getText().length() <= 0 || txtNomeAutor.getText().length() <= 0
+				|| txtDataPublicacao.getText().length() <= 0 || txtEditora.getText().length() <= 0
+				|| txtCategoria.getText().length() <= 0 || txtFormato.getText().length() <= 0
+				|| txtnumPaginas.getText().length() <= 0 || txtSumario.getText().length() <= 0
+				|| txtResumo.getText().length() <= 0 || txtPrecoCusto.getText().length() <= 0
+				|| txtPrecoVenda.getText().length() <= 0 || txtMargemLucro.getText().length() <= 0
+				|| txtQtdeEmEstoque.getText().length() <= 0) {
+			JOptionPane.showMessageDialog(null, "Preencher todos os campos");
+			return false;
+		}
+		return true;
 	}
 
 }
