@@ -26,6 +26,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import control.LivroEvBtnAlterar;
 import control.LivroEvBtnDeletar;
+import control.LivroEvBtnSalvar;
 //import control.LivroEvBtnSalvar;
 import entity.LivroEntity;
 
@@ -251,8 +252,15 @@ public class LivroBoundary {
 		//bntSalvar.setIcon(new ImageIcon(LivroBoundary.class.getResource("/resource/___")));
 		bntSalvar.setBounds(63, 430, 125, 37);
 		contentPane.add(bntSalvar);
-		LivroEvBtnSalvar evtSalvar = new LivroEvBtnSalvar();
-bntSalvar.addActionListener(evtSalvar);
+		
+		LivroEvBtnSalvar evteste = 
+				new LivroEvBtnSalvar(this,
+						txtTituloLivro, 
+						txtISBN, txtNomeAutor, txtDataPublicacao, txtEditora, 
+						txtCategoria, txtFormato, txtnumPaginas, txtSumario,
+						txtResumo, txtPrecoCusto, txtPrecoVenda, txtMargemLucro,
+						txtQtdeEmEstoque);
+		bntSalvar.addActionListener(evteste);
 		
 		bntAlterar = new JButton("Alterar");
 		//bntAlterar.setIcon(new ImageIcon(LivroBoundary.class.getResource("/resource/_____")));
@@ -276,7 +284,7 @@ bntSalvar.addActionListener(evtSalvar);
 
 		bntPesquisarLivro = new JButton("");
 		bntPesquisarLivro.setBounds(454, 11, 37, 24);
-		bntPesquisarLivro.setIcon(new ImageIcon(LivroBoundary.class.getResource("/resource/_____")));
+	//	bntPesquisarLivro.setIcon(new ImageIcon(LivroBoundary.class.getResource("/resource/_____")));
 		contentPane.add(bntPesquisarLivro);
 
 		bntPesquisarAutor = new JButton("");
@@ -378,52 +386,6 @@ bntSalvar.addActionListener(evtSalvar);
 	}
 
 	
-	public class LivroEvBtnSalvar implements ActionListener {
-		
-		
-		
-		public LivroEvBtnSalvar(){
-			
-		}
-		
-		public void salvar(){
-			LivroEntity livroEntity = new LivroEntity();
-			CadastroLivroDAO livroDAO = new CadastroLivroDAO();
-			
-			System.out.println("Primeiro");
-			livroEntity.setTituloLivro(txtTituloLivro.getText()); 
-			//livroEntity.setIsbn((int)txtISBN.getText());
-			livroEntity.setTituloLivro(txtNomeAutor.getText());
-			livroEntity.setTituloLivro(txtDataPublicacao.getText());
-			livroEntity.setTituloLivro(txtEditora.getText());
-			livroEntity.setTituloLivro(txtCategoria.getText());
-			livroEntity.setTituloLivro(txtFormato.getText());
-			livroEntity.setTituloLivro(txtnumPaginas.getText());
-			livroEntity.setTituloLivro(txtSumario.getText());
-			livroEntity.setTituloLivro(txtResumo.getText());
-			livroEntity.setTituloLivro(txtPrecoCusto.getText());
-			livroEntity.setTituloLivro(txtPrecoVenda.getText());
-			livroEntity.setTituloLivro(txtMargemLucro.getText());
-			livroEntity.setTituloLivro(txtQtdeEmEstoque.getText());
-			
-			try {
-				if (livroDAO.insert(livroEntity) > 0){
-					JOptionPane.showMessageDialog(null, "Cadastro do Livro Efetuado Com Sucesso");
-					telaDefault();
-				} else {
-					JOptionPane.showMessageDialog(null, "Erro ao cadastrar!");
-				}
-			} catch (Exception e){
-				JOptionPane.showMessageDialog(null, e.getMessage());
-			}
-		}
-		
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			if(validaCampos())
-			salvar();
-		}
 
-	}
 
 }

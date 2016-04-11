@@ -150,7 +150,7 @@ public class CadastroClienteBoundary {
 		panelCentro.add(lblCidade);
 		cbCidade = new JComboBox<CidadeEntity>();
 		
-		evComboboxCidade comboCidade= new evComboboxCidade (cbCidade);
+		final evComboboxCidade comboCidade= new evComboboxCidade (cbCidade);
 
 		comboCidade.listaCidade(cbUf.getSelectedIndex()+1);
 		
