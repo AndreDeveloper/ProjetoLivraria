@@ -9,10 +9,10 @@ import java.sql.*;
 import entity.ClienteEntity;
 
 
-public class CadastroClienteDAO {
+public class ClienteDAO {
 	Connection con;
 	
-	public CadastroClienteDAO()throws SQLException{
+	public ClienteDAO()throws SQLException{
 				con = JDBCUtil.getConnection(); 
 		
 	}

@@ -40,10 +40,12 @@ public class ItemCarrinhoBoundary extends JPanel{
 			java.util.List<ItemCarrinhoEntity> itensList,
 			JLabel valorTotal) {
 		super();
+		AuxQtdadeEntity aux = new AuxQtdadeEntity();
+		aux.setQuantidade(itemEntity.getQuantidade());
 		this.itemEntity = itemEntity;
 		this.itensList = itensList;
 		this.livro = itemEntity.getLivro();
-		this.quantidade = itemEntity.getQuantidade();
+		this.quantidade = aux;
 		this.subTotal = itemEntity.getSubTotal();
 		this.valorTotal = valorTotal;
 		this.create();	

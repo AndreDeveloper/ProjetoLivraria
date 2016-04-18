@@ -1,421 +1,705 @@
 package boundary;
 
-import infraestructure.CadastroLivroDAO;
-
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
-import control.EvBtnSalvarLivro;
-import control.LivroEvBtnAlterar;
-import control.LivroEvBtnDeletar;
-<<<<<<< HEAD
-import control.LivroEvBtnSalvar;
-=======
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
 
->>>>>>> cc137189a0891539ccf2819a18b7dd17ec7f6a29
-//import control.LivroEvBtnSalvar;
+import control.EvBtnCarregaImagemLivro;
+import control.LivroController;
+import entity.Categoria;
 import entity.LivroEntity;
 
-public class LivroBoundary {
-
-	private LivroEntity livroEntity;
-
-	private JFrame frame = new JFrame();
-	private JPanel contentPane = new JPanel(new BorderLayout());
+public class LivroBoundary implements ActionListener, KeyListener{
+	private JPanel tela = new JPanel(new BorderLayout());
+	private JButton btnSalvar = new JButton("Salvar");
+	private JButton btnAlterar = new JButton("Alterar");
+	private JButton btnExcluir = new JButton("Excluir");
+	private JButton btnNovo = new JButton("Novo");
+	private JButton btnCarregaImagem = new JButton("Carregar Imagem");
+	private JButton pesquisaEditora = new JButton();
+	private JButton btnVoltar = new JButton("");
+	private JButton pesquisaLivro = new JButton();
+	private JButton pesquisaAutor = new JButton();
+	private LivroController livroControl= new LivroController();
+	private String livroPath;
 	
-	private JLabel lblTitulo;
-	private JLabel lblISBN;
-	private JLabel lblNomeAutor;
-	private JLabel lblDataPublicacao;
-	private JLabel lblEditora;
-	private JLabel lblCategoria;
-	private JLabel lblFormato;
-	private JLabel lblnumPaginas;	
-	private JLabel lblSumario;
-	private JLabel lblResumo;
-	private JLabel lblPrecoCusto;
-	private JLabel lblPrecoVenda;
-	private JLabel lblMargemLucro;
-	private JLabel lblQtdeEmEstoque;
+	private JTextField txtIsbn = new JTextField(10);
+	private JTextField txtTituloLivro = new JTextField(50);
+	private JTextField txtNomeAutor = new JTextField(20);
+	private JComboBox<String> cbCategoriaLivro = new JComboBox<String>();
+	private JTextField txtEditora = new JTextField(20);
+	private JDateChooser jcDataPublicacao = new JDateChooser();
+	private JTextField txtFormato = new JTextField(10);
+	private JTextField txtNumeroDePaginas = new JTextField(5);
+	private JTextArea txtSumario = new JTextArea(5, 50);
+	private JTextArea txtResumo = new JTextArea(5, 50);
+	private JTextField txtPreçoCusto = new JTextField(10);
+	private JTextField txtPrecoVenda = new JTextField(10);
+	private JTextField txtMargemLucro = new JTextField(10);
+	private JTextField txtQtdadeEstoque = new JTextField(5);
 	
-	//private JPanel contentPane;
-	JTextField txtTitulo;
-	JTextField txtISBN;
-	JTextField txtNomeAutor;
-	JTextField txtDataPublicacao;
-	JTextField txtEditora;
-	JTextField txtCategoria;
-	JTextField txtFormato;
-	JTextField txtnumPaginas;
-	JTextField txtSumario;
-	JTextField txtResumo;
-	JTextField txtPrecoCusto;
-	JTextField txtPrecoVenda;
-	JTextField txtMargemLucro;
-	JTextField txtQtdeEmEstoque;
-
-	JButton btnVoltar;
-	JButton bntPesquisarAutor;
-	JButton bntPesquisarLivro;
-	JButton bntDeletar;
-	JButton bntAlterar;
-	JButton bntSalvar;
-
-	public LivroEntity getLivroEntity() {
-		return livroEntity;
+	private JLabel lblImagem = new JLabel("<<Selecione uma imagem>>");
+	
+	public String getLivroPath() {
+		return livroPath;
 	}
 
-	public void setLivroEntity(LivroEntity livroEntity) {
-		this.livroEntity = livroEntity;
-	}
-
-	public static void main(String[] args) {
-		new LivroBoundary().frame.setVisible(true);
-
+	public void setLivroPath(String livroPath) {
+		this.livroPath = livroPath;
 	}
 
 	public LivroBoundary() {
+		// declarando e inicializando os componentes de tela.
+		JLabel lblIsbn = new JLabel("Isbn");
+		JLabel lblTituloLivro = new JLabel("Titulo");
+		JLabel lblNomeAutor = new JLabel("Autor");
+		JLabel lblCategoriaLivro = new JLabel("Categoria");
+		JLabel lblEditora = new JLabel("Editora");
+		JLabel lblDataPublicacao = new JLabel("Data da Publicação");
+		JLabel lblFormato = new JLabel("Formato");
+		JLabel lblNumeroDePaginas = new JLabel("N° Paginas");
+		JLabel lblSumario = new JLabel("Sumario");
+		JLabel lblResumo = new JLabel("Resumo");
+		JLabel lblPreçoCusto = new JLabel("Preço de custo R$:");
+		JLabel lblPrecoVenda = new JLabel("Preço de venda R$:");
+		JLabel lblMargemLucro = new JLabel("Margem de lucro");
+		JLabel lblQtdadeEstoque = new JLabel("Quantidade em estoque");
+	
+		JPanel painelLeste = new JPanel(new BorderLayout());
+		
+		JPanel painelCentro = new JPanel(new BorderLayout());
+		JPanel painelCentroCentro = new JPanel(new BorderLayout());
+        JPanel painelCentroGrid = new JPanel(new GridLayout(6, 1, 1, 1));
+		
+		// montando a tela / painel leste
+		painelLeste.add(lblImagem, BorderLayout.CENTER);
+		painelLeste.add(btnCarregaImagem, BorderLayout.SOUTH);
 
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.setBounds(100, 100, 500, 550);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		frame.setContentPane(contentPane);
-		frame.setLocationRelativeTo(null);
-		frame.setTitle("Cadastro de Livros");
-		contentPane.setLayout(null);
+		// motando a tela / painel centro
+		FlowLayout flowLayout = new FlowLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		flowLayout.setHgap(5);
+		JPanel linha1 = new JPanel(flowLayout);
+		JPanel linha2 = new JPanel(flowLayout);
+		JPanel linha3 = new JPanel(flowLayout);
+		JPanel linha4 = new JPanel(flowLayout);
+		JPanel linha5 = new JPanel(flowLayout);
+		JPanel linha6 = new JPanel(flowLayout);
+		JPanel linha7 = new JPanel(new BorderLayout());
+		JPanel linha8 = new JPanel(new BorderLayout());
 		
+		linha1.add(lblIsbn);
+		linha1.add(txtIsbn);
+		pesquisaLivro.setIcon(
+				new ImageIcon(LivroBoundary.class.getResource("/resource/search1.png"))
+				);
+		linha1.add(pesquisaLivro);
+		pesquisaLivro.addActionListener(this);
+		painelCentroGrid.add(linha1);
 		
-		lblISBN = new JLabel("ISBN: ");
-		lblISBN.setBounds(2, 10, 111, 20);
-		contentPane.add(lblISBN);
+		linha2.add(lblTituloLivro);
+		linha2.add(txtTituloLivro);
+		painelCentroGrid.add(linha2);
 		
-		txtISBN = new JTextField();
-		txtISBN.setBounds(111, 10, 130, 20);
-		txtISBN.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtISBN.setText("");
-		txtISBN.setColumns(10);
-		contentPane.add(txtISBN);
-		
+		linha3.add(lblNomeAutor);
+		linha3.add(txtNomeAutor);
+		pesquisaAutor.setIcon(
+				new ImageIcon(LivroBoundary.class.getResource("/resource/lupa.png"))
+				);
+		linha3.add(pesquisaAutor);		
+		linha3.add(lblEditora);
+		linha3.add(txtEditora);
+		pesquisaEditora.setIcon(
+				new ImageIcon(LivroBoundary.class.getResource("/resource/lupa.png"))
+				);
+		linha3.add(pesquisaEditora);
+		painelCentroGrid.add(linha3);		
 
-		lblTitulo = new JLabel("Título: ");
-		lblTitulo.setBounds(2, 40, 111, 20);
-		contentPane.add(lblTitulo);
+		linha4.add(lblCategoriaLivro);
+		linha4.add(cbCategoriaLivro);
+		linha4.add(lblDataPublicacao);
+		linha4.add(jcDataPublicacao);
+		linha4.add(lblFormato);
+		linha4.add(txtFormato);
+		painelCentroGrid.add(linha4);
 		
-		txtTitulo = new JTextField();
-		txtTitulo.setBounds(111, 40, 337, 20);
-		txtTitulo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtTitulo.setText("");
-		txtTitulo.setColumns(10);
-		contentPane.add(txtTitulo);
-				
+		linha5.add(lblPreçoCusto);
+		linha5.add(txtPreçoCusto);
+		linha5.add(lblPrecoVenda);
+		linha5.add(txtPrecoVenda);		
+		linha5.add(lblMargemLucro);
+		linha5.add(txtMargemLucro);
+		painelCentroGrid.add(linha5);		
 		
-		lblNomeAutor = new JLabel("Nome do Autor: ");
-		lblNomeAutor.setBounds(2, 70, 111, 20);
-		contentPane.add(lblNomeAutor);
+		linha6.add(lblNumeroDePaginas);
+		linha6.add(txtNumeroDePaginas);
+		linha6.add(lblQtdadeEstoque);
+		linha6.add(txtQtdadeEstoque);
+		painelCentroGrid.add(linha6);
 		
-		txtNomeAutor = new JTextField();
-		txtNomeAutor.setBounds(111, 70, 337, 20);
-		txtNomeAutor.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtNomeAutor.setText("");
-		contentPane.add(txtNomeAutor);
-		txtNomeAutor.setColumns(10);
+		linha7.add(lblSumario, BorderLayout.NORTH);
+		linha7.add(txtSumario, BorderLayout.CENTER);
 		
+		linha8.add(lblResumo, BorderLayout.NORTH);
+		linha8.add(txtResumo, BorderLayout.CENTER);
 		
-		lblDataPublicacao = new JLabel("Data Publicação: ");
-		lblDataPublicacao.setBounds(2, 100, 111, 20);
-		contentPane.add(lblDataPublicacao);
+		JPanel painelSetado = new JPanel(new BorderLayout());
+		painelSetado.add(painelCentroGrid, BorderLayout.CENTER);
 		
-		txtDataPublicacao = new JTextField();
-		txtDataPublicacao.setBounds(111, 100, 337, 20);
-		txtDataPublicacao.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtDataPublicacao.setText("");
-		contentPane.add(txtDataPublicacao);
-		txtDataPublicacao.setColumns(10);
+		JPanel painelTextAreas = new JPanel(new GridLayout(2, 1));
+		painelTextAreas.add(linha7);
+		painelTextAreas.add(linha8);
 		
+		painelSetado.add(painelTextAreas, BorderLayout.SOUTH);
+		// populando a combobox
+	   	 String[] values = new String[] {"<<Escolha a Categoria>>",
+						"Administra\u00E7\u00E3o", "Agropecu\u00E1ria", 
+						"Artes", "Audiolivro", "Autoajuda", 
+						"Ci\u00EAncias Biol\u00F3gicas", 
+						"Ci\u00EAncias Exatas", 
+						"Ci\u00EAncias Humanas e Sociais", "Contabilidade",
+						"Cursos e Idiomas", "Dicion\u00E1rios e Manuais Convers.", 
+						"Did\u00E1ticos", "Direito", 
+						"Economia", "Engenharia e Tecnologia", "Esoterismo", 
+						"Esportes e Lazer", "Gastronomia", "Geografia e Historia", 
+						"Inform\u00E1tica", "Lingu\u00EDstica", 
+						"Literatura Estrangeira", "Literatura Infantojuvenil", 
+						"Literatura Nacional", "Livros", "Medicina", "Religi\u00E3o", 
+						"Turismo"}; 
+	   	DefaultComboBoxModel<String> combomodel = 
+	   			new DefaultComboBoxModel<String>(values);
+	   	cbCategoriaLivro.setModel(combomodel);
+	   	cbCategoriaLivro.setToolTipText("Escolha uma categoria");    	
+	   	cbCategoriaLivro.setForeground(Color.BLACK);
+	   	cbCategoriaLivro.setBackground(Color.WHITE);
+	   	cbCategoriaLivro.setFont(new Font("Tahoma", Font.BOLD, 14));
+	   	cbCategoriaLivro.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	   	cbCategoriaLivro.setBorder(BorderFactory.createEtchedBorder());
+	   	
+	   	// montando o painel de botoes
 		
-		lblEditora = new JLabel("Editora: ");
-		lblEditora.setBounds(2, 130, 111, 20);
-		contentPane.add(lblEditora);
+		JPanel painelBotoes = new JPanel();
+		FlowLayout layoutBotoes = new FlowLayout();
+		layoutBotoes.setAlignment(FlowLayout.CENTER);
+		layoutBotoes.setHgap(110);
+		painelBotoes.setLayout(layoutBotoes);
+		painelBotoes.add(btnNovo);
+		painelBotoes.add(btnSalvar);
+		painelBotoes.add(btnAlterar);
+		painelBotoes.add(btnExcluir);
+		painelBotoes.add(btnVoltar);
+		
+	   	// formatando os componentes
+	   	btnCarregaImagem.setIcon(
+	   			new ImageIcon(LivroBoundary.class.getResource("/resource/open.png"))
+	   			);
+	   	btnCarregaImagem.setToolTipText("clique para carregar a imagem do livro");    	
+	   	btnCarregaImagem.setForeground(Color.BLACK);
+	   	btnCarregaImagem.setBackground(Color.WHITE);
+	   	btnCarregaImagem.setFont(new Font("Tahoma", Font.BOLD, 18));
+	   	btnCarregaImagem.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	   	btnCarregaImagem.setBorder(BorderFactory.createEmptyBorder());
+	   	EvBtnCarregaImagemLivro evcarrega = new EvBtnCarregaImagemLivro(lblImagem, this);
+	   	btnCarregaImagem.addActionListener(evcarrega);
+	   	
+	   	btnSalvar.addActionListener(this);
+	   	btnSalvar.setToolTipText("Salvar registro");    	
+	   	btnSalvar.setForeground(Color.BLACK);
+	   	btnSalvar.setBackground(Color.WHITE);
+	   	btnSalvar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	   	btnSalvar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	   	btnSalvar.setBorder(BorderFactory.createEmptyBorder());
+	   	btnSalvar.setIcon(
+				new ImageIcon(LivroBoundary.class.getResource("/resource/save.png"))
+				);	   	
+	   	
+	   	btnVoltar.addActionListener(this);
+	   	btnVoltar.setToolTipText("Salvar registro");    	
+	   	btnVoltar.setForeground(Color.BLACK);
+	   	btnVoltar.setBackground(Color.WHITE);
+	   	btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	   	btnVoltar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	   	btnVoltar.setBorder(BorderFactory.createEmptyBorder());
+	   	btnVoltar.setIcon(
+				new ImageIcon(LivroBoundary.class.getResource("/resource/back.png"))
+				);	
+	   	
+	   	btnNovo.addActionListener(this);
+	   	btnNovo.setToolTipText("Salvar registro");    	
+	   	btnNovo.setForeground(Color.BLACK);
+	   	btnNovo.setBackground(Color.WHITE);
+	   	btnNovo.setFont(new Font("Tahoma", Font.BOLD, 18));
+	   	btnNovo.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	   	btnNovo.setBorder(BorderFactory.createEmptyBorder());
+	   	btnNovo.setIcon(
+				new ImageIcon(LivroBoundary.class.getResource("/resource/novo.png"))
+				);
+	   	
+	   	btnAlterar.addActionListener(this);
+	   	btnAlterar.setToolTipText("alterar dados");    	
+	   	btnAlterar.setForeground(Color.BLACK);
+	   	btnAlterar.setBackground(Color.WHITE);
+	   	btnAlterar.setFont(new Font("Tahoma", Font.BOLD, 18));
+	   	btnAlterar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	   	btnAlterar.setBorder(BorderFactory.createEmptyBorder());
+	   	btnAlterar.setIcon(
+				new ImageIcon(LivroBoundary.class.getResource("/resource/edit.png"))
+				);
+	   	
+	   	btnExcluir.addActionListener(this);
+	   	btnExcluir.setToolTipText("Exclui registro");    	
+	   	btnExcluir.setForeground(Color.BLACK);
+	   	btnExcluir.setBackground(Color.WHITE);
+	   	btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 18));
+	   	btnExcluir.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	   	btnExcluir.setBorder(BorderFactory.createEmptyBorder());
+	   	btnExcluir.setIcon(
+				new ImageIcon(LivroBoundary.class.getResource("/resource/delete.png"))
+				);
+	   	
+	   	pesquisaAutor.setToolTipText("clique para pesquisar um autor");    	
+	   	pesquisaAutor.setForeground(Color.BLACK);
+	   	pesquisaAutor.setBackground(Color.WHITE);
+	   	pesquisaAutor.setFont(new Font("Tahoma", Font.BOLD, 14));
+	   	pesquisaAutor.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	   	pesquisaAutor.setBorder(BorderFactory.createEmptyBorder());
+	   	
+	   	pesquisaEditora.setToolTipText("clique para pesquisar uma editora");    	
+	   	pesquisaEditora.setForeground(Color.BLACK);
+	   	pesquisaEditora.setBackground(Color.WHITE);
+	   	pesquisaEditora.setFont(new Font("Tahoma", Font.BOLD, 14));
+	   	pesquisaEditora.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	   	pesquisaEditora.setBorder(BorderFactory.createEmptyBorder());
+	   	
+	   	pesquisaLivro.setToolTipText("clique para pesquisar um livro pelo isbn");    	
+	   	pesquisaLivro.setForeground(Color.BLACK);
+	   	pesquisaLivro.setBackground(Color.WHITE);
+	   	pesquisaLivro.setFont(new Font("Tahoma", Font.BOLD, 14));
+	   	pesquisaLivro.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	   	pesquisaLivro.setBorder(BorderFactory.createEmptyBorder());
+	   	
+	   	jcDataPublicacao.setForeground(Color.BLUE);
+	   	jcDataPublicacao.setBackground(Color.WHITE);
+	   	jcDataPublicacao.setFont(new Font("Tahoma", Font.BOLD, 14));
+	   	Dimension d = new Dimension(200, 30);
+	   	jcDataPublicacao.setPreferredSize(d);
+	   	jcDataPublicacao.setBorder(BorderFactory.createEtchedBorder());
+	   	
+	   	lblImagem.setForeground(Color.GREEN);
+	   	lblImagem.setBorder(new LineBorder(Color.BLACK));
+	   	lblImagem.setBackground(Color.LIGHT_GRAY);
+	   	lblImagem.setVerticalAlignment(JLabel.CENTER);
+	   	lblImagem.setHorizontalAlignment(JLabel.CENTER);
+	   	    	
+	   	formataJlabel(lblQtdadeEstoque);
+	   	formataJlabel(lblCategoriaLivro);
+	   	formataJlabel(lblDataPublicacao);
+	   	formataJlabel(lblEditora);
+	   	formataJlabel(lblFormato);
+	   	formataJlabel(lblIsbn);
+	   	formataJlabel(lblMargemLucro);
+	   	formataJlabel(lblNomeAutor);
+	   	formataJlabel(lblNumeroDePaginas);
+	   	formataJlabel(lblPrecoVenda);
+	   	formataJlabel(lblPreçoCusto);
+	   	formataJlabel(lblQtdadeEstoque);
+	   	formataJlabel(lblResumo);
+	   	formataJlabel(lblSumario);
+	   	formataJlabel(lblTituloLivro);
+	   	
+	   	formataJtextField(txtEditora);
+	   	formataJtextField(txtFormato);
+	   	formataJtextField(txtIsbn);
+	   	formataJtextField(txtMargemLucro);
+	   	formataJtextField(txtNomeAutor);
+	   	formataJtextField(txtNumeroDePaginas);
+	   	formataJtextField(txtPrecoVenda);
+	   	formataJtextField(txtPreçoCusto);
+	   	formataJtextField(txtQtdadeEstoque);
+	   	formataJtextField(txtTituloLivro);
+	   	
+	   	formataPainel(painelCentro);
+	   	formataPainel(painelCentroCentro);
+	   	formataPainel(painelCentroGrid);
+	   	formataPainel(painelLeste);
+	   	formataPainel(painelBotoes);
+	   	formataPainel(linha1);
+	   	formataPainel(linha2);
+	   	formataPainel(linha3);
+	   	formataPainel(linha4);
+	   	formataPainel(linha5);
+	   	formataPainel(linha6);
+	   	formataPainel(linha7);
+	   	formataPainel(linha8);
+	   	
+	   	lblIsbn.setPreferredSize(lblPreçoCusto.getPreferredSize());
+	   	lblTituloLivro.setPreferredSize(lblPreçoCusto.getPreferredSize());
+	   	lblNomeAutor.setPreferredSize(lblPreçoCusto.getPreferredSize());
+	   	lblCategoriaLivro.setPreferredSize(lblPreçoCusto.getPreferredSize());
+	   	lblNumeroDePaginas.setPreferredSize(lblPreçoCusto.getPreferredSize());
+	   	
+	   	lblIsbn.setHorizontalAlignment(JLabel.RIGHT);
+	   	lblTituloLivro.setHorizontalAlignment(JLabel.RIGHT);
+	   	lblNomeAutor.setHorizontalAlignment(JLabel.RIGHT);
+	   	lblCategoriaLivro.setHorizontalAlignment(JLabel.RIGHT);
+	   	lblNumeroDePaginas.setHorizontalAlignment(JLabel.RIGHT);
+	   	lblSumario.setHorizontalAlignment(JLabel.CENTER);
+	   	lblResumo.setHorizontalAlignment(JLabel.CENTER);
+	   	
+	   	txtResumo.setBorder(BorderFactory.createEtchedBorder());
+	   	txtSumario.setBorder(BorderFactory.createEtchedBorder());
+	   	
+	   	txtIsbn.addKeyListener(this);
+	   	txtPrecoVenda.addKeyListener(this);
+	   	txtPreçoCusto.addKeyListener(this);
+	   	txtNumeroDePaginas.addKeyListener(this);
+	   	txtMargemLucro.addKeyListener(this);
+	   	txtQtdadeEstoque.addKeyListener(this);
+	   	
+	   	// montando a tela de fato		
+		painelCentroCentro.add(painelSetado, BorderLayout.CENTER);
+		painelCentro.add(painelCentroCentro, BorderLayout.CENTER);
+		
+		tela.add(painelLeste, BorderLayout.WEST);
+		tela.add(painelCentro, BorderLayout.CENTER);
+		tela.add(painelBotoes, BorderLayout.SOUTH);
+		telaDefault();
+	}
 
-		txtEditora = new JTextField();
-		txtEditora.setBounds(111, 130, 337, 20);
-		txtEditora.setFont(new Font("Tahoma", Font.PLAIN, 12));
+	public JPanel getTela() {
+		return tela;
+	}
+
+	public void setTela(JPanel tela) {
+		this.tela = tela;
+	}
+	
+	public void formataJlabel(JLabel label){
+		label.setForeground(Color.GRAY);
+	   	label.setBackground(Color.WHITE);
+	   	label.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+	   	label.setBorder(BorderFactory.createEmptyBorder());
+	}
+	
+	public void formataJtextField(JTextField txt){
+		txt.setForeground(Color.BLUE);
+		txt.setBackground(Color.white);
+		txt.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+		txt.setBorder(BorderFactory.createEtchedBorder());
+	}
+	public void formataPainel(JPanel painel){
+		painel.setForeground(Color.WHITE);
+		painel.setBackground(Color.WHITE);
+		painel.setBorder(BorderFactory.createEmptyBorder());
+	 }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == btnSalvar){
+			if(formToLivro()!= null){
+				if (livroControl.salvar(formToLivro()) > 0 ){
+					telaNovo();
+				}
+			}
+		}
+		else if(e.getSource() == pesquisaLivro){
+			LivroEntity livro = livroControl.pesquisar(Integer.parseInt(txtIsbn.getText()));
+			if (livro.getIsbn() > 0){
+				livroToForm(
+						livro
+						);	
+				telaAlterar();
+			}
+			
+		}else if(e.getSource() == btnAlterar){
+			if (formToLivro()!=null){
+				livroControl.atualizar(formToLivro());
+			}
+		}else if(e.getSource() == btnExcluir){
+			livroControl.deletar(formToLivro().getIsbn());
+			telaDefault();
+		}else if(e.getSource() == btnVoltar){
+			telaDefault();
+		}else if(e.getSource() == btnNovo){
+			telaNovo();
+		}
+	}
+	
+	public LivroEntity formToLivro(){
+		if(validaCampos()){
+			LivroEntity livro = new LivroEntity();
+			
+			//consertar os ids
+			livro.setIdAutor(Integer.parseInt(txtFormato.getText()));
+			livro.setIdCategoriaLivro(Integer.parseInt(txtFormato.getText()));
+			livro.setIdEditora(Integer.parseInt(txtFormato.getText()));
+			
+			
+			livro.setCategoriaLivro(cbCategoriaLivro.getSelectedItem().toString());
+			livro.setDataPublicacao(jcDataPublicacao.getDate());
+			livro.setEditora(txtEditora.getText());
+			livro.setFormato(Integer.parseInt(txtFormato.getText()));
+			livro.setImagem((ImageIcon) lblImagem.getIcon());
+			livro.setImagePath(livroPath);
+			livro.setIsbn(Integer.parseInt(txtIsbn.getText()));
+			livro.setMargemLucro(Double.parseDouble(txtMargemLucro.getText()));
+			livro.setNomeAutor(txtNomeAutor.getText());
+			livro.setNumeroPaginas(Integer.parseInt(txtNumeroDePaginas.getText()));
+			livro.setPrecoCusto(Double.parseDouble(txtPreçoCusto.getText()));
+			livro.setPrecoVenda(Double.parseDouble(txtPrecoVenda.getText()));
+			livro.setQtdeEmEstoque(Integer.parseInt(txtQtdadeEstoque.getText()));
+			livro.setResumo(txtResumo.getText());
+			livro.setSumario(txtSumario.getText());
+			livro.setTituloLivro(txtTituloLivro.getText());
+			return livro;
+		}else{
+			JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campo!",null,JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
+	}
+	
+	public void livroToForm(LivroEntity livro){
+		txtEditora.setText(livro.getEditora());
+		txtFormato.setText("" +livro.getFormato());
+		txtIsbn.setText("" + livro.getIsbn());
+		txtMargemLucro.setText("" + livro.getMargemLucro());
+		txtNomeAutor.setText(livro.getNomeAutor());
+		txtNumeroDePaginas.setText("" + livro.getNumeroPaginas());
+		txtPrecoVenda.setText("" + livro.getPrecoVenda());
+		txtPreçoCusto.setText("" + livro.getPrecoCusto());
+		txtQtdadeEstoque.setText("" + livro.getQtdeEmEstoque());
+		txtResumo.setText("" + livro.getResumo());
+		txtSumario.setText(livro.getSumario());
+		txtTituloLivro.setText(livro.getTituloLivro());
+		jcDataPublicacao.setDate(livro.getDataPublicacao());
+		cbCategoriaLivro.setSelectedItem(livro.getCategoriaLivro());
+		lblImagem.setText("");
+		lblImagem.setIcon(livro.getImagem());		
+	}
+	
+	public void telaDefault(){
+		txtEditora.setEditable(false);
+		txtFormato.setEditable(false);
+		txtMargemLucro.setEditable(false);
+		txtNomeAutor.setEditable(false);
+		txtNumeroDePaginas.setEditable(false);
+		txtPrecoVenda.setEditable(false);
+		txtPreçoCusto.setEditable(false);
+		txtQtdadeEstoque.setEditable(false);
+		txtResumo.setEditable(false);
+		txtSumario.setEditable(false);
+		txtTituloLivro.setEditable(false);
+		txtIsbn.setEditable(true);
+		
+		txtEditora.setEnabled(false);
+		txtFormato.setEnabled(false);
+		txtMargemLucro.setEnabled(false);
+		txtNomeAutor.setEnabled(false);
+		txtNumeroDePaginas.setEnabled(false);
+		txtPrecoVenda.setEnabled(false);
+		txtPreçoCusto.setEnabled(false);
+		txtQtdadeEstoque.setEnabled(false);
+		txtResumo.setEnabled(false);
+		txtSumario.setEnabled(false);
+		txtTituloLivro.setEnabled(false);
+		txtIsbn.setEnabled(true);
+		cbCategoriaLivro.setEditable(false);
+		cbCategoriaLivro.setEnabled(false);
+		
+		jcDataPublicacao.setEnabled(false);
+		
+		btnAlterar.setEnabled(false);
+		btnCarregaImagem.setEnabled(false);
+		btnExcluir.setEnabled(false);
+		btnNovo.setEnabled(true);
+		btnSalvar.setEnabled(false);
+		btnVoltar.setEnabled(false);
+		pesquisaAutor.setEnabled(false);
+		pesquisaEditora.setEnabled(false);
+		pesquisaLivro.setEnabled(true);
+		limpaCampos();
+	}
+	
+	public void telaAlterar(){
+		txtEditora.setEditable(true);
+		txtFormato.setEditable(true);
+		txtMargemLucro.setEditable(true);
+		txtNomeAutor.setEditable(true);
+		txtNumeroDePaginas.setEditable(true);
+		txtPrecoVenda.setEditable(true);
+		txtPreçoCusto.setEditable(true);
+		txtQtdadeEstoque.setEditable(true);
+		txtResumo.setEditable(true);
+		txtSumario.setEditable(true);
+		txtTituloLivro.setEditable(true);
+		txtIsbn.setEditable(false);
+		
+		txtEditora.setEnabled(true);
+		txtFormato.setEnabled(true);
+		txtMargemLucro.setEnabled(true);
+		txtNomeAutor.setEnabled(true);
+		txtNumeroDePaginas.setEnabled(true);
+		txtPrecoVenda.setEnabled(true);
+		txtPreçoCusto.setEnabled(true);
+		txtQtdadeEstoque.setEnabled(true);
+		txtResumo.setEnabled(true);
+		txtSumario.setEnabled(true);
+		txtTituloLivro.setEnabled(true);
+		txtIsbn.setEnabled(false);
+		
+		cbCategoriaLivro.setEditable(true);
+		cbCategoriaLivro.setEnabled(true);
+		
+		jcDataPublicacao.setEnabled(true);
+		
+		btnAlterar.setEnabled(true);
+		btnCarregaImagem.setEnabled(true);
+		btnExcluir.setEnabled(true);
+		btnNovo.setEnabled(false);
+		btnSalvar.setEnabled(false);
+		btnVoltar.setEnabled(true);
+		pesquisaAutor.setEnabled(true);
+		pesquisaEditora.setEnabled(true);
+		pesquisaLivro.setEnabled(false);
+		
+	}
+	
+	public void telaNovo(){
+		limpaCampos();
+		txtEditora.setEditable(true);
+		txtFormato.setEditable(true);
+		txtMargemLucro.setEditable(true);
+		txtNomeAutor.setEditable(true);
+		txtNumeroDePaginas.setEditable(true);
+		txtPrecoVenda.setEditable(true);
+		txtPreçoCusto.setEditable(true);
+		txtQtdadeEstoque.setEditable(true);
+		txtResumo.setEditable(true);
+		txtSumario.setEditable(true);
+		txtTituloLivro.setEditable(true);
+		txtIsbn.setEditable(true);
+		
+		txtEditora.setEnabled(true);
+		txtFormato.setEnabled(true);
+		txtMargemLucro.setEnabled(true);
+		txtNomeAutor.setEnabled(true);
+		txtNumeroDePaginas.setEnabled(true);
+		txtPrecoVenda.setEnabled(true);
+		txtPreçoCusto.setEnabled(true);
+		txtQtdadeEstoque.setEnabled(true);
+		txtResumo.setEnabled(true);
+		txtSumario.setEnabled(true);
+		txtTituloLivro.setEnabled(true);
+		txtIsbn.setEnabled(true);
+		
+		cbCategoriaLivro.setEditable(true);
+		cbCategoriaLivro.setEnabled(true);
+		
+		jcDataPublicacao.setEnabled(true);
+		
+		btnAlterar.setEnabled(false);
+		btnCarregaImagem.setEnabled(true);
+		btnExcluir.setEnabled(false);
+		btnNovo.setEnabled(false);
+		btnSalvar.setEnabled(true);
+		btnVoltar.setEnabled(true);
+		pesquisaAutor.setEnabled(true);
+		pesquisaEditora.setEnabled(true);
+		pesquisaLivro.setEnabled(false);
+		
+	}
+	
+	public void limpaCampos(){
 		txtEditora.setText("");
-		contentPane.add(txtEditora);
-		txtEditora.setColumns(10);
-		
-		
-		lblCategoria = new JLabel("Categoria: ");
-		lblCategoria.setBounds(2, 160, 111, 20);
-		contentPane.add(lblCategoria);
-		
-
-		txtCategoria = new JTextField();
-		txtCategoria.setBounds(111, 160, 337, 20);
-		txtCategoria.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtCategoria.setText("");
-		contentPane.add(txtCategoria);
-		txtCategoria.setColumns(10);
-		
-		
-		lblFormato = new JLabel("Formato: ");
-		lblFormato.setBounds(2, 190, 111, 20);
-		contentPane.add(lblFormato);
-		
-		txtFormato = new JTextField();
-		txtFormato.setBounds(111, 190, 337, 20);
-		txtFormato.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtFormato.setText("");
-		contentPane.add(txtFormato);
-		txtFormato.setColumns(10);
-		
-		
-		lblnumPaginas = new JLabel("Numero de Pags: ");
-		lblnumPaginas.setBounds(2, 220, 111, 20);
-		contentPane.add(lblnumPaginas);
-
-		txtnumPaginas = new JTextField();
-		txtnumPaginas.setBounds(111, 220, 337, 20);
-		txtnumPaginas.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtnumPaginas.setText("");
-		contentPane.add(txtnumPaginas);
-		txtnumPaginas.setColumns(10);
-		
-		
-		lblSumario = new JLabel("Sumario: ");
-		lblSumario.setBounds(2, 250, 111, 20);
-		contentPane.add(lblSumario);
-
-		txtSumario = new JTextField();
-		txtSumario.setBounds(111, 250, 337, 20);
-		txtSumario.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtSumario.setText("");
-		contentPane.add(txtSumario);
-		txtSumario.setColumns(10);
-		
-		
-		lblResumo = new JLabel("Resumo: ");
-		lblResumo.setBounds(2, 280, 111, 20);
-		contentPane.add(lblResumo);
-
-		txtResumo = new JTextField();
-		txtResumo.setBounds(111, 280, 337, 20);
-		txtResumo.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtResumo.setText("");
-		contentPane.add(txtResumo);
-		txtResumo.setColumns(10);
-		
-		
-		lblPrecoCusto = new JLabel("Preco de Custo: ");
-		lblPrecoCusto.setBounds(2, 310, 111, 20);
-		contentPane.add(lblPrecoCusto);
-		
-		txtPrecoCusto = new JTextField();
-		txtPrecoCusto.setBounds(111, 310, 337, 20);
-		txtPrecoCusto.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtPrecoCusto.setText("");
-		contentPane.add(txtPrecoCusto);
-		txtPrecoCusto.setColumns(10);
-		
-		
-		lblPrecoVenda = new JLabel("Preco de Venda: ");
-		lblPrecoVenda.setBounds(2, 340, 111, 20);
-		contentPane.add(lblPrecoVenda);
-		
-		txtPrecoVenda = new JTextField();
-		txtPrecoVenda.setBounds(111, 340, 337, 20);
-		txtPrecoVenda.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtPrecoVenda.setText("");
-		contentPane.add(txtPrecoVenda);
-		txtPrecoVenda.setColumns(10);
-
-		
-		lblMargemLucro = new JLabel("Margem de Lucro: ");
-		lblMargemLucro.setBounds(2, 370, 111, 20);
-		contentPane.add(lblMargemLucro);
-		
-		txtMargemLucro = new JTextField();
-		txtMargemLucro.setBounds(111, 370, 337, 20);
-		txtMargemLucro.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtMargemLucro.setText("");
-		contentPane.add(txtMargemLucro);
-		txtMargemLucro.setColumns(10);
-		
-		
-		lblQtdeEmEstoque = new JLabel("Qtde em Estoque: ");
-		lblQtdeEmEstoque.setBounds(2, 400, 310, 20);
-		contentPane.add(lblQtdeEmEstoque);
-		
-		txtQtdeEmEstoque = new JTextField();
-		txtQtdeEmEstoque.setBounds(111, 400, 337, 20);
-		txtQtdeEmEstoque.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtQtdeEmEstoque.setText("");
-		contentPane.add(txtQtdeEmEstoque);
-		txtQtdeEmEstoque.setColumns(10);
-		
-		//btnVoltar = new JButton("");
-		//BtnVoltar.setIcon(new ImageIcon(LivroBoundary.class.getResource("/resource/________")));
-		//btnVoltar.setBounds(449, 265, 43, 37);
-		//contentPane.add(BtnVoltar);*/
-
-		bntSalvar = new JButton("Salvar");
-		//bntSalvar.setIcon(new ImageIcon(LivroBoundary.class.getResource("/resource/___")));
-		bntSalvar.setBounds(63, 450, 125, 37);
-		contentPane.add(bntSalvar);
-<<<<<<< HEAD
-		
-		LivroEvBtnSalvar evteste = 
-				new LivroEvBtnSalvar(this,
-						txtTituloLivro, 
-						txtISBN, txtNomeAutor, txtDataPublicacao, txtEditora, 
-						txtCategoria, txtFormato, txtnumPaginas, txtSumario,
-						txtResumo, txtPrecoCusto, txtPrecoVenda, txtMargemLucro,
-						txtQtdeEmEstoque);
-		bntSalvar.addActionListener(evteste);
-=======
-		EvBtnSalvarLivro evtSalvar = new EvBtnSalvarLivro(txtTitulo, txtISBN, txtNomeAutor, txtDataPublicacao, txtEditora, txtCategoria, txtFormato, txtnumPaginas, txtSumario, txtResumo, txtPrecoCusto, txtPrecoVenda, txtMargemLucro, txtQtdeEmEstoque, btnVoltar, bntPesquisarAutor, bntPesquisarLivro, bntDeletar, bntAlterar, bntSalvar);
-		bntSalvar.addActionListener(evtSalvar);
->>>>>>> cc137189a0891539ccf2819a18b7dd17ec7f6a29
-		
-		bntAlterar = new JButton("Alterar");
-		//bntAlterar.setIcon(new ImageIcon(LivroBoundary.class.getResource("/resource/_____")));
-		bntAlterar.setBounds(198, 450, 125, 37);
-		//contentPane.add(bntAlterar);
-		
-		bntDeletar = new JButton("Deletar");
-		bntDeletar.setBounds(333, 450, 125, 37);
-		//contentPane.add(bntDeletar);
-		
-		//bntPesquisarLivro = new JButton("");
-		//bntPesquisarLivro.setBounds(454, 11, 37, 24);
-		//bntPesquisarLivro.setIcon(new ImageIcon(LivroBoundary.class.getResource("/resource/_____")));
-		//contentPane.add(bntPesquisarLivro);*/
-		
-		contentPane.add(bntAlterar);
-
-		bntDeletar = new JButton("Deletar");
-		bntDeletar.setBounds(333, 450, 125, 37);
-		contentPane.add(bntDeletar);
-
-		/*bntPesquisarLivro = new JButton("");
-		bntPesquisarLivro.setBounds(454, 11, 37, 24);
-<<<<<<< HEAD
-	//	bntPesquisarLivro.setIcon(new ImageIcon(LivroBoundary.class.getResource("/resource/_____")));
-		contentPane.add(bntPesquisarLivro);
-=======
-		bntPesquisarLivro.setIcon(new ImageIcon(LivroBoundary.class.getResource("/resource/_____")));
-		contentPane.add(bntPesquisarLivro);*/
->>>>>>> cc137189a0891539ccf2819a18b7dd17ec7f6a29
-
-		//bntPesquisarAutor = new JButton("");
-		//bntPesquisarAutor.setBounds(455, 43, 37, 24);
-		//bntPesquisarAutor.setIcon(new ImageIcon(LivroBoundary.class.getResource("/resource/_____")));
-		//contentPane.add(bntPesquisarAutor);*/
-
-
-		
-		
-		/*LivroEvBtnSalvar evtSalvar = new LivroEvBtnSalvar(this, txtTituloLivro, txtISBN, txtNomeAutor, txtDataPublicacao,
-															txtEditora, txtCategoria, txtFormato, txtnumPaginas, txtSumario, txtResumo,
-															txtPrecoCusto, txtPrecoVenda, txtMargemLucro, txtQtdeEmEstoque);
-		bntSalvar.addActionListener(evtSalvar);*/
-		
-		
-		
-		LivroEvBtnAlterar evtAlterar = new LivroEvBtnAlterar(this, txtTitulo, txtISBN, txtNomeAutor, txtDataPublicacao, txtEditora,
-															txtCategoria, txtFormato, txtnumPaginas, txtSumario, txtResumo, 
-															txtPrecoCusto, txtPrecoVenda, txtMargemLucro, txtQtdeEmEstoque);
-		bntAlterar.addActionListener(evtAlterar);		
-		
-		
-		
-		//contentPane.add(btnVoltar);
-
-		/*
-		 * Adicionar evento ao botão salvar
-		 */
-
-		/*LivroEvBtnSalvar evtSalvar = new LivroEvBtnSalvar(this, txtTituloLivro, txtISBN, txtNomeAutor,
-				txtDataPublicacao, txtEditora, txtCategoria, txtFormato, txtnumPaginas, txtSumario, txtResumo,
-				txtPrecoCusto, txtPrecoVenda, txtMargemLucro, txtQtdeEmEstoque);
-		bntSalvar.addActionListener(evtSalvar);
-
-		LivroEvBtnAlterar evtAlterar = new LivroEvBtnAlterar(this, txtTituloLivro, txtISBN, txtNomeAutor,
-				txtDataPublicacao, txtEditora, txtCategoria, txtFormato, txtnumPaginas, txtSumario, txtResumo,
-				txtPrecoCusto, txtPrecoVenda, txtMargemLucro, txtQtdeEmEstoque);
-		bntAlterar.addActionListener(evtAlterar);
-
-		LivroEvBtnDeletar evtDeletar = new LivroEvBtnDeletar(this);
-		BtnVoltar.addActionListener(evtAlterar);
-
-		/*
-		 * Adicionar evento ao botão voltar
-		 */
-	}
-
-	public void telaDefault() {
-
-		txtISBN.setText("");
-		txtTitulo.setText("");
 		txtNomeAutor.setText("");
-		txtDataPublicacao.setText("");
-		txtEditora.setText("");
-		txtCategoria.setText("");
-		txtFormato.setText("");
-		txtnumPaginas.setText("");
-		txtSumario.setText("");
-		txtResumo.setText("");
-		txtPrecoCusto.setText("");
+		txtNumeroDePaginas.setText("");
 		txtPrecoVenda.setText("");
-		txtMargemLucro.setText("");
-		txtQtdeEmEstoque.setText("");
-
-		bntAlterar.setEnabled(false);
-		bntDeletar.setEnabled(false);
-		//btnVoltar.setEnabled(false);
-		bntSalvar.setEnabled(true);
-
+		txtPreçoCusto.setText("");
+		txtQtdadeEstoque.setText("");
+		txtResumo.setText("");
+		txtSumario.setText("");
+		txtTituloLivro.setText("");
+		txtIsbn.setText("");
+		
+		cbCategoriaLivro.setSelectedIndex(0);
+		jcDataPublicacao.setDate(null);
+		
+		lblImagem.setIcon(null);
+		lblImagem.setText("<<Selecione uma imagem>>");
+		
 	}
 	
-//	public void telaAlterar(){
-//		
-//		bntDeletar.setEnabled(true);		
-
-	public void telaAlterar() {
-
-		bntAlterar.setEnabled(true);
-		bntDeletar.setEnabled(true);
-		//btnVoltar.setEnabled(true);
-		bntSalvar.setEnabled(true);
+	public boolean validaCampos(){
+		if(
+		txtEditora.getText().length() == 0 ||
+		txtFormato.getText().length() == 0 ||
+		txtMargemLucro.getText().length() == 0 ||
+		txtNomeAutor.getText().length() == 0 ||
+		txtNumeroDePaginas.getText().length() == 0 ||
+		txtPrecoVenda.getText().length() == 0 ||
+		txtPreçoCusto.getText().length() == 0 ||
+		txtQtdadeEstoque.getText().length() == 0 ||
+		txtResumo.getText().length() == 0 ||
+		txtSumario.getText().length() == 0 ||
+		txtTituloLivro.getText().length() == 0 ||
+		txtIsbn.getText().length() == 0 ||
+		jcDataPublicacao.getDate() == null ||
+		cbCategoriaLivro.getSelectedItem().toString().length() == 0 ||
+		cbCategoriaLivro.getSelectedItem().toString() == "<<Escolha a Categoria>>"
+				)
+		{
+			return false;
+		}
+			return true;
 	}
 
-	
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
-<<<<<<< HEAD
-=======
-	
-	
->>>>>>> cc137189a0891539ccf2819a18b7dd17ec7f6a29
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		String caracteres="0987654321";
+		if(!caracteres.contains(arg0.getKeyChar()+"")){
+			arg0.consume();
+		}
+
+		
+	}
+	
 }

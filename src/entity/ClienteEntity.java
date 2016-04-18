@@ -9,8 +9,19 @@ public class ClienteEntity extends EnderecoEntity{
 	private String email;
 	private String telefone;
 	private String celular;
+	private String senha;
 	
 	
+	public String getSenha() {
+		return senha;
+	}
+
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+
 	public int getCodCliente() {
 		return CodCliente;
 	}

@@ -15,7 +15,7 @@ import boundary.ItemCarrinhoBoundary;
 import entity.ItemCarrinhoEntity;
 
 public class EvBtnRmItemCarrinho implements ActionListener{
-    private JFrame tela;
+    private JPanel tela;
 	private ItemCarrinhoBoundary item;
 	private JPanel painel;
 	private java.util.List<ItemCarrinhoEntity> itensList =
@@ -24,7 +24,7 @@ public class EvBtnRmItemCarrinho implements ActionListener{
 	private JScrollPane bar;
 	private JLabel valorTotal;
 	
-	public EvBtnRmItemCarrinho(JFrame tela,
+	public EvBtnRmItemCarrinho(JPanel tela,
 			ItemCarrinhoBoundary item, JPanel painel,
 			List<ItemCarrinhoEntity> itensList,
 			ItemCarrinhoEntity itemEntity,

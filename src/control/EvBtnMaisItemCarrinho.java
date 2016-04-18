@@ -33,13 +33,13 @@ public class EvBtnMaisItemCarrinho implements ActionListener{
 
 	public void acao(){
 		double total = 0;
-		this.itemEntity.getQuantidade().setQuantidade(
-				this.itemEntity.getQuantidade().getQuantidade() + 1);
+		this.itemEntity.setQuantidade(
+				this.itemEntity.getQuantidade() + 1);
 		this.itemEntity.setSubTotal(
-				this.itemEntity.getQuantidade().getQuantidade() *
+				this.itemEntity.getQuantidade() *
 				this.itemEntity.getLivro().getPrecoVenda());
 		lbSubTotal.setText("R$ " + this.itemEntity.getSubTotal());
-		labelQdade.setText("" + this.itemEntity.getQuantidade().getQuantidade());
+		labelQdade.setText("" + this.itemEntity.getQuantidade());
 		
 		for (ItemCarrinhoEntity a : itensList){
 			total += a.getSubTotal();

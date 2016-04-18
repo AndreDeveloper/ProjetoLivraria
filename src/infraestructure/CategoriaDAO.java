@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 import entity.CategoriaEntity;
 
-public class CadastroCategoriaDAO {
+public class CategoriaDAO {
 	
 	public long insert(CategoriaEntity categoria) {
 		long idGerado = 0;

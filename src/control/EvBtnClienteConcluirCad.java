@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 
 import entity.ClienteEntity;
 import entity.EnderecoEntity;
-import infraestructure.CadastroClienteDAO;
+import infraestructure.ClienteDAO;
 
 public class EvBtnClienteConcluirCad implements ActionListener {
 		
@@ -121,7 +121,7 @@ public class EvBtnClienteConcluirCad implements ActionListener {
 	
 	
 			try {
-				CadastroClienteDAO cltDao = new CadastroClienteDAO();
+				ClienteDAO cltDao = new ClienteDAO();
 		cltDao.insereCliente(clt);
 		JOptionPane.showMessageDialog(null, "Dados cadastrados com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 		limpaCampos();

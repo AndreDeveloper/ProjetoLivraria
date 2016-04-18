@@ -2,38 +2,60 @@ package boundary;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
 import control.EvbtnLivroItemPesquisa;
+import entity.ItemCarrinhoEntity;
 import entity.LivroEntity;
 
-public class ItemPesquisaBoundary extends JPanel{
+public class ItemPesquisaBoundary extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private LivroEntity livro;
+	private CarrinhoBoundary carrinhoBoundary;
+	private JButton btnImagem = new JButton("");
+	private JButton btnAddCarrinho = new JButton("");
 	
-	public ItemPesquisaBoundary(LivroEntity livro) {
+	public ItemPesquisaBoundary(LivroEntity livro, CarrinhoBoundary carrinhoBoundary) {
 		super();
 		this.livro = livro;
+		this.carrinhoBoundary = carrinhoBoundary;
 		this.criarTela();
 	}
 
 	private void criarTela(){
 		GridLayout gridlayout = new GridLayout(1, 5, 5, 5);
 		JLabel lbAutor = new JLabel(livro.getNomeAutor());
-		JLabel lbTitulo = new  JLabel(livro.getTituloLivro());
+		JTextArea lbTitulo = new  JTextArea(livro.getTituloLivro());
 		JLabel lbPreco = new JLabel("R$ " + livro.getPrecoVenda());
-		JButton btnImagem = new JButton("");
-		JButton btnAddCarrinho = new JButton("");
 		
+		lbTitulo.setEditable(false);
+		lbTitulo.setLineWrap(true);
+		lbTitulo.setToolTipText(lbTitulo.getText());
+		
+		JScrollPane jScrollPane = new JScrollPane();
+		jScrollPane.setViewportView(lbTitulo);
+		Dimension d = new Dimension(100, 40);
+		jScrollPane.setSize(d);
+		jScrollPane.setPreferredSize(d);
+		jScrollPane.setForeground(Color.RED);
+		jScrollPane.setBackground(Color.WHITE);
+		jScrollPane.setBorder(BorderFactory.createEmptyBorder());
+	
 		btnImagem.setIcon(livro.getImagem());
 		btnImagem.setForeground(Color.RED);
 		btnImagem.setBackground(Color.WHITE);
@@ -44,12 +66,14 @@ public class ItemPesquisaBoundary extends JPanel{
 				new EvbtnLivroItemPesquisa(livro);
 		btnImagem.addActionListener(evinfo);
 		
-		btnAddCarrinho.setIcon(new ImageIcon(ItemCarrinhoBoundary.class.getResource("/resource/adicionarCarrinho.png")));
+		btnAddCarrinho.setIcon(
+				new ImageIcon(ItemCarrinhoBoundary.class.getResource("/resource/adicionarCarrinho.png")));
 		btnAddCarrinho.setForeground(Color.RED);
 		btnAddCarrinho.setBackground(Color.WHITE);
 		btnAddCarrinho.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnAddCarrinho.setBorder(BorderFactory.createEmptyBorder());
 		btnAddCarrinho.setToolTipText("Adicionar item ao carrinho de compras");
+		btnAddCarrinho.addActionListener(this);
 		
 		
 		lbAutor.setHorizontalAlignment(JLabel.CENTER);
@@ -58,8 +82,6 @@ public class ItemPesquisaBoundary extends JPanel{
 		lbAutor.setBackground(Color.WHITE);
 		lbAutor.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
-		lbTitulo.setHorizontalAlignment(JLabel.CENTER);
-		lbTitulo.setVerticalAlignment(JLabel.CENTER);
 		lbTitulo.setForeground(Color.BLUE);
 		lbTitulo.setBackground(Color.WHITE);
 		lbTitulo.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -72,7 +94,7 @@ public class ItemPesquisaBoundary extends JPanel{
 		
 		this.setLayout(gridlayout);
 		this.add(btnImagem);
-		this.add(lbTitulo);
+		this.add(jScrollPane);
 		this.add(lbAutor);
 		this.add(lbPreco);
 		this.add(btnAddCarrinho);
@@ -82,6 +104,23 @@ public class ItemPesquisaBoundary extends JPanel{
 		this.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		if(arg0.getSource() == btnAddCarrinho){
+			ItemCarrinhoEntity carrinhoEntity = new ItemCarrinhoEntity();
+			carrinhoEntity.setLivro(livro);
+			carrinhoEntity.setImagem(livro.getImagem());
+			carrinhoEntity.setQuantidade(
+					Integer.parseInt(
+							JOptionPane.showInputDialog("digite a quantidade desejada")
+							)
+					);
+			carrinhoBoundary.adicionaItem(carrinhoEntity);
+			
+		}
 	}
 	
 	

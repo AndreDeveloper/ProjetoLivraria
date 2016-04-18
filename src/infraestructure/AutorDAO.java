@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 import entity.AutorEntity;
 
-public class CadastroAutorDAO {
+public class AutorDAO {
 	
 	public long insert(AutorEntity autor) {
 		long idGerado = 0;

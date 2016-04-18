@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -28,7 +29,7 @@ import entity.AuxQtdadeEntity;
 import entity.ItemCarrinhoEntity;
 
 public class CarrinhoBoundary {
-	private JFrame tela = new JFrame("carrinho de compras");
+	private JPanel tela = new JPanel();
 	private JPanel painelPrincipal = new JPanel();
 	private JPanel painelProdutos = new JPanel();
 	private GridLayout gridLayout = new GridLayout(1, 1, 10, 10);
@@ -37,15 +38,22 @@ public class CarrinhoBoundary {
 	private java.util.List<ItemCarrinhoEntity> itensList =
 			new ArrayList<ItemCarrinhoEntity>();
 	
+	
+	public JPanel getTela() {
+		return tela;
+	}
+
+	public void setTela(JPanel tela) {
+		this.tela = tela;
+	}
+
 	public CarrinhoBoundary(){
-		painelPrincipal.setLayout(new BorderLayout());
+		BorderLayout borderLayout = new BorderLayout();
+		painelPrincipal.setLayout(borderLayout);
 		painelProdutos.setLayout(gridLayout);
 		painelPrincipal.add(painelProdutos, BorderLayout.CENTER);		
 		//
-		tela.setContentPane(painelPrincipal);
-		tela.setSize(1000, 600);
-		tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		tela.setVisible(true);
+		tela.add(painelPrincipal);
 		//
 		JLabel carrinho = new JLabel("");
 		carrinho.setIcon(new ImageIcon(CarrinhoBoundary.class.getResource("/resource/carrinho.png")));
@@ -127,6 +135,7 @@ public class CarrinhoBoundary {
 
 		testeEv evteste = new testeEv(itensList, btnPedido);
 		btnPedido.addActionListener(evteste);
+		
 	}
 	
 	public void adicionaItem(ItemCarrinhoEntity itemEntity){

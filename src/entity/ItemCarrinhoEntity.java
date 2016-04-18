@@ -33,12 +33,14 @@ public class ItemCarrinhoEntity {
 		this.livro = livro;
 		this.subTotal = livro.getPrecoVenda() * quantidade.getQuantidade();
 	}
-	public AuxQtdadeEntity getQuantidade() {
-		return quantidade;
+	public int getQuantidade() {
+		return quantidade.getQuantidade();
 	}
-	public void setQuantidade(AuxQtdadeEntity quantidade) {
-		this.quantidade = quantidade;
-		this.subTotal = livro.getPrecoVenda() * quantidade.getQuantidade();
+	public void setQuantidade(int quantidade) {
+		AuxQtdadeEntity aux = new AuxQtdadeEntity();
+		aux.setQuantidade(quantidade);
+		this.quantidade = aux;
+		this.subTotal = livro.getPrecoVenda() * quantidade;
 	}
 	public double getSubTotal() {
 		return subTotal;
