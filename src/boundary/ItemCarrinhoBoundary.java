@@ -134,10 +134,6 @@ public class ItemCarrinhoBoundary extends JPanel{
 		painelQtdade.setBackground(Color.WHITE);
 		painelQtdade.setBorder(BorderFactory.createEmptyBorder());
 		
-		//painelbtn.setForeground(Color.WHITE);
-		//painelbtn.setBackground(Color.WHITE);
-		//painelbtn.setBorder(BorderFactory.createEmptyBorder());
-		
 		btnMais.setFont(new Font("Tahoma", Font.BOLD, 24));
 		btnMenos.setFont(new Font("Tahoma", Font.BOLD, 24));
 		btnRemover.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -145,13 +141,11 @@ public class ItemCarrinhoBoundary extends JPanel{
 		btnMais.setToolTipText("Adicionar");
 		btnMenos.setToolTipText("Remover");
 		
-		//		
 		this.add(imagem);
 		this.add(nomeLivro);
 		this.add(preco);
 		this.add(painelQtdade);
 		this.add(lbSubTotal);
-		//this.add(painelbtn);
 		this.add(btnRemover);
 		
 		

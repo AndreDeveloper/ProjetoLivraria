@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -23,12 +24,14 @@ import javax.swing.JScrollPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI.InternalFramePropertyChangeListener;
 
 import control.EvBtnRmItemCarrinho;
+import control.Observer;
+import control.Subject;
 import control.testeEv;
 import entity.LivroEntity;
 import entity.AuxQtdadeEntity;
 import entity.ItemCarrinhoEntity;
 
-public class CarrinhoBoundary {
+public class CarrinhoBoundary implements Subject {
 	private JPanel tela = new JPanel();
 	private JPanel painelPrincipal = new JPanel();
 	private JPanel painelProdutos = new JPanel();
@@ -37,7 +40,8 @@ public class CarrinhoBoundary {
 	private JLabel valorTotal = new JLabel("TOTAL: R$");
 	private java.util.List<ItemCarrinhoEntity> itensList =
 			new ArrayList<ItemCarrinhoEntity>();
-	
+	private List<Observer> assinantes =
+			new ArrayList<Observer>();
 	
 	public JPanel getTela() {
 		return tela;
@@ -147,7 +151,7 @@ public class CarrinhoBoundary {
 		painelProdutos.add(item);
 		
 		EvBtnRmItemCarrinho evBtnRM =
-				new EvBtnRmItemCarrinho(tela, item, painelProdutos, 
+				new EvBtnRmItemCarrinho(this, tela, item, painelProdutos, 
 						itensList, itemEntity, bar, valorTotal);
 		JButton btnTemp = item.getBtnRemover();
 		btnTemp.addActionListener(evBtnRM);
@@ -156,12 +160,37 @@ public class CarrinhoBoundary {
 			total += a.getSubTotal();
 		}
 		
+		notificar("" + getQuantidade());
 		
 		valorTotal.setText("Total: R$ " + total);
 		bar.repaint();
 		tela.repaint();
 		//tela.setVisible(false);
 		//tela.setVisible(true);
+		
+	}
+	
+	public int getQuantidade(){
+		return itensList.size();
+	}
+
+	@Override
+	public void addObserver(Observer o) {
+		// TODO Auto-generated method stub
+		assinantes.add(o);
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		// TODO Auto-generated method stub
+		assinantes.remove(o);
+	}
+
+	@Override
+	public void notificar(String noticia) {
+		for(Observer o: assinantes){
+			o.update(noticia);
+		}
 		
 	}
 	

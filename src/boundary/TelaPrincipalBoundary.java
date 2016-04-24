@@ -19,10 +19,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import control.Observer;
 
-public class TelaPrincipalBoundary implements ActionListener {
+
+public class TelaPrincipalBoundary implements ActionListener, Observer {
 	private JFrame tela = new JFrame("Livraria Digital");
 	private JPanel painelPrincipal = new JPanel();
 	private BorderLayout borderLayout = new BorderLayout();
@@ -42,7 +45,10 @@ public class TelaPrincipalBoundary implements ActionListener {
 	private ConsultaClienteBoundary consultaCliente = new ConsultaClienteBoundary(); 
 	
 	public TelaPrincipalBoundary() {
-	
+		// adicionando os observers
+		formCarrinho.addObserver(this);
+		
+		//
 		painelPrincipal.setLayout(borderLayout);
 		painelPrincipal.setForeground(Color.WHITE);
 		painelPrincipal.setBackground(Color.WHITE);
@@ -144,11 +150,14 @@ public class TelaPrincipalBoundary implements ActionListener {
 		painelCadastrar.add(iconeUser);
 		painelCadastrar.add(painelBotoes);
 		
-		btnCarrinho.setForeground(Color.BLUE);
+		btnCarrinho.setForeground(Color.GREEN);
 		btnCarrinho.setBackground(Color.WHITE);
 		btnCarrinho.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnCarrinho.setBorder(BorderFactory.createEmptyBorder());
 		btnCarrinho.setToolTipText("Ir para carrinho de compras");
+		btnCarrinho.setFont(new Font("Tahoma", Font.BOLD, 24));
+		btnCarrinho.setVerticalTextPosition(SwingConstants.TOP);
+		btnCarrinho.setHorizontalTextPosition(SwingConstants.RIGHT);
 		btnCarrinho.setIcon(
 				new ImageIcon(TelaPrincipalBoundary.class.getResource("/resource/carrinho.png"))
 				);
@@ -217,5 +226,13 @@ public class TelaPrincipalBoundary implements ActionListener {
 	}
 	public static void main(String[] args) {
 		new TelaPrincipalBoundary();
+	}
+
+	@Override
+	public void update(String noticia) {
+		btnCarrinho.setText(noticia);
+		if(btnCarrinho.getText().equals("0")){
+			btnCarrinho.setText("");	
+		}
 	}
 }

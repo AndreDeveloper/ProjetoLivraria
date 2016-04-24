@@ -29,6 +29,7 @@ public class ItemPesquisaBoundary extends JPanel implements ActionListener{
 	private JButton btnImagem = new JButton("");
 	private JButton btnAddCarrinho = new JButton("");
 	private TelaPrincipalBoundary telaPrincipalBoundary;
+	
 	public ItemPesquisaBoundary(LivroEntity livro,
 			CarrinhoBoundary carrinhoBoundary,
 			TelaPrincipalBoundary telaPrincipalBoundary) {

@@ -244,9 +244,10 @@ public class LivroDAO {
 			Connection con = JDBCUtil.getConnection();
 
 			
-			String query = "SELECT * FROM Livro "
+			String query = "select * from Livro "
+					+ "left outer join Autor ON Autor.CodAutor = Livro.CodAutor "
 					+ "WHERE (((Titulo LIKE ? OR ISBN < ?)) AND "
-					+ "((CodAutor = ? OR ISBN < ?)) AND "
+					+ "((Livro.CodAutor = ? OR ISBN < ?)) AND "
 					+ "((CodEditora = ? OR ISBN < ?)) AND "
 					+ "((CodCategoria = ? OR ISBN < ?)));";
 			System.out.println(query);
@@ -280,6 +281,7 @@ public class LivroDAO {
 				livro.setMargemLucro(rs.getDouble("MargemLucro"));
 				livro.setQtdeEmEstoque(rs.getInt("QtdeEmEstoque"));
 				livro.setImagem(ImagemFormater.bytesParaImagem(rs.getBytes("Imagem")));
+				livro.setNomeAutor(rs.getString(18));
 				
 				books.add(livro);
 			}

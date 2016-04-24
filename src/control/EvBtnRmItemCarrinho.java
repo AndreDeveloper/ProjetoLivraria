@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import boundary.CarrinhoBoundary;
 import boundary.ItemCarrinhoBoundary;
 import entity.ItemCarrinhoEntity;
 
@@ -23,13 +24,15 @@ public class EvBtnRmItemCarrinho implements ActionListener{
 	private ItemCarrinhoEntity itemEntity;
 	private JScrollPane bar;
 	private JLabel valorTotal;
+	private CarrinhoBoundary carrinhoBoundary;
 	
-	public EvBtnRmItemCarrinho(JPanel tela,
+	public EvBtnRmItemCarrinho(CarrinhoBoundary carrinhoBoundary, JPanel tela,
 			ItemCarrinhoBoundary item, JPanel painel,
 			List<ItemCarrinhoEntity> itensList,
 			ItemCarrinhoEntity itemEntity,
 			JScrollPane bar, JLabel valorTotal) {
 		super();
+		this.carrinhoBoundary = carrinhoBoundary;
 		this.tela = tela;
 		this.item = item;
 		this.painel = painel;
@@ -59,6 +62,7 @@ public class EvBtnRmItemCarrinho implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		this.acao();
+		carrinhoBoundary.notificar("" + carrinhoBoundary.getQuantidade());
 	}
 	
 	
