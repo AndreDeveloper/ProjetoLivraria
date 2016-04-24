@@ -6,13 +6,18 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.ParseException;
 import java.util.regex.PatternSyntaxException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,6 +26,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import javax.swing.text.MaskFormatter;
 
 import control.ClienteController;
 
@@ -36,11 +42,14 @@ public class ConsultaClienteBoundary implements MouseListener{
 	JFrame janela = new JFrame("Consulta de Clientes");
 	private JTable tblCliente;
 	
-	private JTextField pesquisa;
-	JPanel panelPrincipal = new JPanel(new BorderLayout());
+	private JButton btnPesquisar;
+	private JFormattedTextField pesquisaCpf;
+	private JTextField pesquisaNome;
+	private	JPanel panelPrincipal = new JPanel(new BorderLayout());
 	private int id;
 	private JButton btnVisualizar;
-	TableRowSorter<TableModel> sorter;
+	private	JComboBox<Object> tipoPesquisa;
+	private int SelecaoTipo;
 	
 	public ConsultaClienteBoundary() {
 		// TODO Auto-generated constructor stub
@@ -114,7 +123,7 @@ public class ConsultaClienteBoundary implements MouseListener{
 		tblCliente.getColumnModel().getColumn(3).setPreferredWidth(112);
 		tblCliente.getColumnModel().getColumn(4).setPreferredWidth(225);
 		tblCliente.addMouseListener(this);
-		 sorter = new TableRowSorter<TableModel>(modelo);
+		 
 		
 		JLabel lblConsultaDeClientes = new JLabel("Consulta de Clientes");
 		lblConsultaDeClientes.setFont(new Font("Tahoma", Font.PLAIN, 28));
@@ -126,16 +135,70 @@ public class ConsultaClienteBoundary implements MouseListener{
 		
 		
 		
-		pesquisa = new JTextField();
-		pesquisa.setBounds(242, 64, 433, 20);
-		panelCentro.add(pesquisa);
-		pesquisa.setColumns(10);
+		pesquisaCpf = new JFormattedTextField();
+		pesquisaCpf.setBounds(242, 64, 433, 20);
+		pesquisaCpf.setVisible(false);
+		pesquisaCpf.setColumns(10);
+		panelCentro.add(pesquisaCpf);
 		
-		JButton btnPesquisar = new JButton("Pesquisar");
+		pesquisaNome = new JFormattedTextField();
+		pesquisaNome.setBounds(242, 64, 433, 20);
+		pesquisaNome.setColumns(10);
+		panelCentro.add(pesquisaNome);
+		
+		
+		btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.setBounds(673, 63, 101, 23);
-		btnPesquisar.addActionListener(pesquisaClt);
+		btnPesquisar.addMouseListener(this);
+		
 		panelCentro.add(btnPesquisar);
 		
+		
+		tipoPesquisa = new JComboBox<Object>();
+		tipoPesquisa.addItem("Nome");
+		tipoPesquisa.addItem("CPF");
+		tipoPesquisa.setBounds(122, 64,120,20);
+		
+		panelCentro.add(tipoPesquisa);
+		SelecaoTipo = tipoPesquisa.getSelectedIndex();
+		FocusListener focoPesquisa = new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				MaskFormatter maskPesquisa;
+				if (tipoPesquisa.getSelectedIndex() == 0){
+					SelecaoTipo=0;
+					pesquisaNome.setText("");
+					
+					pesquisaNome.setVisible(true);
+					pesquisaCpf.setVisible(false);
+				
+					
+				}else if (tipoPesquisa.getSelectedIndex() ==1){
+					SelecaoTipo=1;
+					pesquisaNome.setVisible(false);
+					pesquisaCpf.setVisible(true);
+					try {
+						maskPesquisa = new MaskFormatter("###.###.###-##");
+						maskPesquisa.install(pesquisaCpf);
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+				}
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		tipoPesquisa.addFocusListener(focoPesquisa);
 		
 		
 		
@@ -145,9 +208,7 @@ public class ConsultaClienteBoundary implements MouseListener{
 		return panelCentro;
 	}
 	
-//public static void main(String[] args) {
-//	new ConsultaClienteBoundary();
-//
+
 	
 	ActionListener ChamaTela = new ActionListener() {
 		
@@ -167,30 +228,7 @@ public class ConsultaClienteBoundary implements MouseListener{
 			
 		}
 	};
-	
-	ActionListener pesquisaClt = new ActionListener() {
-		
-	
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-			  String text = pesquisa.getText();  
-              if (text.length() == 0) {  
-                sorter.setRowFilter(null);  
-              } else {  
-                try {  
-                  sorter.setRowFilter(  
-                      RowFilter.regexFilter(text));  
-                } catch (PatternSyntaxException pse) {  
-                    JOptionPane.showMessageDialog(null, "Não existe.", "Erro", JOptionPane.ERROR_MESSAGE);  
-                }  
-              }  
-              
-          
-			
-		}
-	};
+
 	
 	
 	
@@ -219,10 +257,46 @@ public class ConsultaClienteBoundary implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		int linha = tblCliente.getSelectedRow();
-		id = (int)tblCliente.getValueAt(linha, 0);
-		//String nome = (String) tblCliente.getValueAt(linha, 1);
-		btnVisualizar.setEnabled(true);
+		
+		
+		if(e.getSource()== btnPesquisar){
+			ClienteController control = new ClienteController(tblCliente);
+			
+				
+				if (SelecaoTipo == 0){
+					if(validaPesquisaNome()){
+					control.ConsultaExistenciaNome(pesquisaNome.getText());
+					}else{
+						control.listaCliente();
+					}
+				}else if(SelecaoTipo == 1){
+					if(validaPesquisaCpf()){
+						
+						control.listaCliente();
+					}else
+					{
+						if(pesquisaCpf.getText().replace("-","").replace(".", "").replace(" ", "").length()<11)
+							JOptionPane.showMessageDialog(null, "Os 11 digitos do CPF devem ser preenchidos");
+						else
+						control.ConsultaExistenciaCPF(pesquisaCpf.getText().replace(".","").replace("-", ""));
+						
+					}
+					
+				
+				
+			}
+			
+
+		} if(e.getSource() == tblCliente){
+
+			int linha = tblCliente.getSelectedRow();
+			id = (int)tblCliente.getValueAt(linha, 0);
+			//String nome = (String) tblCliente.getValueAt(linha, 1);
+			btnVisualizar.setEnabled(true);	
+		}
+		
+		
+		
 
 		
 		
@@ -251,6 +325,18 @@ public class ConsultaClienteBoundary implements MouseListener{
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	public boolean validaPesquisaNome(){
+		
+		return pesquisaNome.getText().length()>0;
+		
+	}
+	
+	public boolean validaPesquisaCpf(){
+		
+		return pesquisaCpf.getText().replace("-","").replace("."," ").replace(" ","").length()==0;
 		
 	}
 	

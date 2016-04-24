@@ -34,8 +34,7 @@ import entity.ClienteEntity;
 import entity.EnderecoEntity;
 
 public class VisualizaAtualizaClienteBoundary implements  ActionListener{
-	private JLabel lblNome, lblCPF, lblRg, lblCep, lblLogradouro, lblNumero, lblComplemento, lblBairro, lblUf,
-			lblCidade, lblEmail, lblTelefone, lblCelular;
+	
 	private JLabel lblCodCliente;
 	private JTextField nome;
 	private JFormattedTextField cpf;
@@ -130,23 +129,18 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 
 	public JComponent Centro() {
 		
-		JPanel panelCentro = new JPanel(new GridLayout(16, 1, 10, 10));
+		JPanel panelCentro = new JPanel(new GridLayout(16,2, 10, 10));
 
 		panelCentro.setBackground(Color.WHITE);
 		panelCentro.add(new JLabel("Código Cliente: "));
-		
 		lblCodCliente = new JLabel("");
-		
 		panelCentro.add(lblCodCliente);
-		lblNome = new JLabel("*Nome Completo: ");
-		panelCentro.add(lblNome);
+		
+		panelCentro.add( new JLabel("*Nome Completo: "));
 		nome = new JTextField();
-
 		panelCentro.add(nome);
 
-		lblCPF = new JLabel("*CPF: ");
-		panelCentro.add(lblCPF);
-
+		panelCentro.add( new JLabel("*CPF: "));
 		cpf = new JFormattedTextField();
 		try {
 			MaskFormatter maskCpf = new MaskFormatter("###.###.###-##");
@@ -159,8 +153,9 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 		// cpf.setMinimumSize(new Dimension(1,2));
 		panelCentro.add(cpf);
 
-		lblRg = new JLabel("*RG: ");
-		panelCentro.add(lblRg);
+		
+		
+		panelCentro.add( new JLabel("*RG: "));
 		rg = new JFormattedTextField();
 		try {
 			MaskFormatter maskRg = new MaskFormatter("##.###.###-#");
@@ -172,8 +167,8 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 
 		panelCentro.add(rg);
 
-		lblCep = new JLabel("*CEP: ");
-		panelCentro.add(lblCep);
+
+		panelCentro.add( new JLabel("*CEP: "));
 		cep = new JFormattedTextField();
 		try {
 			MaskFormatter maskCep = new MaskFormatter("#####-###");
@@ -183,40 +178,17 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-
+		
+		
 		panelCentro.add(cep);
-
-		final evBuscaCEP buscacep = new evBuscaCEP();
-
+		
 		FocusListener focoCep = new FocusListener() {
 
 			@Override
 			public void focusLost(FocusEvent e) {
 				// TODO Auto-generated method stub
 				if (validaCEP() == true) {
-
-					List<EnderecoEntity> end = new ArrayList<EnderecoEntity>();
-					end = buscacep.buscaPorCep(cep.getText().replace("-", ""));
-
-					if (end == null) {
-
-						logradouro.setEditable(true);
-						bairro.setEditable(true);
-						cidade.setEditable(true);
-						uf.setEditable(true);
-
-					} else {
-
-						for (EnderecoEntity endereco : end) {
-
-							bairro.setText(endereco.getBairro());
-
-							uf.setText(endereco.getUf());
-
-							cidade.setText(endereco.getCidade());
-							logradouro.setText(endereco.getLogradouro());
-						}
-					}
+					ValidaCepRetorno();
 				}
 
 			}
@@ -229,58 +201,48 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 		};
 		cep.addFocusListener(focoCep);
 
-		lblLogradouro = new JLabel("*Logradouro: ");
-		panelCentro.add(lblLogradouro);
+
+		panelCentro.add( new JLabel("*Logradouro: "));
 		logradouro = new JTextField(30);
 		logradouro.setEditable(false);
 		panelCentro.add(logradouro);
 
-		lblNumero = new JLabel("*Número: ");
-		panelCentro.add(lblNumero);
+		panelCentro.add( new JLabel("*Número: "));
 		numero = new JTextField(30);
 		panelCentro.add(numero);
-
-		lblComplemento = new JLabel("Complemento: ");
-		panelCentro.add(lblComplemento);
+		
+		panelCentro.add( new JLabel("Complemento: "));
 		complemento = new JTextField(30);
 		panelCentro.add(complemento);
-
-		lblBairro = new JLabel("*Bairro: ");
-		panelCentro.add(lblBairro);
+		
+		panelCentro.add( new JLabel("*Bairro: "));
 		bairro = new JTextField(30);
 		bairro.setEditable(false);
 		panelCentro.add(bairro);
-
-		lblUf = new JLabel("*UF");
-		panelCentro.add(lblUf);
+		
+		panelCentro.add( new JLabel("*UF"));
 		uf = new JTextField(2);
 		uf.setEditable(false);
 		panelCentro.add(uf);
-
-		lblCidade = new JLabel("*Cidade: ");
-		panelCentro.add(lblCidade);
+		
+		panelCentro.add( new JLabel("*Cidade: "));
 		cidade = new JTextField(30);
 		cidade.setEditable(false);
 		panelCentro.add(cidade);
-
-		JLabel lblSexo = new JLabel("*Sexo");
-		panelCentro.add(lblSexo);
-		sexo = new JTextField();
 		
-		panelCentro.add(sexo);
-
-		lblEmail = new JLabel("*Email: ");
-		panelCentro.add(lblEmail);
+		panelCentro.add( new JLabel("*Email: "));
 		email = new JTextField(30);
 		panelCentro.add(email);
-
-		JLabel lblSenha = new JLabel("*Senha: ");
-		panelCentro.add(lblSenha);
+		
+	    panelCentro.add( new JLabel("*Sexo"));
+	    sexo = new JTextField();
+		panelCentro.add(sexo);
+		
+		panelCentro.add( new JLabel("*Senha: "));
 		senha = new JPasswordField();
 		panelCentro.add(senha);
 
-		lblTelefone = new JLabel("*Telefone: ");
-		panelCentro.add(lblTelefone);
+		panelCentro.add( new JLabel("*Telefone: "));
 		telefone = new JFormattedTextField();
 		MaskFormatter maskTel;
 		try {
@@ -294,8 +256,7 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 
 		panelCentro.add(telefone);
 
-		JLabel lblCelular = new JLabel("*Celular: ");
-		panelCentro.add(lblCelular);
+		panelCentro.add ( new JLabel("*Celular: "));
 		celular = new JFormattedTextField();
 		try {
 			MaskFormatter maskCel = new MaskFormatter("(##) #####-####");
@@ -306,7 +267,6 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 		}
 
 		panelCentro.add(celular);
-			
 
 		return panelCentro;
 	}
@@ -372,7 +332,38 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 	}
 	
 	
-	
+	public void ValidaCepRetorno (){
+		final evBuscaCEP buscacep = new evBuscaCEP();
+		List<EnderecoEntity> end = new ArrayList<EnderecoEntity>();
+		end = buscacep.buscaPorCep(cep.getText().replace("-", ""));
+
+		if (end == null) {
+
+			logradouro.setEditable(true);
+			bairro.setEditable(true);
+			cidade.setEditable(true);
+			uf.setEditable(true);
+			logradouro.setText("");
+			bairro.setText("");
+			cidade.setText("");
+			uf.setText("");
+
+		} else {
+
+			for (EnderecoEntity endereco : end) {
+
+				bairro.setText(endereco.getBairro());
+
+				uf.setText(endereco.getUf());
+
+				cidade.setText(endereco.getCidade());
+				logradouro.setText(endereco.getLogradouro());
+			}
+		}
+	}
+		
+		
+
 	
 
 	@SuppressWarnings("deprecation")

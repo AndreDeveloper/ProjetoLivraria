@@ -27,18 +27,25 @@ public ClienteController(JTable tblCliente) {
 		this.tblCliente = tblCliente;
 	}
 
-public void ConcluirCadastro(ClienteEntity clt){
+public boolean ConcluirCadastro(ClienteEntity clt){
 		
+	boolean validacao=true;
 	
 	try{	
 			ClienteDAO cltDao = new ClienteDAO();
 			cltDao.insereCliente(clt);
 			JOptionPane.showMessageDialog(null, "Dados cadastrados com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 			
+			
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
+			validacao = false;
 			JOptionPane.showMessageDialog(null,e1.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+			
 		}
+	
+	return validacao;
+	
 	}
 
 public void AtualizaCliente(ClienteEntity clt) {
@@ -97,17 +104,7 @@ public void AtualizaCliente(ClienteEntity clt) {
 			
 			DefaultTableModel modelo = (DefaultTableModel) tblCliente.getModel();
 			if (listaCliente != null) {
-				for (ClienteEntity c : listaCliente) {
-					
-
-					Object[] linha = new Object[5];
-					linha[0] = c.getCodCliente();
-					linha[1] = c.getNome();
-					linha[2] = c.getCpf();
-					linha[3] = c.getCidade();
-					linha[4] = c.getEmail();
-					modelo.addRow(linha);					
-				}
+				preencheTable(listaCliente);
 		
 			}
 
@@ -118,6 +115,7 @@ public void AtualizaCliente(ClienteEntity clt) {
 
 	}
 
+	
 	@Override
 	public ClienteEntity BuscaDadosCliente(int CodCliente) {
 		ClienteEntity clt = new ClienteEntity() ;
@@ -156,7 +154,88 @@ public void AtualizaCliente(ClienteEntity clt) {
 		return clt;
 	}
 
+	public void ConsultaExistenciaCPF(String cpf) {
+		if (tblCliente!=null) {
+			DefaultTableModel modelo = (DefaultTableModel) tblCliente.getModel();
+			if(modelo.getRowCount()>0){
+				modelo.setRowCount(0);
+			}
+		}
+		
+		
+		try {
+			ClienteDAO cltDao = new ClienteDAO();
+			
+			List<ClienteEntity> listaCliente = cltDao.ConsultaClientePorCPF(cpf);
+			
+			
+			if (listaCliente != null) {
+				preencheTable(listaCliente);
+		
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		
+		
+	}
+	public void preencheTable (List<ClienteEntity> listaCliente){
+		DefaultTableModel modelo =  (DefaultTableModel) tblCliente.getModel();
+		for (ClienteEntity c : listaCliente) {
+			
 
+			Object[] linha = new Object[5];
+			linha[0] = c.getCodCliente();
+			linha[1] = c.getNome();
+			linha[2] = c.getCpf();
+			linha[3] = c.getCidade();
+			linha[4] = c.getEmail();
+			modelo.addRow(linha);					
+		}
+
+		
+		
+		
+		
+	}
+
+
+	
+	public void ConsultaExistenciaNome(String nome) {
+		System.out.println(nome);
+		DefaultTableModel modelo = (DefaultTableModel) tblCliente.getModel();
+		if (tblCliente!=null) {
+			
+			if(modelo.getRowCount()>0){
+				modelo.setRowCount(0);
+			}
+		}
+		
+		
+		try {
+			ClienteDAO cltDao = new ClienteDAO();
+			
+			List<ClienteEntity> listaCliente = cltDao.ConsultaClientePorNome(nome);
+			
+			
+			if (listaCliente != null) {
+				preencheTable(listaCliente);
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		
+		
+	}
+	
+	
 	
 
 
