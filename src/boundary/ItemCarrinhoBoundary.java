@@ -81,19 +81,19 @@ public class ItemCarrinhoBoundary extends JPanel{
 		
 		nomeLivro.setForeground(Color.BLUE);
 		nomeLivro.setBackground(Color.WHITE);
-		nomeLivro.setFont(new Font("Tahoma", Font.BOLD, 22));
+		nomeLivro.setFont(new Font("Palatino Linotype", Font.BOLD, 22));
 		
 		preco.setHorizontalAlignment(JLabel.CENTER);
 		preco.setVerticalAlignment(JLabel.CENTER);
 		preco.setForeground(Color.BLUE);
 		preco.setBackground(Color.WHITE);
-		preco.setFont(new Font("Tahoma", Font.BOLD, 22));
+		preco.setFont(new Font("Palatino Linotype", Font.BOLD, 22));
 		
 		lbSubTotal.setHorizontalAlignment(JLabel.CENTER);
 		lbSubTotal.setVerticalAlignment(JLabel.CENTER);
 		lbSubTotal.setForeground(Color.BLUE);
 		lbSubTotal.setBackground(Color.WHITE);
-		lbSubTotal.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lbSubTotal.setFont(new Font("Palatino Linotype", Font.BOLD, 22));
 		
 		imagem.setHorizontalAlignment(JLabel.CENTER);
 		preco.setHorizontalAlignment(JLabel.CENTER);

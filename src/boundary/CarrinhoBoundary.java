@@ -113,7 +113,7 @@ public class CarrinhoBoundary implements Subject {
 		valorTotal.setBackground(Color.WHITE);
 		valorTotal.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		valorTotal.setBorder(BorderFactory.createEmptyBorder());
-		valorTotal.setFont(new Font("Tahoma", Font.BOLD, 18));
+		valorTotal.setFont(new Font("Papyrus", Font.BOLD, 28));
 		
 		tela.setForeground(Color.WHITE);
 		tela.setBackground(Color.WHITE);

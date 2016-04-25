@@ -81,17 +81,17 @@ public class ItemPesquisaBoundary extends JPanel implements ActionListener{
 		lbAutor.setVerticalAlignment(JLabel.CENTER);
 		lbAutor.setForeground(Color.BLUE);
 		lbAutor.setBackground(Color.WHITE);
-		lbAutor.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lbAutor.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
 		
 		lbTitulo.setForeground(Color.BLUE);
 		lbTitulo.setBackground(Color.WHITE);
-		lbTitulo.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lbTitulo.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
 		
 		lbPreco.setHorizontalAlignment(JLabel.CENTER);
 		lbPreco.setVerticalAlignment(JLabel.CENTER);
 		lbPreco.setForeground(Color.BLUE);
 		lbPreco.setBackground(Color.WHITE);
-		lbPreco.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lbPreco.setFont(new Font("Palatino Linotype", Font.BOLD, 22));
 		
 		this.setLayout(gridlayout);
 		this.add(btnImagem);
