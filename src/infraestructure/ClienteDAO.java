@@ -45,25 +45,24 @@ public class ClienteDAO {
 public void AtualizaCliente (ClienteEntity clt)throws SQLException{
 	
 	
-	String sql = "UPDATE `Cliente` SET `Nome` = ?, `CPF` = ?, `RG` = ?, `Sexo` = ?, `Logradouro` = ?, `Numero` = ?, "
+	String sql = "UPDATE `Cliente` SET `Nome` = ?, `RG` = ?, `Sexo` = ?, `Logradouro` = ?, `Numero` = ?, "
 			+ "`Complemento` = ?, `Bairro` = ?, `Cidade` = ?, `UF` = ?, `CEP` = ?, `Email` = ?, `Senha` =?, `Telefone` = ?, `Celular` = ? WHERE `CodCliente` ="+clt.getCodCliente();
 	PreparedStatement ps = con.prepareStatement(sql);
 	
 	ps.setString(1, clt.getNome());
-	ps.setString(2,clt.getCpf() );
-	ps.setString(3, clt.getRg());
-	ps.setString(4,clt.getSexo());
-	ps.setString(5, clt.getLogradouro());
-	ps.setInt(6, clt.getNumero());
-	ps.setString(7, clt.getComplemento());
-	ps.setString(8, clt.getBairro());
-	ps.setString(9,clt.getCidade());
-	ps.setString(10, clt.getUf());
-	ps.setString(11, clt.getCep());
-	ps.setString(12,clt.getEmail());
-	ps.setString(13,clt.getSenha());
-	ps.setString(14,clt.getTelefone());
-	ps.setString(15, clt.getCelular());
+	ps.setString(2, clt.getRg());
+	ps.setString(3,clt.getSexo());
+	ps.setString(4, clt.getLogradouro());
+	ps.setInt(5, clt.getNumero());
+	ps.setString(6, clt.getComplemento());
+	ps.setString(7, clt.getBairro());
+	ps.setString(8,clt.getCidade());
+	ps.setString(9, clt.getUf());
+	ps.setString(10, clt.getCep());
+	ps.setString(11,clt.getEmail());
+	ps.setString(12,clt.getSenha());
+	ps.setString(13,clt.getTelefone());
+	ps.setString(14, clt.getCelular());
 	ps.execute();
 	ps.close();
 	
@@ -111,6 +110,95 @@ public List<ClienteEntity> ConsultaCliente (int CodCliente)throws SQLException{
 	
 	
 }
+public List<ClienteEntity> ConsultaClientePorCPF (String cpf)throws SQLException{
+	
+	
+	List<ClienteEntity> selectCliente = new ArrayList<ClienteEntity>();
+	ClienteEntity clt = new ClienteEntity();
+	String sql = "SELECT CodCliente, nome, CPF, RG, Sexo, Logradouro, Numero, Complemento, Bairro,"
+			+ " Cidade, UF, CEP, Email, Senha, Telefone, Celular from Cliente where CPF = "+cpf;
+	PreparedStatement ps = con.prepareStatement(sql);
+	//ps.setInt(1,clt.getCodCliente());
+	ResultSet rs = ps.executeQuery();
+	if(rs.next()){
+		clt.setCodCliente(rs.getInt("CodCliente"));
+		clt.setNome(rs.getString("Nome"));
+		clt.setCpf(rs.getString("CPF"));
+		clt.setRg(rs.getString("RG"));
+		clt.setSexo(rs.getString("Sexo"));
+		clt.setLogradouro(rs.getString("Logradouro"));
+		clt.setNumero(rs.getInt("Numero"));
+		clt.setComplemento(rs.getString("Complemento"));
+		clt.setBairro(rs.getString("Bairro"));
+		clt.setCidade(rs.getString("Cidade"));
+		clt.setUf(rs.getString("UF"));
+		clt.setCep(rs.getString("CEP"));
+		clt.setEmail(rs.getString("Email"));
+		clt.setSenha(rs.getString("Senha"));
+		clt.setTelefone(rs.getString("Telefone"));
+		clt.setCelular(rs.getString("Celular"));
+		
+		
+		
+	}
+	rs.close();
+	ps.close();
+	
+	
+	selectCliente.add(clt);
+	return selectCliente;
+	
+	
+}
+
+public List<ClienteEntity> ConsultaClientePorNome (String nome)throws SQLException{
+	
+	
+	List<ClienteEntity> listaClientes = new ArrayList<ClienteEntity>();
+	ClienteEntity clt = new ClienteEntity();
+	String sql = "SELECT CodCliente, nome, CPF, RG, Sexo, Logradouro, Numero, Complemento, Bairro,"
+			+ " Cidade, UF, CEP, Email, Senha, Telefone, Celular from Cliente where nome  like '%"+nome+"%'";
+	PreparedStatement ps = con.prepareStatement(sql);
+	//ps.setInt(1,clt.getCodCliente());
+	ResultSet rs = ps.executeQuery();
+	
+	if(rs.next()){
+		clt.setCodCliente(rs.getInt("CodCliente"));
+		clt.setNome(rs.getString("Nome"));
+		clt.setCpf(rs.getString("CPF"));
+		clt.setRg(rs.getString("RG"));
+		clt.setSexo(rs.getString("Sexo"));
+		clt.setLogradouro(rs.getString("Logradouro"));
+		clt.setNumero(rs.getInt("Numero"));
+		clt.setComplemento(rs.getString("Complemento"));
+		clt.setBairro(rs.getString("Bairro"));
+		clt.setCidade(rs.getString("Cidade"));
+		clt.setUf(rs.getString("UF"));
+		clt.setCep(rs.getString("CEP"));
+		clt.setEmail(rs.getString("Email"));
+		clt.setSenha(rs.getString("Senha"));
+		clt.setTelefone(rs.getString("Telefone"));
+		clt.setCelular(rs.getString("Celular"));
+		
+		
+		
+		
+	}
+	
+	rs.close();
+	ps.close();
+	
+	
+	
+	listaClientes.add(clt);
+	return listaClientes;
+	
+	
+}
+
+
+
+
 
 
 public List<ClienteEntity> ConsultaCliente()throws SQLException {

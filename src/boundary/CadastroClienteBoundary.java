@@ -95,14 +95,11 @@ public class CadastroClienteBoundary implements ActionListener {
 
 		panelCentro.setBackground(Color.WHITE);
 
-		lblNome = new JLabel("*Nome Completo: ");
-		panelCentro.add(lblNome);
+		panelCentro.add(new JLabel("*Nome Completo: "));
 		nome = new JTextField();
-
 		panelCentro.add(nome);
 
-		lblCPF = new JLabel("*CPF: ");
-		panelCentro.add(lblCPF);
+		panelCentro.add(new JLabel("*CPF: "));
 
 		cpf = new JFormattedTextField();
 		try {
@@ -115,9 +112,26 @@ public class CadastroClienteBoundary implements ActionListener {
 		cpf.setPreferredSize(new Dimension(5, 2));
 		// cpf.setMinimumSize(new Dimension(1,2));
 		panelCentro.add(cpf);
+		FocusListener focoCPF = new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				ClienteController cltControl = new ClienteController();
+				cltControl.ConsultaExistenciaCPF(cpf.getText().replace(".", "").replace("-", ""));
+			}
+			
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		cpf.addFocusListener(focoCPF);
 
-		lblRg = new JLabel("*RG: ");
-		panelCentro.add(lblRg);
+		
+		panelCentro.add(new JLabel("*RG: "));
 		rg = new JFormattedTextField();
 		try {
 			MaskFormatter maskRg = new MaskFormatter("##.###.###-#");
@@ -129,8 +143,8 @@ public class CadastroClienteBoundary implements ActionListener {
 
 		panelCentro.add(rg);
 
-		lblCep = new JLabel("*CEP: ");
-		panelCentro.add(lblCep);
+		
+		panelCentro.add(new JLabel("*CEP: "));
 		cep = new JFormattedTextField();
 		try {
 			MaskFormatter maskCep = new MaskFormatter("#####-###");
@@ -142,40 +156,17 @@ public class CadastroClienteBoundary implements ActionListener {
 		}
 
 		panelCentro.add(cep);
+		
+		
 
-		 final evBuscaCEP buscacep = new evBuscaCEP();
+		 
 
 		FocusListener focoCep = new FocusListener() {
-
+			
 			@Override
 			public void focusLost(FocusEvent e) {
 				// TODO Auto-generated method stub
-				if (validaCEP() == true) {
-
-					List<EnderecoEntity> end = new ArrayList<EnderecoEntity>();
-					end = buscacep.buscaPorCep(cep.getText().replace("-", ""));
-
-					if (end == null) {
-
-						logradouro.setEditable(true);
-						bairro.setEditable(true);
-						cidade.setEditable(true);
-						uf.setEditable(true);
-
-					} else {
-
-						for (EnderecoEntity endereco : end) {
-
-							bairro.setText(endereco.getBairro());
-
-							uf.setText(endereco.getUf());
-
-							cidade.setText(endereco.getCidade());
-							logradouro.setText(endereco.getLogradouro());
-						}
-					}
-				}
-
+				ValidaCepRetorno();
 			}
 
 			@Override
@@ -310,8 +301,8 @@ public class CadastroClienteBoundary implements ActionListener {
 		ClienteEntity clt = new ClienteEntity();
 		clt.setNome(nome.getText());
 
-//		clt.setCpf(cpf.getText().replace("-", "").replace(".", ""));
-		clt.setCpf(cpf.getText());
+		clt.setCpf(cpf.getText().replace("-", "").replace(".", ""));
+//		clt.setCpf(cpf.getText());
 
 		clt.setRg(rg.getText().replace("-", "").replace(".", ""));
 		clt.setCep(cep.getText().replace("-", ""));
@@ -327,8 +318,6 @@ public class CadastroClienteBoundary implements ActionListener {
 		clt.setSexo(cbSexo.getSelectedItem().toString());
 		clt.setSenha(senha.getText());
 
-		if (clt != null)
-			limpaCampos();
 
 		return clt;
 
@@ -368,13 +357,51 @@ public class CadastroClienteBoundary implements ActionListener {
 
 		if(ValidaCampos()){
 			ClienteController cc = new ClienteController();
+			
+		  boolean validaCadastro = cc.ConcluirCadastro(EventoConcluirCadastro());
 
-			cc.ConcluirCadastro(EventoConcluirCadastro());
-
+			if (validaCadastro== true){
+				limpaCampos();
+			}
+				
 		}
 
 		
 	}
+	
+	public void ValidaCepRetorno (){
+		final evBuscaCEP buscacep = new evBuscaCEP();
+		List<EnderecoEntity> end = new ArrayList<EnderecoEntity>();
+		end = buscacep.buscaPorCep(cep.getText().replace("-", ""));
+
+		if (end == null) {
+
+			logradouro.setEditable(true);
+			bairro.setEditable(true);
+			cidade.setEditable(true);
+			uf.setEditable(true);
+			logradouro.setText("");
+			bairro.setText("");
+			cidade.setText("");
+			uf.setText("");
+
+		} else {
+
+			for (EnderecoEntity endereco : end) {
+
+				bairro.setText(endereco.getBairro());
+
+				uf.setText(endereco.getUf());
+
+				cidade.setText(endereco.getCidade());
+				logradouro.setText(endereco.getLogradouro());
+			}
+		}
+	}
+		
+		
+
+
 
 	public boolean validaCEP() {
 		if (cep.getText().replace("-", "").replace(" ", "").length() <= 0) {
