@@ -74,18 +74,31 @@ public class ItemCarrinhoBoundary extends JPanel{
 		JTextArea nomeLivro = new JTextArea(livro.getTituloLivro());
 		nomeLivro.setLineWrap(true);
 		nomeLivro.setEditable(false);
-		//JLabel nomeLivro = new JLabel(livro.getNome());
 		JLabel preco = new JLabel("R$ " + livro.getPrecoVenda());
 		JLabel lbSubTotal = new JLabel("R$ " + this.subTotal);
 		JPanel painelQtdade = new JPanel();
 		nomeLivro.setToolTipText(nomeLivro.getText());
 		
+		nomeLivro.setForeground(Color.BLUE);
+		nomeLivro.setBackground(Color.WHITE);
+		nomeLivro.setFont(new Font("Tahoma", Font.BOLD, 22));
+		
+		preco.setHorizontalAlignment(JLabel.CENTER);
+		preco.setVerticalAlignment(JLabel.CENTER);
+		preco.setForeground(Color.BLUE);
+		preco.setBackground(Color.WHITE);
+		preco.setFont(new Font("Tahoma", Font.BOLD, 22));
+		
+		lbSubTotal.setHorizontalAlignment(JLabel.CENTER);
+		lbSubTotal.setVerticalAlignment(JLabel.CENTER);
+		lbSubTotal.setForeground(Color.BLUE);
+		lbSubTotal.setBackground(Color.WHITE);
+		lbSubTotal.setFont(new Font("Tahoma", Font.BOLD, 22));
 		
 		imagem.setHorizontalAlignment(JLabel.CENTER);
 		preco.setHorizontalAlignment(JLabel.CENTER);
 		lbSubTotal.setHorizontalAlignment(JLabel.CENTER);
 		imagem.setVerticalAlignment(JLabel.CENTER);
-		//nomeLivro.setVerticalAlignment(JLabel.CENTER);
 		preco.setVerticalAlignment(JLabel.CENTER);
 		lbSubTotal.setVerticalAlignment(JLabel.CENTER);
 		
@@ -101,13 +114,6 @@ public class ItemCarrinhoBoundary extends JPanel{
 		painelQtdade.add(btnMais, BorderLayout.EAST);
 		
 		nomeLivro.setPreferredSize(new Dimension(10, 30));
-
-		
-		//
-	//	Dimension d = new Dimension(50, 50);
-	//	btnRemover.setPreferredSize(d);
-	//	JPanel painelbtn = new JPanel();
-	//	painelbtn.add(btnRemover);
 		
 		btnRemover.setForeground(Color.RED);
 		btnRemover.setBackground(Color.WHITE);

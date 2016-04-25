@@ -68,8 +68,8 @@ public class AuxQtdadeCarrinhoBoundary implements ActionListener, KeyListener{
 		painelCentro.add(txtValor);
 		painelCentro.add(btnMais);
 		
-		painelSul.add(btnOk);
 		painelSul.add(btnCancelar);
+		painelSul.add(btnOk);
 		
 		painelPrincipal.add(texto, BorderLayout.NORTH);
 		painelPrincipal.add(painelCentro, BorderLayout.CENTER);
