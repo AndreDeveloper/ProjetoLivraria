@@ -64,9 +64,9 @@ public class ImagemFormater {
 		BufferedImage aux;
 		try {
 			img = ImageIO.read(new ByteArrayInputStream(bytes));
-			aux = new BufferedImage(150, 120, img.getType());//cria um buffer auxiliar com o tamanho desejado  
+			aux = new BufferedImage(150, 200, img.getType());//cria um buffer auxiliar com o tamanho desejado  
 	        Graphics2D g = aux.createGraphics();//pega a classe graphics do aux para edicao  
-	        AffineTransform at = AffineTransform.getScaleInstance((double) 150 / img.getWidth(), (double) 120 / img.getHeight());//cria a transformacao  
+	        AffineTransform at = AffineTransform.getScaleInstance((double) 150 / img.getWidth(), (double) 200 / img.getHeight());//cria a transformacao  
 	        g.drawRenderedImage(img, at);//pinta e transforma a imagem real no auxiliar 
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "erro: " + e.getMessage());

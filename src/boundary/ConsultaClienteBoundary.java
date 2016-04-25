@@ -43,16 +43,9 @@ public class ConsultaClienteBoundary implements MouseListener{
 	TableRowSorter<TableModel> sorter;
 	
 	public ConsultaClienteBoundary() {
-		// TODO Auto-generated constructor stub
-		
-		
 
 		panelPrincipal.add(Centro(), BorderLayout.CENTER);
 		panelPrincipal.add(Botoes(), BorderLayout.SOUTH);
-		//janela.setContentPane(panelPrincipal);
-		//janela.setVisible(true);
-		//janela.setSize(1000, 650);
-		//janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 	
@@ -136,19 +129,9 @@ public class ConsultaClienteBoundary implements MouseListener{
 		btnPesquisar.addActionListener(pesquisaClt);
 		panelCentro.add(btnPesquisar);
 		
-		
-		
-		
-		
-		
-		
 		return panelCentro;
 	}
-	
-//public static void main(String[] args) {
-//	new ConsultaClienteBoundary();
-//
-	
+
 	ActionListener ChamaTela = new ActionListener() {
 		
 		@Override
@@ -221,7 +204,6 @@ public class ConsultaClienteBoundary implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		int linha = tblCliente.getSelectedRow();
 		id = (int)tblCliente.getValueAt(linha, 0);
-		//String nome = (String) tblCliente.getValueAt(linha, 1);
 		btnVisualizar.setEnabled(true);
 
 		

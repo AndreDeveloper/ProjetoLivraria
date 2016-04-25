@@ -112,14 +112,12 @@ public class ItemPesquisaBoundary extends JPanel implements ActionListener{
 		// TODO Auto-generated method stub
 		if(arg0.getSource() == btnAddCarrinho){
 			ItemCarrinhoEntity carrinhoEntity = new ItemCarrinhoEntity();
-			carrinhoEntity.setLivro(livro);
-			carrinhoEntity.setImagem(livro.getImagem());
-			carrinhoEntity.setQuantidade(
-					Integer.parseInt(
-							JOptionPane.showInputDialog("digite a quantidade desejada")
-							)
-					);
-			carrinhoBoundary.adicionaItem(carrinhoEntity);
+			new AuxQtdadeCarrinhoBoundary(carrinhoEntity);
+			if (carrinhoEntity.getQuantidade() != 0){
+				carrinhoEntity.setLivro(livro);
+				carrinhoEntity.setImagem(livro.getImagem());
+				carrinhoBoundary.adicionaItem(carrinhoEntity);
+			}
 			
 		}else if(arg0.getSource() == btnImagem){
 			InfoLivroBoundary resultado = new InfoLivroBoundary(livro);
