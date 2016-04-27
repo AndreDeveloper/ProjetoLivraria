@@ -29,6 +29,7 @@ public class ItemPesquisaBoundary extends JPanel implements ActionListener{
 	private JButton btnImagem = new JButton("");
 	private JButton btnAddCarrinho = new JButton("");
 	private TelaPrincipalBoundary telaPrincipalBoundary;
+	private JButton btnVisualizar = new JButton();
 	
 	public ItemPesquisaBoundary(LivroEntity livro,
 			CarrinhoBoundary carrinhoBoundary,
@@ -67,6 +68,16 @@ public class ItemPesquisaBoundary extends JPanel implements ActionListener{
 		btnImagem.setToolTipText("Clique na imagem para visualizar mais detalhes sobre o livro");
 		btnImagem.addActionListener(this);
 		
+		btnVisualizar.setIcon(livro.getImagem());
+		btnVisualizar.setForeground(Color.RED);
+		btnVisualizar.setBackground(Color.WHITE);
+		btnVisualizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnVisualizar.setBorder(BorderFactory.createEmptyBorder());
+		btnVisualizar.setToolTipText("Clique na imagem para visualizar mais detalhes sobre o livro");
+		btnVisualizar.addActionListener(this);
+        btnVisualizar.setIcon(
+				new ImageIcon(ItemCarrinhoBoundary.class.getResource("/resource/visu.png")));
+		
 		btnAddCarrinho.setIcon(
 				new ImageIcon(ItemCarrinhoBoundary.class.getResource("/resource/adicionarCarrinho.png")));
 		btnAddCarrinho.setForeground(Color.RED);
@@ -93,12 +104,20 @@ public class ItemPesquisaBoundary extends JPanel implements ActionListener{
 		lbPreco.setBackground(Color.WHITE);
 		lbPreco.setFont(new Font("Palatino Linotype", Font.BOLD, 22));
 		
+		JPanel painel1 = new JPanel(new GridLayout(2, 1));
+		painel1.setForeground(Color.BLUE);
+		painel1.setBackground(Color.WHITE);
+		painel1.setBorder(BorderFactory.createEmptyBorder());
+		
+		painel1.add(btnAddCarrinho);
+		painel1.add(btnVisualizar);
+		
 		this.setLayout(gridlayout);
 		this.add(btnImagem);
 		this.add(jScrollPane);
 		this.add(lbAutor);
 		this.add(lbPreco);
-		this.add(btnAddCarrinho);
+		this.add(painel1);
 		
 		this.setForeground(Color.WHITE);
 		this.setBackground(Color.WHITE);
@@ -120,6 +139,10 @@ public class ItemPesquisaBoundary extends JPanel implements ActionListener{
 			}
 			
 		}else if(arg0.getSource() == btnImagem){
+			InfoLivroBoundary resultado = new InfoLivroBoundary(livro);
+			telaPrincipalBoundary.selectTela(resultado.getPainelPrincipal());
+			
+		}else if(arg0.getSource() == btnVisualizar){
 			InfoLivroBoundary resultado = new InfoLivroBoundary(livro);
 			telaPrincipalBoundary.selectTela(resultado.getPainelPrincipal());
 			

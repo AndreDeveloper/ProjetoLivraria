@@ -725,7 +725,7 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		String caracteres="0987654321";
+		String caracteres="0987654321.";
 		if(!caracteres.contains(arg0.getKeyChar()+"")){
 			arg0.consume();
 		}
