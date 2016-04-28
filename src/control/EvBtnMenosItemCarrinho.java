@@ -32,7 +32,7 @@ public class EvBtnMenosItemCarrinho implements ActionListener{
 	}
 
 	public void acao(){
-		if(this.itemEntity.getQuantidade() !=0){
+		if(this.itemEntity.getQuantidade() >1){
 			double total = 0;
 			this.itemEntity.setQuantidade(
 					this.itemEntity.getQuantidade() - 1);

@@ -266,18 +266,12 @@ public class PesquisaBoundary implements ActionListener{
 
 	 public LivroEntity formToLivro(){
 		 LivroEntity livro = new LivroEntity();
-		 if(txtAutor.getText().length() > 0){ 
-			 String[] auxAutor = txtAutor.getText().split(" ");
-			 livro.setIdAutor(Integer.parseInt(auxAutor[0]));
-		 }
-		 if(txtEditora.getText().length() > 0){
-			 String[] auxEditora = txtEditora.getText().split(" ");
-			 livro.setIdEditora(Integer.parseInt(auxEditora[0]));
-		 }
+		 String autor = txtAutor.getText().replaceFirst("([0-9]+)\\s\\-\\s", "").trim();
+		 String editora = txtEditora.getText().replaceFirst("([0-9]+)\\s\\-\\s", "").trim();
 		 livro.setTituloLivro(txtTitulo.getText());
-		 livro.setNomeAutor(txtAutor.getText());
+		 livro.setNomeAutor(autor);
 		 livro.setCategoriaLivro(listaCategorias.getSelectedItem().toString());
-		 livro.setEditora(txtEditora.getText());
+		 livro.setEditora(editora);
 		 if(listaCategorias.getSelectedIndex() != 0){
 		 livro.setIdCategoriaLivro(listaCategorias.getSelectedIndex() + 1);
 		 }else{
@@ -290,9 +284,9 @@ public class PesquisaBoundary implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == btnPesquisar){
-			mostraPesquisa(controller.listaLivro(formToLivro().getIdAutor(),
+			mostraPesquisa(controller.listaLivro(formToLivro().getNomeAutor(),
 					formToLivro().getTituloLivro(),
-					formToLivro().getIdEditora(),
+					formToLivro().getEditora(),
 					formToLivro().getIdCategoriaLivro()));
 		}else if (e.getSource() == btnAutor){
 			new AuxiliarPesquisa(txtAutor, "Autor");

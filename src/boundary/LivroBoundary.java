@@ -13,18 +13,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
@@ -61,9 +65,9 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 	private JTextField txtNumeroDePaginas = new JTextField(5);
 	private JTextArea txtSumario = new JTextArea(5, 50);
 	private JTextArea txtResumo = new JTextArea(5, 50);
-	private JTextField txtPreçoCusto = new JTextField(10);
-	private JTextField txtPrecoVenda = new JTextField(10);
-	private JTextField txtMargemLucro = new JTextField(10);
+	private JFormattedTextField txtPreçoCusto = new JFormattedTextField();
+	private JFormattedTextField txtPrecoVenda = new JFormattedTextField();
+	private JFormattedTextField txtMargemLucro = new JFormattedTextField();
 	private JTextField txtQtdadeEstoque = new JTextField(5);
 	
 	private JLabel lblImagem = new JLabel("<<Selecione uma imagem>>");
@@ -195,7 +199,8 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 	   	cbCategoriaLivro.setFont(new Font("Tahoma", Font.BOLD, 14));
 	   	cbCategoriaLivro.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	   	cbCategoriaLivro.setBorder(BorderFactory.createEtchedBorder());
-
+	   	cbCategoriaLivro.setEditable(false);
+	   	
 	   	String[] values = {"<<Escolha o formato>>", "1 - Brochura", "2 - Capa dura"};
 	   	DefaultComboBoxModel<String> combomodel1 = new DefaultComboBoxModel<>(values);
 	   	
@@ -206,6 +211,7 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 	   	txtFormato.setFont(new Font("Tahoma", Font.BOLD, 14));
 	   	txtFormato.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	   	txtFormato.setBorder(BorderFactory.createEtchedBorder());
+	   	txtFormato.setEditable(false);
 	   	
 	   	// montando o painel de botoes
 		
@@ -245,7 +251,7 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 				);	   	
 	   	
 	   	btnVoltar.addActionListener(this);
-	   	btnVoltar.setToolTipText("Salvar registro");    	
+	   	btnVoltar.setToolTipText("voltar");    	
 	   	btnVoltar.setForeground(Color.BLACK);
 	   	btnVoltar.setBackground(Color.WHITE);
 	   	btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -256,7 +262,7 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 				);	
 	   	
 	   	btnNovo.addActionListener(this);
-	   	btnNovo.setToolTipText("Salvar registro");    	
+	   	btnNovo.setToolTipText("Novo registro");    	
 	   	btnNovo.setForeground(Color.BLACK);
 	   	btnNovo.setBackground(Color.WHITE);
 	   	btnNovo.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -388,12 +394,20 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 		txtSumario.setBackground(Color.white);
 		txtSumario.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
 		txtSumario.setBorder(BorderFactory.createEtchedBorder());
+		
+		txtPrecoVenda.setFormatterFactory(mascara());
+	   	txtPreçoCusto.setFormatterFactory(mascara());
+	   	txtMargemLucro.setFormatterFactory(mascara());
 	   	
+	   	txtPrecoVenda.setPreferredSize(txtIsbn.getPreferredSize());
+	   	txtPreçoCusto.setPreferredSize(txtIsbn.getPreferredSize());
+	   	txtMargemLucro.setPreferredSize(txtIsbn.getPreferredSize());
+		
 	   	txtIsbn.addKeyListener(this);
-	   	txtPrecoVenda.addKeyListener(this);
-	   	txtPreçoCusto.addKeyListener(this);
+	   //	txtPrecoVenda.addKeyListener(this);
+	   //	txtPreçoCusto.addKeyListener(this);
 	   	txtNumeroDePaginas.addKeyListener(this);
-	   	txtMargemLucro.addKeyListener(this);
+	   //	txtMargemLucro.addKeyListener(this);
 	   	txtQtdadeEstoque.addKeyListener(this);
 	   	
 	   	txtNomeAutor.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -491,15 +505,23 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 			livro.setIdCategoriaLivro(cbCategoriaLivro.getSelectedIndex() + 1);//consertar
 			livro.setFormato(txtFormato.getSelectedIndex());
 			
+			String precoCusto = txtPreçoCusto.getText().replace(".", "");
+			String precovenda = txtPrecoVenda.getText().replace(".", "");
+			String margemLucro = txtMargemLucro.getText().replace(".", "");
+			
+			precoCusto = precoCusto.replace(",", ".");
+			precovenda = precovenda.replace(",", ".");
+			margemLucro = margemLucro.replace(",", ".");
+			
 			livro.setCategoriaLivro(cbCategoriaLivro.getSelectedItem().toString());
 			livro.setDataPublicacao(jcDataPublicacao.getDate());
 			livro.setImagem((ImageIcon) lblImagem.getIcon());
 			livro.setImagePath(livroPath);
 			livro.setIsbn(Integer.parseInt(txtIsbn.getText()));
-			livro.setMargemLucro(Double.parseDouble(txtMargemLucro.getText()));
+			livro.setMargemLucro(Double.parseDouble(margemLucro));
 			livro.setNumeroPaginas(Integer.parseInt(txtNumeroDePaginas.getText()));
-			livro.setPrecoCusto(Double.parseDouble(txtPreçoCusto.getText()));
-			livro.setPrecoVenda(Double.parseDouble(txtPrecoVenda.getText()));
+			livro.setPrecoCusto(Double.parseDouble(precoCusto));
+			livro.setPrecoVenda(Double.parseDouble(precovenda));
 			livro.setQtdeEmEstoque(Integer.parseInt(txtQtdadeEstoque.getText()));
 			livro.setResumo(txtResumo.getText());
 			livro.setSumario(txtSumario.getText());
@@ -514,14 +536,17 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 	}
 	
 	public void livroToForm(LivroEntity livro){
+		String margemLucro = "" + livro.getMargemLucro();
+		String precoVenda = "" + livro.getPrecoVenda();
+		String precoCusto = "" + livro.getPrecoCusto();
 		txtEditora.setText("" + livro.getIdEditora() + " - " + livro.getEditora());
 		txtFormato.setSelectedIndex(livro.getFormato());
 		txtIsbn.setText("" + livro.getIsbn());
-		txtMargemLucro.setText("" + livro.getMargemLucro());
+		txtMargemLucro.setText(margemLucro.replace(".", ","));
 		txtNomeAutor.setText("" + livro.getIdAutor() + " - " + livro.getNomeAutor());
 		txtNumeroDePaginas.setText("" + livro.getNumeroPaginas());
-		txtPrecoVenda.setText("" + livro.getPrecoVenda());
-		txtPreçoCusto.setText("" + livro.getPrecoCusto());
+		txtPrecoVenda.setText(precoVenda.replace(".", ","));
+		txtPreçoCusto.setText(precoCusto.replace(".", ","));
 		txtQtdadeEstoque.setText("" + livro.getQtdeEmEstoque());
 		txtResumo.setText("" + livro.getResumo());
 		txtSumario.setText(livro.getSumario());
@@ -577,7 +602,7 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 	
 	public void telaAlterar(){
 		txtEditora.setEditable(false);
-		txtFormato.setEditable(true);
+	//	txtFormato.setEditable(true);
 		txtMargemLucro.setEditable(true);
 		txtNomeAutor.setEditable(false);
 		txtNumeroDePaginas.setEditable(true);
@@ -602,7 +627,7 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 		txtTituloLivro.setEnabled(true);
 		txtIsbn.setEnabled(false);
 		
-		cbCategoriaLivro.setEditable(true);
+		//cbCategoriaLivro.setEditable(true);
 		cbCategoriaLivro.setEnabled(true);
 		
 		jcDataPublicacao.setEnabled(true);
@@ -622,7 +647,7 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 	public void telaNovo(){
 		limpaCampos();
 		txtEditora.setEditable(false);
-		txtFormato.setEditable(true);
+		//txtFormato.setEditable(true);
 		txtMargemLucro.setEditable(true);
 		txtNomeAutor.setEditable(false);
 		txtNumeroDePaginas.setEditable(true);
@@ -647,7 +672,7 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 		txtTituloLivro.setEnabled(true);
 		txtIsbn.setEnabled(true);
 		
-		cbCategoriaLivro.setEditable(true);
+		//cbCategoriaLivro.setEditable(true);
 		cbCategoriaLivro.setEnabled(true);
 		
 		jcDataPublicacao.setEnabled(true);
@@ -667,11 +692,11 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 	public void limpaCampos(){
 		txtEditora.setText("");
 		txtFormato.setSelectedIndex(0);
-		txtMargemLucro.setText("");
+		txtMargemLucro.setText("0,00");
 		txtNomeAutor.setText("");
 		txtNumeroDePaginas.setText("");
-		txtPrecoVenda.setText("");
-		txtPreçoCusto.setText("");
+		txtPrecoVenda.setText("0,00");
+		txtPreçoCusto.setText("0,00");
 		txtQtdadeEstoque.setText("");
 		txtResumo.setText("");
 		txtSumario.setText("");
@@ -691,10 +716,13 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 		txtEditora.getText().length() == 0 ||
 		txtFormato.getSelectedItem().toString() == "<<Escolha o formato>>" ||
 		txtMargemLucro.getText().length() == 0 ||
+		txtMargemLucro.getText().equals(",00") ||
 		txtNomeAutor.getText().length() == 0 ||
 		txtNumeroDePaginas.getText().length() == 0 ||
 		txtPrecoVenda.getText().length() == 0 ||
+		txtPrecoVenda.getText().equals(",00") ||
 		txtPreçoCusto.getText().length() == 0 ||
+		txtPreçoCusto.getText().equals(",00") ||
 		txtQtdadeEstoque.getText().length() == 0 ||
 		txtResumo.getText().length() == 0 ||
 		txtSumario.getText().length() == 0 ||
@@ -706,7 +734,13 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 				)
 		{
 			return false;
+		}else if(lblImagem.getIcon() == null){
+			JOptionPane.showMessageDialog(null, "Carregue uma imagem!", null, JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
+		
+		
+		
 			return true;
 	}
 
@@ -725,12 +759,42 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		String caracteres="0987654321.";
-		if(!caracteres.contains(arg0.getKeyChar()+"")){
-			arg0.consume();
-		}
+		if(arg0.getSource() == txtPrecoVenda || 
+				arg0.getSource() == txtPreçoCusto ||
+				arg0.getSource() == txtMargemLucro
+				){
+			String caracteres="0987654321.";
+			if(!caracteres.contains(arg0.getKeyChar()+"")){
+				arg0.consume();
+			}
+		}else if(arg0.getSource() == txtIsbn){
+			String caracteres="0987654321";
+			if(!caracteres.contains(arg0.getKeyChar()+"" ) || txtIsbn.getText().length() > 8){
+				arg0.consume();
+			}
+			
+		}else if(arg0.getSource() == txtQtdadeEstoque){
+			String caracteres="0987654321";
+			if(!caracteres.contains(arg0.getKeyChar()+"" ) || txtQtdadeEstoque.getText().length() > 4){
+				arg0.consume();
+			}
+			
+		}else if(arg0.getSource() == txtNumeroDePaginas){
+			String caracteres="0987654321";
+			if(!caracteres.contains(arg0.getKeyChar()+"" ) || txtNumeroDePaginas.getText().length() > 4){
+				arg0.consume();
+			}
+		
+	}
 
 		
+	}
+	public DefaultFormatterFactory mascara(){
+		DecimalFormat dFormat = new DecimalFormat("#,###,###.00") ;
+        NumberFormatter formatter = new NumberFormatter(dFormat) ;
+        formatter.setFormat(dFormat) ;
+        formatter.setAllowsInvalid(false) ; 
+        return new DefaultFormatterFactory ( formatter ) ;
 	}
 
 	@Override

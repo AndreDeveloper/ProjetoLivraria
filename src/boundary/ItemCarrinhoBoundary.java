@@ -81,7 +81,7 @@ public class ItemCarrinhoBoundary extends JPanel{
 		
 		nomeLivro.setForeground(Color.BLUE);
 		nomeLivro.setBackground(Color.WHITE);
-		nomeLivro.setFont(new Font("Palatino Linotype", Font.BOLD, 22));
+		nomeLivro.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
 		
 		preco.setHorizontalAlignment(JLabel.CENTER);
 		preco.setVerticalAlignment(JLabel.CENTER);
@@ -108,6 +108,7 @@ public class ItemCarrinhoBoundary extends JPanel{
 		JLabel labelQdade = new JLabel("" + this.quantidade.getQuantidade());
 		labelQdade.setHorizontalAlignment(JLabel.CENTER);
 		labelQdade.setVerticalAlignment(JLabel.CENTER);
+		labelQdade.setFont(new Font("Palatino Linotype", Font.BOLD, 30));
 		
 		painelQtdade.add(labelQdade, BorderLayout.CENTER);
 		painelQtdade.add(btnMenos, BorderLayout.WEST);
@@ -140,9 +141,9 @@ public class ItemCarrinhoBoundary extends JPanel{
 		painelQtdade.setBackground(Color.WHITE);
 		painelQtdade.setBorder(BorderFactory.createEmptyBorder());
 		
-		btnMais.setFont(new Font("Tahoma", Font.BOLD, 24));
-		btnMenos.setFont(new Font("Tahoma", Font.BOLD, 24));
-		btnRemover.setFont(new Font("Tahoma", Font.BOLD, 24));
+		btnMais.setFont(new Font("Palatino Linotype", Font.BOLD, 50));
+		btnMenos.setFont(new Font("Palatino Linotype", Font.BOLD, 50));
+		btnRemover.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
 		btnRemover.setToolTipText("Remover item");
 		btnMais.setToolTipText("Adicionar");
 		btnMenos.setToolTipText("Remover");

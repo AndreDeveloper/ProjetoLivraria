@@ -228,16 +228,16 @@ public class LivroDAO {
 	}
 	
 	public List<LivroEntity> selectToFormPesquisa(
-			int autor, String titulo, int editora, int categoria) {
+			String autor, String titulo, String editora, int categoria) {
 		List<LivroEntity> books = new ArrayList<LivroEntity>();
 		int validaAutor = 2147483646;
 		int validaTitulo = 2147483646;
 		int validaEditora = 2147483646;
 		int validaCategoria = 2147483646;
-		if(autor != 0) validaAutor = 0; 
+		if(autor.length()>0) validaAutor = 0; 
 		if(titulo.length()>0) validaTitulo = 0;	
-		if(editora!=0) validaEditora = 0;
-		if(categoria!=0) validaCategoria = 0;
+		if(editora.length()>0) validaEditora = 0;
+		if(categoria != 0) validaCategoria = 0;
 		
 		
 		try {
@@ -245,19 +245,20 @@ public class LivroDAO {
 
 			
 			String query = "select * from Livro "
-					+ "left outer join Autor ON Autor.CodAutor = Livro.CodAutor "
+					+ "inner join Autor on Livro.CodAutor = Autor.CodAutor " 
+					+ "inner join Editora on Livro.CodEditora = Editora.CodEditora "
 					+ "WHERE (((Titulo LIKE ? OR ISBN < ?)) AND "
-					+ "((Livro.CodAutor = ? OR ISBN < ?)) AND "
-					+ "((CodEditora = ? OR ISBN < ?)) AND "
-					+ "((CodCategoria = ? OR ISBN < ?)));";
+					+ "((Autor.Nome LIKE ? OR ISBN < ?)) AND "
+					+ "((Editora.Nome LIKE ? OR ISBN < ?)) AND "
+					+ "((Livro.CodCategoria = ? OR ISBN < ?)));";
 			System.out.println(query);
 			PreparedStatement stmt = con.prepareStatement(query);
 
 			stmt.setString(1, "%" + titulo + "%");
 			stmt.setInt(2, validaTitulo);
-			stmt.setInt(3, autor);
+			stmt.setString(3, "%" + autor +"%"  );
 			stmt.setInt(4, validaAutor);
-			stmt.setInt(5, editora);
+			stmt.setString(5, "%" + editora  +"%" );
 			stmt.setInt(6, validaEditora);
 			stmt.setInt(7, categoria);
 			stmt.setInt(8, validaCategoria);
