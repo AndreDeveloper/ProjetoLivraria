@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
@@ -58,10 +60,7 @@ public class ConsultaClienteBoundary implements MouseListener{
 
 		panelPrincipal.add(Centro(), BorderLayout.CENTER);
 		panelPrincipal.add(Botoes(), BorderLayout.SOUTH);
-		//janela.setContentPane(panelPrincipal);
-		//janela.setVisible(true);
-		//janela.setSize(1000, 650);
-		//janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		
 	}
 	
@@ -139,16 +138,23 @@ public class ConsultaClienteBoundary implements MouseListener{
 		pesquisaCpf.setBounds(242, 64, 433, 20);
 		pesquisaCpf.setVisible(false);
 		pesquisaCpf.setColumns(10);
+		pesquisaCpf.addActionListener(acaoEnter);
 		panelCentro.add(pesquisaCpf);
 		
 		pesquisaNome = new JFormattedTextField();
 		pesquisaNome.setBounds(242, 64, 433, 20);
 		pesquisaNome.setColumns(10);
+		pesquisaNome.addActionListener(acaoEnter);
 		panelCentro.add(pesquisaNome);
 		
 		
 		btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(673, 63, 101, 23);
+		btnPesquisar.setBounds(680, 63, 101, 23);
+		btnPesquisar.setBackground(Color.WHITE);
+		btnPesquisar.setForeground(Color.black);
+		btnPesquisar.setFont(new Font("Palatino Linotype", Font.BOLD, 16));
+		btnPesquisar.setBorder(null);
+		
 		btnPesquisar.addMouseListener(this);
 		
 		panelCentro.add(btnPesquisar);
@@ -210,24 +216,21 @@ public class ConsultaClienteBoundary implements MouseListener{
 	
 
 	
-	ActionListener ChamaTela = new ActionListener() {
+
+	
+public void telaRepaint(){
+	ClienteController cc = new ClienteController();
+	
+	
+	VisualizaAtualizaClienteBoundary va = new VisualizaAtualizaClienteBoundary(cc.BuscaDadosCliente(id));
+
+	panelPrincipal.removeAll();
+	panelPrincipal.add(va.getPanel(),BorderLayout.CENTER);
+	panelPrincipal.revalidate();
+	panelPrincipal.repaint();	
 		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			ClienteController cc = new ClienteController();
-			
-			
-			VisualizaAtualizaClienteBoundary va = new VisualizaAtualizaClienteBoundary(cc.BuscaDadosCliente(id));
-			panelPrincipal.removeAll();
-			panelPrincipal.add(va.getPanel(),BorderLayout.CENTER);
-			panelPrincipal.revalidate();
-			panelPrincipal.repaint();
-			
-			
-			
-		}
-	};
+		
+	}
 
 	
 	
@@ -247,11 +250,29 @@ public class ConsultaClienteBoundary implements MouseListener{
 		
 		panelBotoes.add(btnVisualizar, BorderLayout.LINE_END);
 		
-		btnVisualizar.addActionListener(ChamaTela);
+		btnVisualizar.addMouseListener(this);
 		
 		
 		return panelBotoes;		
 	}
+	
+	
+	
+ActionListener acaoEnter = new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+		if(e.getSource() == pesquisaNome || e.getSource() == pesquisaCpf){
+			Consulta();
+		}
+		
+
+		
+	}
+};
+	
 	
 	
 
@@ -259,35 +280,11 @@ public class ConsultaClienteBoundary implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		
 		
-		if(e.getSource()== btnPesquisar){
-			ClienteController control = new ClienteController(tblCliente);
-			
-				
-				if (SelecaoTipo == 0){
-					if(validaPesquisaNome()){
-					control.ConsultaExistenciaNome(pesquisaNome.getText());
-					}else{
-						control.listaCliente();
-					}
-				}else if(SelecaoTipo == 1){
-					if(validaPesquisaCpf()){
-						
-						control.listaCliente();
-					}else
-					{
-						if(pesquisaCpf.getText().replace("-","").replace(".", "").replace(" ", "").length()<11)
-							JOptionPane.showMessageDialog(null, "Os 11 digitos do CPF devem ser preenchidos");
-						else
-						control.ConsultaExistenciaCPF(pesquisaCpf.getText().replace(".","").replace("-", ""));
-						
-					}
-					
-				
-				
-			}
-			
-
-		} if(e.getSource() == tblCliente){
+		if(e.getSource()== btnPesquisar || e.getSource() == pesquisaNome || e.getSource() == pesquisaCpf){
+		Consulta();	
+		} 
+		
+		if(e.getSource() == tblCliente){
 
 			int linha = tblCliente.getSelectedRow();
 			id = (int)tblCliente.getValueAt(linha, 0);
@@ -295,6 +292,11 @@ public class ConsultaClienteBoundary implements MouseListener{
 			btnVisualizar.setEnabled(true);	
 		}
 		
+		if (e.getSource() == btnVisualizar){
+			
+			telaRepaint();
+			
+		}
 		
 		
 
@@ -339,6 +341,40 @@ public class ConsultaClienteBoundary implements MouseListener{
 		return pesquisaCpf.getText().replace("-","").replace("."," ").replace(" ","").length()==0;
 		
 	}
+	public void Consulta (){
+		
+		ClienteController control = new ClienteController(tblCliente);
+		
+		
+		if (SelecaoTipo == 0){
+			if(validaPesquisaNome()){
+			control.ConsultaExistenciaNome(pesquisaNome.getText());
+			}else{
+				control.listaCliente();
+			}
+		}else if(SelecaoTipo == 1){
+			if(validaPesquisaCpf()){
+				
+				control.listaCliente();
+			}else
+			{
+				if(pesquisaCpf.getText().replace("-","").replace(".", "").replace(" ", "").length()<11)
+					JOptionPane.showMessageDialog(null, "Os 11 digitos do CPF devem ser preenchidos");
+				else
+				control.ConsultaExistenciaCPF(pesquisaCpf.getText().replace(".","").replace("-", ""));
+				
+			}
+			
+		
+		
+	}
 	
-}
+
+
+		
+		
+	}
+	
+		
+	}
 

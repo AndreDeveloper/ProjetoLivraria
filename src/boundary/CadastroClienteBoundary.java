@@ -112,23 +112,23 @@ public class CadastroClienteBoundary implements ActionListener {
 		cpf.setPreferredSize(new Dimension(5, 2));
 		// cpf.setMinimumSize(new Dimension(1,2));
 		panelCentro.add(cpf);
-		FocusListener focoCPF = new FocusListener() {
-			
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				ClienteController cltControl = new ClienteController();
-				cltControl.ConsultaExistenciaCPF(cpf.getText().replace(".", "").replace("-", ""));
-			}
-			
-			
-			@Override
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		cpf.addFocusListener(focoCPF);
+	//	FocusListener focoCPF = new FocusListener() {
+	//		
+	//		@Override
+	//		public void focusLost(FocusEvent e) {
+	//			// TODO Auto-generated method stub
+	//			ClienteController cltControl = new ClienteController();
+	//			cltControl.ConsultaExistenciaCPF(cpf.getText().replace(".", "").replace("-", ""));
+	//		}
+	//		
+	//		
+	//		@Override
+	//		public void focusGained(FocusEvent e) {
+	//			// TODO Auto-generated method stub
+	//			
+	//		}
+	//	};
+	//	cpf.addFocusListener(focoCPF);
 
 		
 		panelCentro.add(new JLabel("*RG: "));
@@ -356,13 +356,14 @@ public class CadastroClienteBoundary implements ActionListener {
 		// TODO Auto-generated method stub
 
 		if(ValidaCampos()){
+			System.out.println(ValidaCampos());
 			ClienteController cc = new ClienteController();
 			
-		  boolean validaCadastro = cc.ConcluirCadastro(EventoConcluirCadastro());
+		boolean validaCadastro = cc.ConcluirCadastro(EventoConcluirCadastro());
 
-			if (validaCadastro== true){
+		if (validaCadastro== true){
 				limpaCampos();
-			}
+	}
 				
 		}
 

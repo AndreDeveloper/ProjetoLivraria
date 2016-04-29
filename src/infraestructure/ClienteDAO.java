@@ -155,14 +155,15 @@ public List<ClienteEntity> ConsultaClientePorNome (String nome)throws SQLExcepti
 	
 	
 	List<ClienteEntity> listaClientes = new ArrayList<ClienteEntity>();
-	ClienteEntity clt = new ClienteEntity();
+	
 	String sql = "SELECT CodCliente, nome, CPF, RG, Sexo, Logradouro, Numero, Complemento, Bairro,"
 			+ " Cidade, UF, CEP, Email, Senha, Telefone, Celular from Cliente where nome  like '%"+nome+"%'";
 	PreparedStatement ps = con.prepareStatement(sql);
 	//ps.setInt(1,clt.getCodCliente());
 	ResultSet rs = ps.executeQuery();
 	
-	if(rs.next()){
+	while(rs.next()){
+		ClienteEntity clt = new ClienteEntity();
 		clt.setCodCliente(rs.getInt("CodCliente"));
 		clt.setNome(rs.getString("Nome"));
 		clt.setCpf(rs.getString("CPF"));
@@ -181,7 +182,7 @@ public List<ClienteEntity> ConsultaClientePorNome (String nome)throws SQLExcepti
 		clt.setCelular(rs.getString("Celular"));
 		
 		
-		
+		listaClientes.add(clt);
 		
 	}
 	
@@ -190,7 +191,7 @@ public List<ClienteEntity> ConsultaClientePorNome (String nome)throws SQLExcepti
 	
 	
 	
-	listaClientes.add(clt);
+	
 	return listaClientes;
 	
 	

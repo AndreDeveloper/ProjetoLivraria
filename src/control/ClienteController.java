@@ -205,7 +205,7 @@ public void AtualizaCliente(ClienteEntity clt) {
 
 	
 	public void ConsultaExistenciaNome(String nome) {
-		System.out.println(nome);
+		
 		DefaultTableModel modelo = (DefaultTableModel) tblCliente.getModel();
 		if (tblCliente!=null) {
 			
