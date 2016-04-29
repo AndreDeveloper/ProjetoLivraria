@@ -121,7 +121,9 @@ public class ConsultaClienteBoundary implements MouseListener{
 		tblCliente.getColumnModel().getColumn(2).setPreferredWidth(89);
 		tblCliente.getColumnModel().getColumn(3).setPreferredWidth(112);
 		tblCliente.getColumnModel().getColumn(4).setPreferredWidth(225);
+		tblCliente.revalidate();
 		tblCliente.addMouseListener(this);
+		
 		 
 		
 		JLabel lblConsultaDeClientes = new JLabel("Consulta de Clientes");
@@ -224,9 +226,12 @@ public void telaRepaint(){
 	
 	VisualizaAtualizaClienteBoundary va = new VisualizaAtualizaClienteBoundary(cc.BuscaDadosCliente(id));
 
+	
+
 	panelPrincipal.removeAll();
 	panelPrincipal.add(va.getPanel(),BorderLayout.CENTER);
 	panelPrincipal.revalidate();
+	panelPrincipal.invalidate();
 	panelPrincipal.repaint();	
 		
 		

@@ -29,7 +29,7 @@ import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 import control.ClienteController;
-import control.evBuscaCEP;
+
 import entity.ClienteEntity;
 import entity.EnderecoEntity;
 
@@ -333,7 +333,7 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 	
 	
 	public void ValidaCepRetorno (){
-		final evBuscaCEP buscacep = new evBuscaCEP();
+		ClienteController buscacep = new ClienteController();
 		List<EnderecoEntity> end = new ArrayList<EnderecoEntity>();
 		end = buscacep.buscaPorCep(cep.getText().replace("-", ""));
 
@@ -406,10 +406,17 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 	public void VoltarConsultaCliente (){
 
 		ConsultaClienteBoundary c = new ConsultaClienteBoundary();
+		
+		
+		
+		
+		
 		panel.removeAll();
 		panel.add(c.getPanelPrincipal(),BorderLayout.CENTER);
 		panel.revalidate();
+		panel.invalidate();
 		panel.repaint();
+		
 		
 	}
 public void padraoVisualizar (){
@@ -454,7 +461,10 @@ public void padraoVisualizar (){
 
 			if(ValidaCampos()){
 				ClienteController cc = new ClienteController();
+				
 				cc.AtualizaCliente(EventoAtualizaCadastro());
+				
+				
 	
 		}
 		

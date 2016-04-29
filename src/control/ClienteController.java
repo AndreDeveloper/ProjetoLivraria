@@ -10,7 +10,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import entity.ClienteEntity;
+import entity.EnderecoEntity;
 import infraestructure.ClienteDAO;
+import infraestructure.LocalidadeDAO;
 
 public class ClienteController implements iClientesController {
 	//private int CodCliente;
@@ -92,6 +94,9 @@ public void AtualizaCliente(ClienteEntity clt) {
 			DefaultTableModel modelo = (DefaultTableModel) tblCliente.getModel();
 			if(modelo.getRowCount()>0){
 				modelo.setRowCount(0);
+				
+				
+				
 			}
 		}
 		
@@ -112,7 +117,7 @@ public void AtualizaCliente(ClienteEntity clt) {
 
 			JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
 		}
-
+		tblCliente.revalidate();
 	}
 
 	
@@ -236,7 +241,41 @@ public void AtualizaCliente(ClienteEntity clt) {
 	}
 	
 	
-	
+	public List<EnderecoEntity> buscaPorCep (String cep){
+		
+		List<EnderecoEntity> list = new ArrayList<EnderecoEntity>();
+		
+		
+		try {
+			LocalidadeDAO buscaEnd = new LocalidadeDAO();
+			list = buscaEnd.ConsultaEndereco(cep);
+			//Identifica se o cep foi encontrado. se não foi encontrado ele retorna null na list para o digitar os clientes
+			//se nao ele autocompleta.
+			for(EnderecoEntity endereco: list){
+		
+			if ((endereco.getUf() == null && endereco.getBairro() == null) && (endereco.getCidade() == null && endereco.getLogradouro() ==null) ){
+				
+				list =null;
+			}
+				
+			}
+			
+			
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		
+		return list;
+	}
 
 
 

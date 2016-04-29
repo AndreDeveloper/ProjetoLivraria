@@ -28,7 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 import control.ClienteController;
-import control.evBuscaCEP;
+
 import entity.ClienteEntity;
 import entity.EnderecoEntity;
 
@@ -371,7 +371,7 @@ public class CadastroClienteBoundary implements ActionListener {
 	}
 	
 	public void ValidaCepRetorno (){
-		final evBuscaCEP buscacep = new evBuscaCEP();
+		ClienteController buscacep = new ClienteController();
 		List<EnderecoEntity> end = new ArrayList<EnderecoEntity>();
 		end = buscacep.buscaPorCep(cep.getText().replace("-", ""));
 
