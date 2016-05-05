@@ -485,6 +485,7 @@ public void padraoVisualizar (){
 			
 			consultaCliente= new ConsultaClienteBoundary();
 			popula(consultaCliente.getDadosCliente());;
+			btnAlterarDados.setEnabled(true);
 		}else
 		
 		if(e.getSource() == btnAlterarDados){
