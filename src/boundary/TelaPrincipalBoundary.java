@@ -43,7 +43,8 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 	private CarrinhoBoundary formCarrinho = new CarrinhoBoundary();
 	private LivroBoundary formLivro = new LivroBoundary();
 	private PesquisaBoundary formPesquisa = new PesquisaBoundary(formCarrinho, this);
-	private ConsultaClienteBoundary consultaCliente = new ConsultaClienteBoundary(); 
+	//private ConsultaClienteBoundary consultaCliente = new ConsultaClienteBoundary();
+	VisualizaAtualizaClienteBoundary VA = new VisualizaAtualizaClienteBoundary();
 	
 	public TelaPrincipalBoundary() {
 		// adicionando os observers
@@ -223,7 +224,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		}else if(e.getSource() == btnEntrar){
 			
 		}else if (e.getSource() == btnConsultar){
-			selectTela(consultaCliente.getPanelPrincipal());
+			selectTela(VA.getPanel());
 		}
 	}
 	public static void main(String[] args) {

@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,7 +32,7 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.text.MaskFormatter;
 
 import control.ClienteController;
-
+import entity.ClienteEntity;
 
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -49,17 +50,29 @@ public class ConsultaClienteBoundary implements MouseListener{
 	private JTextField pesquisaNome;
 	private	JPanel panelPrincipal = new JPanel(new BorderLayout());
 	private int id;
-	private JButton btnVisualizar;
+	
 	private	JComboBox<Object> tipoPesquisa;
 	private int SelecaoTipo;
-	
+	private VisualizaAtualizaClienteBoundary va;
+	private JDialog consultaCltDialog = new JDialog();
 	public ConsultaClienteBoundary() {
 		// TODO Auto-generated constructor stub
 		
 		
 
 		panelPrincipal.add(Centro(), BorderLayout.CENTER);
-		panelPrincipal.add(Botoes(), BorderLayout.SOUTH);
+		//panelPrincipal.add(Botoes(), BorderLayout.SOUTH);
+		
+		
+		
+		consultaCltDialog.setModal(true);
+		consultaCltDialog.setLocationRelativeTo(null);
+		consultaCltDialog.setResizable(false);
+		consultaCltDialog.setContentPane(panelPrincipal);
+		consultaCltDialog.setSize(1020, 600);
+		consultaCltDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		consultaCltDialog.setLocationRelativeTo(null);
+		consultaCltDialog.setVisible(true);
 		
 		
 	}
@@ -217,52 +230,7 @@ public class ConsultaClienteBoundary implements MouseListener{
 	}
 	
 
-	
-
-	
-public void telaRepaint(){
-	ClienteController cc = new ClienteController();
-	
-	
-	VisualizaAtualizaClienteBoundary va = new VisualizaAtualizaClienteBoundary(cc.BuscaDadosCliente(id));
-
-	
-
-	panelPrincipal.removeAll();
-	panelPrincipal.add(va.getPanel(),BorderLayout.CENTER);
-	panelPrincipal.revalidate();
-	panelPrincipal.invalidate();
-	panelPrincipal.repaint();	
 		
-		
-	}
-
-	
-	
-	
-	
-	public JComponent Botoes (){
-		JPanel panelBotoes  = new JPanel(new BorderLayout());
-		panelBotoes.setBackground(Color.WHITE);
-		
-		btnVisualizar  = new JButton ("Visualizar / Alterar");
-		btnVisualizar.setBackground(Color.WHITE);
-		btnVisualizar.setForeground(Color.BLUE);
-		btnVisualizar.setIcon(new ImageIcon(VisualizaAtualizaClienteBoundary.class.getResource("/resource/search.png")));
-		btnVisualizar.setFont(new Font("Palatino Linotype", Font.BOLD, 22));
-		btnVisualizar.setBorder(null);
-		btnVisualizar.setEnabled(false);
-		
-		panelBotoes.add(btnVisualizar, BorderLayout.LINE_END);
-		
-		btnVisualizar.addMouseListener(this);
-		
-		
-		return panelBotoes;		
-	}
-	
-	
-	
 ActionListener acaoEnter = new ActionListener() {
 	
 	@Override
@@ -278,7 +246,14 @@ ActionListener acaoEnter = new ActionListener() {
 	}
 };
 	
-	
+	public ClienteEntity getDadosCliente(){
+		ClienteController control = new ClienteController();
+		ClienteEntity clt = new ClienteEntity();
+		clt = control.BuscaDadosCliente(id);
+		System.out.println(clt.getNome());
+		
+		return clt;
+	}
 	
 
 	@Override
@@ -294,15 +269,13 @@ ActionListener acaoEnter = new ActionListener() {
 			int linha = tblCliente.getSelectedRow();
 			id = (int)tblCliente.getValueAt(linha, 0);
 			//String nome = (String) tblCliente.getValueAt(linha, 1);
-			btnVisualizar.setEnabled(true);	
+			//btnVisualizar.setEnabled(true);
+			consultaCltDialog.dispose();
 		}
 		
-		if (e.getSource() == btnVisualizar){
-			
-			telaRepaint();
-			
-		}
 		
+			
+			
 		
 
 		

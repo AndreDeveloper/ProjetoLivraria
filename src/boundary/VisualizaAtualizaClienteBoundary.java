@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.sql.ClientInfoStatus;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +20,24 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
+
+import com.sun.corba.se.impl.encoding.CodeSetComponentInfo.CodeSetComponent;
 
 import control.ClienteController;
 
 import entity.ClienteEntity;
 import entity.EnderecoEntity;
+import javafx.scene.layout.Border;
 
 public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 	
@@ -55,6 +61,10 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 	private JButton btnAlterarDados;
 	private JButton btnAtualizar;
 	private JButton btnVoltar;
+	private ConsultaClienteBoundary consultaCliente;
+	private JDialog dialogVA = new JDialog();
+	private JButton btnConsultaCliente;
+	private int id;
 	
 
 
@@ -69,21 +79,43 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 
 	
 	
+	public VisualizaAtualizaClienteBoundary() {
+		
+		
+		
+		
+		
+		panel.add(Norte(), BorderLayout.NORTH);
+		panel.add(Centro(), BorderLayout.CENTER);
+		panel.add(Botoes(), BorderLayout.SOUTH);
+		// panel.add(Esquerdo(), BorderLayout.WEST);
+		
+		padraoVisualizar();
+		
+		//janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
 	public VisualizaAtualizaClienteBoundary(ClienteEntity clt) {
 		
-		 
-
+		
 
 
 		panel.add(Norte(), BorderLayout.NORTH);
 		panel.add(Centro(), BorderLayout.CENTER);
 		panel.add(Botoes(), BorderLayout.SOUTH);
 		// panel.add(Esquerdo(), BorderLayout.WEST);
+		
+		ClienteController control = new ClienteController();
+		clt = control.BuscaDadosCliente(id);
 		popula(clt);
 		padraoVisualizar();
+
+		
 	}
 	
 	public void popula (ClienteEntity clt){
+					
+		
 		lblCodCliente.setText(""+clt.getCodCliente());
 		nome.setText(clt.getNome());
 		cpf.setText(clt.getCpf());
@@ -117,11 +149,18 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 		obrigatorio.setFont(new Font("Tahoma",Font.PLAIN,16));
 		
 		panelNorte.add(obrigatorio,BorderLayout.SOUTH);
+			
+		panelNorte.add(lblTitulo, BorderLayout.WEST);
 		
+		btnConsultaCliente = new JButton("Consultar Cliente");
+		btnConsultaCliente.setIcon(new ImageIcon(VisualizaAtualizaClienteBoundary.class.getResource("/resource/search.png")));
+		btnConsultaCliente.setBackground(Color.WHITE);
+		btnConsultaCliente.setForeground(Color.BLUE);
+		btnConsultaCliente.setBorder(null);
+		btnConsultaCliente.setFont(new Font("Tahoma",Font.PLAIN,25));
+		btnConsultaCliente.addActionListener(this);
+		panelNorte.add(btnConsultaCliente, BorderLayout.EAST);
 		
-
-		
-		panelNorte.add(lblTitulo, BorderLayout.CENTER);
 
 		return panelNorte;
 
@@ -230,7 +269,7 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 		cidade.setEditable(false);
 		panelCentro.add(cidade);
 		
-		panelCentro.add( new JLabel("*Email: "));
+		panelCentro.add( new JLabel("*E-mail (Será usado para Login): "));
 		email = new JTextField(30);
 		panelCentro.add(email);
 		
@@ -277,17 +316,7 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 		JPanel PanelSul = new JPanel();
 		PanelSul.setBackground(Color.WHITE);
 		PanelSul.setLayout(new BorderLayout());
-		btnVoltar = new JButton("Voltar");
-		btnVoltar.setBackground(Color.WHITE);
-		btnVoltar.setForeground(Color.BLUE);
-		btnVoltar.setFont(new Font("Palatino Linotype", Font.BOLD, 22));
-		btnVoltar.setBorder(null);
-		btnVoltar.setIcon(
-				new ImageIcon(VisualizaAtualizaClienteBoundary.class.getResource("/resource/back.png"))
-				);
 		
-		PanelSul.add(btnVoltar,BorderLayout.LINE_START);
-		btnVoltar.addActionListener(this);
 
 		btnAtualizar = new JButton("Atualizar");
 		PanelSul.add(btnAtualizar, BorderLayout.EAST);
@@ -308,6 +337,7 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 		btnAlterarDados.setFont(new Font("Palatino Linotype", Font.BOLD, 22));
 		btnAlterarDados.setBorder(null);
 		btnAlterarDados.setIcon(new ImageIcon(VisualizaAtualizaClienteBoundary.class.getResource("/resource/edit.png")));
+		btnAlterarDados.setEnabled(false);
 		PanelSul.add(btnAlterarDados, BorderLayout.CENTER);
 		btnAlterarDados.addActionListener(this);
 		
@@ -393,7 +423,7 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 		if (clt != null)
 		{
 			
-			VoltarConsultaCliente();
+			//VoltarConsultaCliente(consultaCliente.getPanelPrincipal());
 		}
 		
 		return clt;
@@ -402,23 +432,26 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 	}
 	
 	
-	
-	public void VoltarConsultaCliente (){
 
-		ConsultaClienteBoundary c = new ConsultaClienteBoundary();
-		
-		
-		
-		
-		
-		panel.removeAll();
-		panel.add(c.getPanelPrincipal(),BorderLayout.CENTER);
-		panel.revalidate();
-		panel.invalidate();
-		panel.repaint();
-		
-		
-	}
+
+//public void VoltarConsultaCliente (){
+    //
+	//	ConsultaClienteBoundary c = new ConsultaClienteBoundary();
+	//	
+	//	
+	//	
+	//	
+	//	
+	//	panel.removeAll();
+	//	panel.add(c.getPanelPrincipal(),BorderLayout.CENTER);
+	//	panel.revalidate();
+	//	panel.invalidate();
+	//	panel.repaint();
+	//	c.getPanelPrincipal().invalidate();
+	//	c.getPanelPrincipal().revalidate();
+	//	
+	//	
+	//}
 public void padraoVisualizar (){
 	
 	nome.setEditable(false);
@@ -448,10 +481,16 @@ public void padraoVisualizar (){
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		if(e.getSource()== btnConsultaCliente){
+			
+			consultaCliente= new ConsultaClienteBoundary();
+			popula(consultaCliente.getDadosCliente());;
+		}else
 		
-		if(e.getSource() == btnVoltar){
-			VoltarConsultaCliente();
-		}else if(e.getSource() == btnAlterarDados){
+		if(e.getSource() == btnAlterarDados){
+	
+			
+			
 			
 			AlterarDados();
 			btnAlterarDados.setEnabled(false);
@@ -540,14 +579,16 @@ public void padraoVisualizar (){
 			senha.requestFocus();
 			return false;
 		} else if (telefone.getText().replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
-				.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "O Telefone deve ser informado", "Atençao",
+				.length() <= 0 || telefone.getText().replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
+				.length() < 10) {
+			JOptionPane.showMessageDialog(null, "O Telefone deve ser informado com DDD e os 8 Digitos", "Atençao",
 					JOptionPane.WARNING_MESSAGE);
 			telefone.requestFocus();
 			return false;
 		} else if (celular.getText().replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
-				.length() <= 0) {
-			JOptionPane.showMessageDialog(null, "O Celular deve ser informado", "Atençao", JOptionPane.WARNING_MESSAGE);
+				.length() <= 0 ||  celular.getText().replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
+						.length()<11) {
+			JOptionPane.showMessageDialog(null, "O Celular deve ser informado com DDD e os 9 Digitos", "Atençao", JOptionPane.WARNING_MESSAGE);
 			celular.requestFocus();
 			return false;
 		} else {

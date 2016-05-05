@@ -204,8 +204,8 @@ public List<ClienteEntity> ConsultaClientePorNome (String nome)throws SQLExcepti
 
 public List<ClienteEntity> ConsultaCliente()throws SQLException {
 	List<ClienteEntity> listaCliente = new ArrayList<ClienteEntity>();
-	String sql = "SELECT CodCliente, Nome, CPF, RG, Sexo, Logradouro, Numero, Complemento, Bairro, "
-			+ "Cidade, UF, CEP, Email, Telefone, Celular from Cliente";
+	String sql = "SELECT CodCliente, Nome, concat(mid(CPF,1,3),'.',mid(CPF,4,3),'.',mid(CPF,7,3),'-',mid(CPF,10,2)) as CPF, RG, Sexo, Logradouro, Numero, Complemento, Bairro, "
+			+ "Cidade, UF, CEP, Email, Telefone, Celular from Cliente order by Nome";
 	
 	PreparedStatement ps = con.prepareStatement(sql);
 	ResultSet rs = ps.executeQuery();
