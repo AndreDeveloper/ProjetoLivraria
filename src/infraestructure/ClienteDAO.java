@@ -25,7 +25,7 @@ public class ClienteDAO {
 		ps.setString(3, clt.getRg());
 		ps.setString(4,clt.getSexo());
 		ps.setString(5, clt.getLogradouro());
-		ps.setInt(6, clt.getNumero());
+		ps.setString(6, clt.getNumero());
 		ps.setString(7, clt.getComplemento());
 		ps.setString(8, clt.getBairro());
 		ps.setString(9,clt.getCidade());
@@ -53,7 +53,7 @@ public void AtualizaCliente (ClienteEntity clt)throws SQLException{
 	ps.setString(2, clt.getRg());
 	ps.setString(3,clt.getSexo());
 	ps.setString(4, clt.getLogradouro());
-	ps.setInt(5, clt.getNumero());
+	ps.setString(5, clt.getNumero());
 	ps.setString(6, clt.getComplemento());
 	ps.setString(7, clt.getBairro());
 	ps.setString(8,clt.getCidade());
@@ -87,7 +87,7 @@ public List<ClienteEntity> ConsultaCliente (int CodCliente)throws SQLException{
 		clt.setRg(rs.getString("RG"));
 		clt.setSexo(rs.getString("Sexo"));
 		clt.setLogradouro(rs.getString("Logradouro"));
-		clt.setNumero(rs.getInt("Numero"));
+		clt.setNumero(rs.getString("Numero"));
 		clt.setComplemento(rs.getString("Complemento"));
 		clt.setBairro(rs.getString("Bairro"));
 		clt.setCidade(rs.getString("Cidade"));
@@ -127,7 +127,7 @@ public List<ClienteEntity> ConsultaClientePorCPF (String cpf)throws SQLException
 		clt.setRg(rs.getString("RG"));
 		clt.setSexo(rs.getString("Sexo"));
 		clt.setLogradouro(rs.getString("Logradouro"));
-		clt.setNumero(rs.getInt("Numero"));
+		clt.setNumero(rs.getString("Numero"));
 		clt.setComplemento(rs.getString("Complemento"));
 		clt.setBairro(rs.getString("Bairro"));
 		clt.setCidade(rs.getString("Cidade"));
@@ -170,7 +170,7 @@ public List<ClienteEntity> ConsultaClientePorNome (String nome)throws SQLExcepti
 		clt.setRg(rs.getString("RG"));
 		clt.setSexo(rs.getString("Sexo"));
 		clt.setLogradouro(rs.getString("Logradouro"));
-		clt.setNumero(rs.getInt("Numero"));
+		clt.setNumero(rs.getString("Numero"));
 		clt.setComplemento(rs.getString("Complemento"));
 		clt.setBairro(rs.getString("Bairro"));
 		clt.setCidade(rs.getString("Cidade"));
@@ -219,7 +219,7 @@ public List<ClienteEntity> ConsultaCliente()throws SQLException {
 		clt.setRg(rs.getString("RG"));
 		clt.setSexo(rs.getString("Sexo"));
 		clt.setLogradouro(rs.getString("Logradouro"));
-		clt.setNumero(rs.getInt("Numero"));
+		clt.setNumero(rs.getString("Numero"));
 		clt.setComplemento(rs.getString("Complemento"));
 		clt.setBairro(rs.getString("Bairro"));
 		clt.setCidade(rs.getString("Cidade"));

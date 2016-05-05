@@ -379,7 +379,7 @@ public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 		clt.setRg(rg.getText().replace("-", "").replace(".", ""));
 		clt.setCep(cep.getText().replace("-", ""));
 		clt.setLogradouro(logradouro.getText());
-		clt.setNumero(Integer.parseInt(numero.getText()));
+		clt.setNumero(numero.getText());
 		clt.setComplemento(complemento.getText());
 		clt.setBairro(bairro.getText());
 		clt.setUf(uf.getText());
@@ -496,7 +496,7 @@ public void padraoVisualizar (){
 			nome.requestFocus();
 			return false;
 		} else if (cpf.getText().replace(" ", "").length() <= 3) {
-			System.out.println(cpf.getText().replace("-", "").replace(".", ""));
+			
 			cpf.requestFocus();
 			JOptionPane.showMessageDialog(null, "O CPF deve ser informado", "Atençao", JOptionPane.WARNING_MESSAGE);
 			return false;

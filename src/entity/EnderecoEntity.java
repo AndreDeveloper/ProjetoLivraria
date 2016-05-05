@@ -3,7 +3,7 @@ package entity;
 public class EnderecoEntity {
 	
 	private String logradouro;
-	private int numero;
+	private String numero;
 	private String bairro;
 	private String complemento;
 	private String cidade;
@@ -21,10 +21,10 @@ public class EnderecoEntity {
 		this.uf = uf;
 	}
 
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 	public String getLogradouro() {

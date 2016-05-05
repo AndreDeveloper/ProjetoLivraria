@@ -307,7 +307,7 @@ public class CadastroClienteBoundary implements ActionListener {
 		clt.setRg(rg.getText().replace("-", "").replace(".", ""));
 		clt.setCep(cep.getText().replace("-", ""));
 		clt.setLogradouro(logradouro.getText());
-		clt.setNumero(Integer.parseInt(numero.getText()));
+		clt.setNumero((numero.getText()));
 		clt.setComplemento(complemento.getText());
 		clt.setBairro(bairro.getText());
 		clt.setUf(uf.getText());
@@ -356,7 +356,7 @@ public class CadastroClienteBoundary implements ActionListener {
 		// TODO Auto-generated method stub
 
 		if(ValidaCampos()){
-			System.out.println(ValidaCampos());
+			
 			ClienteController cc = new ClienteController();
 			
 		boolean validaCadastro = cc.ConcluirCadastro(EventoConcluirCadastro());
