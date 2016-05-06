@@ -71,7 +71,7 @@ public class ClienteDAO {
 		List<ClienteEntity> selectCliente = new ArrayList<ClienteEntity>();
 		ClienteEntity clt = new ClienteEntity();
 		String sql = "SELECT CodCliente, nome, CPF, RG, Sexo, Logradouro, Numero, Complemento, Bairro,"
-				+ " Cidade, UF, CEP, Email, Senha, Telefone, Celular, DtCadastro from Cliente where CodCliente = " + CodCliente;
+				+ " Cidade, UF, CEP, Email, Senha, Telefone, Celular, DATE_FORMAT(DtCadastro, '%d/%m/%Y') as DtCadastro from Cliente where CodCliente = " + CodCliente;
 		PreparedStatement ps = con.prepareStatement(sql);
 		// ps.setInt(1,clt.getCodCliente());
 		ResultSet rs = ps.executeQuery();

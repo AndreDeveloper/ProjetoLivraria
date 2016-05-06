@@ -61,6 +61,7 @@ public class VisualizaAtualizaClienteBoundary implements ActionListener {
 	private ConsultaClienteBoundary consultaCliente;
 	private JDialog dialogVA = new JDialog();
 	private JButton btnConsultaCliente;
+	private JLabel exibeDataCadastro;
 	private int id;
 
 	public JPanel getPanel() {
@@ -102,7 +103,7 @@ public class VisualizaAtualizaClienteBoundary implements ActionListener {
 		senha.setText(clt.getSenha());
 		telefone.setText(clt.getTelefone());
 		celular.setText(clt.getCelular());
-		System.out.println(clt.getDtCadastro());
+		exibeDataCadastro.setText(clt.getDtCadastro());
 
 	}
 
@@ -135,9 +136,13 @@ public class VisualizaAtualizaClienteBoundary implements ActionListener {
 
 	public JComponent Centro() {
 
-		JPanel panelCentro = new JPanel(new GridLayout(16, 2, 10, 10));
-
+		JPanel panelCentro = new JPanel(new GridLayout(17, 2, 10, 10));
+		
 		panelCentro.setBackground(Color.WHITE);
+		panelCentro.add(new JLabel ("Data de Cadastro: "));
+		exibeDataCadastro = new JLabel("");
+		panelCentro.add(exibeDataCadastro);
+		
 		panelCentro.add(new JLabel("Código Cliente: "));
 		lblCodCliente = new JLabel("");
 		panelCentro.add(lblCodCliente);
@@ -372,6 +377,7 @@ public class VisualizaAtualizaClienteBoundary implements ActionListener {
 
 	public void padraoVisualizaAtualiza() {
 		lblCodCliente.setText("");
+		exibeDataCadastro.setText("");
 		nome.setEditable(false);
 		nome.setText("");
 		cpf.setEditable(false);
