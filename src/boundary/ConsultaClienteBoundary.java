@@ -196,17 +196,7 @@ public class ConsultaClienteBoundary implements ActionListener, MouseListener {
 		return panelCentro;
 	}
 
-	ActionListener acaoEnter = new ActionListener() {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-
-			
-
-		}
-	};
-
+	
 	public ClienteEntity getDadosCliente() {
 		ClienteController control = new ClienteController();
 		ClienteEntity clt = new ClienteEntity();
