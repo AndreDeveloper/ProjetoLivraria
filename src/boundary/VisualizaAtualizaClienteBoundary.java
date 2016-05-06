@@ -140,7 +140,7 @@ public class VisualizaAtualizaClienteBoundary implements ActionListener {
 		
 		panelCentro.setBackground(Color.WHITE);
 		panelCentro.add(new JLabel ("Data de Cadastro: "));
-		exibeDataCadastro = new JLabel("");
+		exibeDataCadastro = new JLabel("");	
 		panelCentro.add(exibeDataCadastro);
 		
 		panelCentro.add(new JLabel("Código Cliente: "));
