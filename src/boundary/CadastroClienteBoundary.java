@@ -427,7 +427,7 @@ public class CadastroClienteBoundary implements ActionListener {
 			nome.requestFocus();
 			return false;
 		} else if (cpf.getText().replace(" ", "").length() <= 3) {
-			System.out.println(cpf.getText().replace("-", "").replace(".", ""));
+			
 			cpf.requestFocus();
 			JOptionPane.showMessageDialog(null, "O CPF deve ser informado", "Atençao", JOptionPane.WARNING_MESSAGE);
 			return false;
@@ -457,7 +457,13 @@ public class CadastroClienteBoundary implements ActionListener {
 			JOptionPane.showMessageDialog(null, "A Cidade deve ser informado", "Atençao", JOptionPane.WARNING_MESSAGE);
 			cidade.requestFocus();
 			return false;
-		} else if (!email.getText().contains("@")) {
+		} else if (cbSexo.getSelectedItem().toString().equals("")){
+			JOptionPane.showMessageDialog(null, "É necessário escolher um sexo");
+			
+			return false;
+		}else
+			
+			if (!email.getText().contains("@")) {
 
 			JOptionPane.showMessageDialog(null, "Digite um e-mail valido", "Atençao", JOptionPane.WARNING_MESSAGE);
 
@@ -471,15 +477,13 @@ public class CadastroClienteBoundary implements ActionListener {
 			senha.requestFocus();
 			return false;
 		} else if (telefone.getText().replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
-				.length() <= 0 || telefone.getText().replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
-				.length() < 10) {
+				.length() <= 0 || telefone.getText().replace("-", "").replace("(", "").replace(")", "").trim().length() < 10) {
 			JOptionPane.showMessageDialog(null, "O Telefone deve ser informado com DDD e os 8 Digitos", "Atençao",
 					JOptionPane.WARNING_MESSAGE);
 			telefone.requestFocus();
 			return false;
 		} else if (celular.getText().replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
-				.length() <= 0 ||  celular.getText().replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
-						.length()<11) {
+				.length() <= 0 ||  celular.getText().replace("-", "").replace("(", "").replace(")", "").trim().length()<11) {
 			JOptionPane.showMessageDialog(null, "O Celular deve ser informado com DDD e os 9 Digitos", "Atençao", JOptionPane.WARNING_MESSAGE);
 			celular.requestFocus();
 			return false;
