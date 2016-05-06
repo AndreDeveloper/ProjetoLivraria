@@ -140,6 +140,7 @@ public class ItemPesquisaBoundary extends JPanel implements ActionListener{
 			
 		}else if(arg0.getSource() == btnImagem){
 			InfoLivroBoundary resultado = new InfoLivroBoundary(livro);
+			resultado.addObserver(telaPrincipalBoundary);
 			telaPrincipalBoundary.selectTela(resultado.getPainelPrincipal());
 			
 		}else if(arg0.getSource() == btnVisualizar){

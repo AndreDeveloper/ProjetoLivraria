@@ -38,8 +38,9 @@ public class EvBtnCarregaImagemLivro implements ActionListener{
 			String Path = file.getAbsolutePath();
 			formLivro.setLivroPath(Path);
 			imagem.setText("");
+			byte[] bs = ImagemFormater.imagemParaByte(new ImageIcon(Path));
 			imagem.setIcon(
-					new ImageIcon(Path)
+					ImagemFormater.bytesParaImagem(bs)
 					);
 			imagem.repaint();
 			imagem.invalidate();
