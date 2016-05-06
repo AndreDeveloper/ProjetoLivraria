@@ -45,7 +45,8 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 	private LivroBoundary formLivro = new LivroBoundary();
 	private PesquisaBoundary formPesquisa = new PesquisaBoundary(formCarrinho, this);
 	//private ConsultaClienteBoundary consultaCliente = new ConsultaClienteBoundary();
-	VisualizaAtualizaClienteBoundary VA = new VisualizaAtualizaClienteBoundary();
+	private VisualizaAtualizaClienteBoundary VA = new VisualizaAtualizaClienteBoundary();
+	
 	
 	public TelaPrincipalBoundary() {
 		// adicionando os observers
