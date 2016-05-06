@@ -127,13 +127,13 @@ public class ConsultaClienteBoundary implements ActionListener, MouseListener {
 		pesquisaCpf.setBounds(242, 64, 433, 20);
 		pesquisaCpf.setVisible(false);
 		pesquisaCpf.setColumns(10);
-		pesquisaCpf.addActionListener(acaoEnter);
+		pesquisaCpf.addActionListener(this);
 		panelCentro.add(pesquisaCpf);
 
 		pesquisaNome = new JFormattedTextField();
 		pesquisaNome.setBounds(242, 64, 433, 20);
 		pesquisaNome.setColumns(10);
-		pesquisaNome.addActionListener(acaoEnter);
+		pesquisaNome.addActionListener(this);
 		panelCentro.add(pesquisaNome);
 
 		btnPesquisar = new JButton("Pesquisar");
@@ -143,7 +143,7 @@ public class ConsultaClienteBoundary implements ActionListener, MouseListener {
 		btnPesquisar.setFont(new Font("Palatino Linotype", Font.BOLD, 16));
 		btnPesquisar.setBorder(null);
 
-		btnPesquisar.addMouseListener(this);
+		btnPesquisar.addActionListener(this);
 
 		panelCentro.add(btnPesquisar);
 
