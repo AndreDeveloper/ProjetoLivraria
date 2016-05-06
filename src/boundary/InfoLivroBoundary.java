@@ -2,21 +2,31 @@ package boundary;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import control.Observer;
+import control.Subject;
+import entity.ItemCarrinhoEntity;
 import entity.LivroEntity;
 import infraestructure.LivroDAO;
 
-public class InfoLivroBoundary {
+public class InfoLivroBoundary implements ActionListener, Subject{
 	private LivroEntity livro;
 	private JPanel painelPrincipal = new JPanel(new BorderLayout());
 	private JLabel lblISBN = new JLabel("ISNB:");
@@ -29,6 +39,7 @@ public class InfoLivroBoundary {
 	private JLabel lblSumario = new JLabel("Sumario:");
 	private JLabel lblResumo = new JLabel("Resumo:");
 	private JLabel lblNPaginas = new JLabel("N° Paginas:");
+	private JLabel lblPreco = new JLabel();
 
 	private JLabel ISBN = new JLabel();
 	private JLabel Titulo = new JLabel();
@@ -38,6 +49,9 @@ public class InfoLivroBoundary {
 	private JLabel DataPublicacao = new JLabel();
 	private JLabel Formato = new JLabel();
 	private JLabel NPaginas = new JLabel();
+	private JButton btnAddCarrinho = new JButton("");
+	
+	private List<Observer> listaObserver = new ArrayList<Observer>();
 	
 	private JTextArea Sumario = new JTextArea();
 	private JTextArea Resumo = new JTextArea();
@@ -152,6 +166,12 @@ public class InfoLivroBoundary {
 		formataLabel(lblTitulo);
 		formataLabel(lblNPaginas);
 		
+		lblPreco.setHorizontalAlignment(JLabel.RIGHT);
+		lblPreco.setVerticalAlignment(JLabel.CENTER);
+		lblPreco.setForeground(Color.GREEN);
+		lblPreco.setBackground(Color.WHITE);
+		lblPreco.setFont(new Font("Palatino Linotype", Font.BOLD, 22));
+		
 		formataTexto(Autor);
 		formataTexto(Categoria);
 		formataTexto(DataPublicacao);
@@ -181,6 +201,16 @@ public class InfoLivroBoundary {
 		Sumario.setLineWrap(true);
 		Sumario.setEditable(false);
 		
+		btnAddCarrinho.setIcon(
+				new ImageIcon(InfoLivroBoundary.class.getResource("/resource/adicionarCarrinho.png")));
+		btnAddCarrinho.setForeground(Color.RED);
+		btnAddCarrinho.setBackground(Color.WHITE);
+		btnAddCarrinho.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnAddCarrinho.setBorder(BorderFactory.createEmptyBorder());
+		btnAddCarrinho.setToolTipText("Adicionar item ao carrinho de compras");
+		btnAddCarrinho.setHorizontalAlignment(JButton.LEFT);
+		btnAddCarrinho.addActionListener(this);
+		
 		Dimension d = new Dimension(800, 130);
 		
 		JScrollPane painelResumo = new JScrollPane();
@@ -195,16 +225,25 @@ public class InfoLivroBoundary {
 		painelSumario.setViewportView(Sumario);
 		painelSumario.setBackground(Color.white);
 		
-		FlowLayout flowLayout = new FlowLayout();
-		flowLayout.setAlignment(FlowLayout.CENTER);
-		JPanel painelLeste = new JPanel(flowLayout);
+		JPanel painelLeste = new JPanel(new BorderLayout());
 		painelLeste.setForeground(Color.white);
 		painelLeste.setBackground(Color.white);
 		painelLeste.setBorder(BorderFactory.createEmptyBorder());
-		painelLeste.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		painelLeste.setAlignmentY(JPanel.CENTER_ALIGNMENT);
-        painelLeste.add(imagem);
-		
+        painelLeste.add(imagem, BorderLayout.CENTER);
+        JPanel auxSul = new JPanel(new GridLayout(1, 2, 10, 0));
+        auxSul.setForeground(Color.white);
+        auxSul.setBackground(Color.white);
+        auxSul.setBorder(BorderFactory.createEmptyBorder());
+        auxSul.add(lblPreco);
+        auxSul.add(btnAddCarrinho);
+        painelLeste.add(auxSul, BorderLayout.SOUTH);
+        painelLeste.setPreferredSize(new Dimension(270, 270));
+        JPanel painelLestetoform = new JPanel(new FlowLayout());
+		painelLestetoform.add(painelLeste);
+		painelLestetoform.setForeground(Color.white);
+		painelLestetoform.setBackground(Color.white);
+		painelLestetoform.setBorder(BorderFactory.createEmptyBorder());
+        
 		JPanel painelSul = new JPanel(new GridLayout(2, 1, 15, 1));
 		painelSul.setForeground(Color.white);
 		painelSul.setBackground(Color.white);
@@ -233,7 +272,7 @@ public class InfoLivroBoundary {
 		painelPrincipal.setForeground(Color.white);
 		painelPrincipal.setBackground(Color.white);
 		painelPrincipal.setBorder(BorderFactory.createEmptyBorder());
-		painelPrincipal.add(painelLeste, BorderLayout.CENTER);
+		painelPrincipal.add(painelLestetoform, BorderLayout.CENTER);
 		painelPrincipal.add(painelCentral, BorderLayout.WEST);
 		painelPrincipal.add(painelSul, BorderLayout.SOUTH);
 		
@@ -256,6 +295,7 @@ public class InfoLivroBoundary {
 		Resumo.setText(livro.getResumo());
 		imagem.setIcon(livro.getImagem());
 		NPaginas.setText("" + livro.getNumeroPaginas());
+		lblPreco.setText("R$: " + livro.getPrecoVenda());
 	}
 	
 	private void formataLabel(JLabel lbl){
@@ -264,13 +304,63 @@ public class InfoLivroBoundary {
 		lbl.setForeground(Color.BLACK);
 		lbl.setBackground(Color.WHITE);
 		lbl.setPreferredSize(new Dimension(250, 30));
-		lbl.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lbl.setFont(new Font("Palatino Linotype", Font.BOLD, 24));
 	}
 	private void formataTexto(JLabel lbl){
 		lbl.setHorizontalAlignment(JLabel.LEFT);
 		lbl.setVerticalAlignment(JLabel.CENTER);
 		lbl.setForeground(Color.BLUE);
 		lbl.setBackground(Color.WHITE);
-		lbl.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lbl.setFont(new Font("Palatino Linotype", Font.PLAIN, 18));
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnAddCarrinho){
+			ItemCarrinhoEntity carrinhoEntity = new ItemCarrinhoEntity();
+			new AuxQtdadeCarrinhoBoundary(carrinhoEntity);
+			if (carrinhoEntity.getQuantidade() != 0){
+				carrinhoEntity.setLivro(livro);
+				carrinhoEntity.setImagem(livro.getImagem());
+				notificar(carrinhoEntity);
+			}
+		
+		}
+	}
+
+
+
+	@Override
+	public void addObserver(Observer o) {
+		// TODO Auto-generated method stub
+		listaObserver.add(o);
+	}
+
+
+
+	@Override
+	public void removeObserver(Observer o) {
+		// TODO Auto-generated method stub
+		listaObserver.remove(o);
+	}
+
+
+
+	@Override
+	public void notificar(String noticia) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void notificar(ItemCarrinhoEntity carrinhoEntity) {
+		// TODO Auto-generated method stub
+		for(Observer o: listaObserver){
+			o.update(carrinhoEntity);
+		}
 	}
 }

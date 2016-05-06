@@ -144,6 +144,7 @@ public class ItemPesquisaBoundary extends JPanel implements ActionListener{
 			
 		}else if(arg0.getSource() == btnVisualizar){
 			InfoLivroBoundary resultado = new InfoLivroBoundary(livro);
+			resultado.addObserver(telaPrincipalBoundary);
 			telaPrincipalBoundary.selectTela(resultado.getPainelPrincipal());
 			
 		}

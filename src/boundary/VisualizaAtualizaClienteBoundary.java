@@ -31,13 +31,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
-import com.sun.corba.se.impl.encoding.CodeSetComponentInfo.CodeSetComponent;
+
 
 import control.ClienteController;
 
 import entity.ClienteEntity;
 import entity.EnderecoEntity;
-import javafx.scene.layout.Border;
+
 
 public class VisualizaAtualizaClienteBoundary implements  ActionListener{
 	

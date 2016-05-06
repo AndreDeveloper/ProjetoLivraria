@@ -24,6 +24,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import control.Observer;
+import entity.ItemCarrinhoEntity;
 
 
 public class TelaPrincipalBoundary implements ActionListener, Observer {
@@ -237,5 +238,11 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		if(btnCarrinho.getText().equals("0")){
 			btnCarrinho.setText("");	
 		}
+	}
+
+	@Override
+	public void update(ItemCarrinhoEntity carrinhoEntity) {
+		// TODO Auto-generated method stub
+		formCarrinho.adicionaItem(carrinhoEntity);
 	}
 }

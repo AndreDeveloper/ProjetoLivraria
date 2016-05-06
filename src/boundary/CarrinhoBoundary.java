@@ -193,6 +193,12 @@ public class CarrinhoBoundary implements Subject {
 		}
 		
 	}
+
+	@Override
+	public void notificar(ItemCarrinhoEntity carrinhoEntity) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }
