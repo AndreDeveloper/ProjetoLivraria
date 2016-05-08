@@ -97,7 +97,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		btnLogout.setBackground(Color.WHITE);
 		btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnLogout.setBorder(BorderFactory.createEmptyBorder());
-		btnLogout.setToolTipText("Entrar em modo administrador");
+		btnLogout.setToolTipText("Sair do modo administrador");
 		btnLogout.setFont(new Font("Papyrus", Font.BOLD, 18));
 		btnLogout.addActionListener(this);
 		btnLogout.setVisible(false);
@@ -126,7 +126,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		btnPesquisar.setBackground(Color.WHITE);
 		btnPesquisar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnPesquisar.setBorder(BorderFactory.createEmptyBorder());
-		btnPesquisar.setToolTipText("ir para tela principal");
+		btnPesquisar.setToolTipText("Pesquisar Livros");
 		btnPesquisar.setFont(new Font("Papyrus", Font.BOLD, 18));
 		
 		btnCrudLivro.setHorizontalAlignment(JLabel.CENTER);
@@ -134,7 +134,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		btnCrudLivro.setBackground(Color.WHITE);
 		btnCrudLivro.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnCrudLivro.setBorder(BorderFactory.createEmptyBorder());
-		btnCrudLivro.setToolTipText("ir para tela principal");
+		btnCrudLivro.setToolTipText("Gerenciar livros");
 		btnCrudLivro.setFont(new Font("Papyrus", Font.BOLD, 18));
 		btnCrudLivro.setVisible(false);
 
