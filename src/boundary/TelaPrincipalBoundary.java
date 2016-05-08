@@ -39,6 +39,8 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 	private JButton btnConsultar = new JButton("Consultar");
 	private JButton btnCadastrar = new JButton("Cadastrar");
 	private JButton btnCarrinho = new JButton("");
+	private JButton btnAdmin = new JButton ("Admin");
+	private JButton btnLogout = new JButton ("Logout");
 	
 	private CadastroClienteBoundary formCadastroCliente = new CadastroClienteBoundary();
 	private CarrinhoBoundary formCarrinho = new CarrinhoBoundary();
@@ -75,6 +77,33 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		livraria.setVerticalAlignment(JLabel.CENTER);
 		coluna1.add(iconeLivro);
 		coluna1.add(livraria);
+
+		
+		JLabel barra = new JLabel("    |    ");
+		barra.setHorizontalAlignment(JLabel.CENTER);
+		barra.setForeground(Color.GRAY);
+		barra.setFont(new Font("Papyrus", Font.BOLD, 30));
+		coluna1.add(barra);
+		
+		btnAdmin.setForeground(Color.BLACK);
+		btnAdmin.setBackground(Color.WHITE);
+		btnAdmin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnAdmin.setBorder(BorderFactory.createEmptyBorder());
+		btnAdmin.setToolTipText("Entrar em modo administrador");
+		btnAdmin.setFont(new Font("Papyrus", Font.BOLD, 18));
+		btnAdmin.addActionListener(this);
+		
+		btnLogout.setForeground(Color.BLACK);
+		btnLogout.setBackground(Color.WHITE);
+		btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnLogout.setBorder(BorderFactory.createEmptyBorder());
+		btnLogout.setToolTipText("Entrar em modo administrador");
+		btnLogout.setFont(new Font("Papyrus", Font.BOLD, 18));
+		btnLogout.addActionListener(this);
+		btnLogout.setVisible(false);
+		
+		coluna1.add(btnAdmin);
+		coluna1.add(btnLogout);
 		
 		// criando a coluna 2 do menu
 		FlowLayout layoutColuna2 = new FlowLayout();
@@ -107,9 +136,12 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		btnCrudLivro.setBorder(BorderFactory.createEmptyBorder());
 		btnCrudLivro.setToolTipText("ir para tela principal");
 		btnCrudLivro.setFont(new Font("Papyrus", Font.BOLD, 18));
+		btnCrudLivro.setVisible(false);
+
 		
 		coluna2.add(btnHome);
 		coluna2.add(btnPesquisar);
+		
 		coluna2.add(btnCrudLivro);
 		
 		// criando coluna 3 do menu
@@ -122,6 +154,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		
 		btnEntrar.setForeground(Color.BLUE);
 		btnEntrar.setBackground(Color.WHITE);
+		btnEntrar.setHorizontalAlignment(JButton.CENTER);
 		btnEntrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnEntrar.setBorder(BorderFactory.createEmptyBorder());
 		btnEntrar.setToolTipText("faça seu login");
@@ -131,7 +164,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		btnConsultar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnConsultar.setBorder(BorderFactory.createEmptyBorder());
 		btnConsultar.setToolTipText("Consulte os clientes cadastrados");
-		
+		btnConsultar.setVisible(false);
 		
 		
 		btnCadastrar.setForeground(Color.BLUE);
@@ -150,6 +183,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		painelBotoes.add(btnEntrar);
 		painelBotoes.add(btnConsultar);
 		painelBotoes.add(btnCadastrar);
+		
 		
 		painelCadastrar.add(iconeUser);
 		painelCadastrar.add(painelBotoes);
@@ -227,6 +261,10 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 			
 		}else if (e.getSource() == btnConsultar){
 			selectTela(VA.getPanel());
+		}else if (e.getSource() == btnAdmin){
+			AtivaModoADM();
+		}else if (e.getSource() == btnLogout){
+			FazLogout();
 		}
 	}
 	public static void main(String[] args) {
@@ -246,4 +284,28 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		// TODO Auto-generated method stub
 		formCarrinho.adicionaItem(carrinhoEntity);
 	}
+	public void AtivaModoADM(){
+		btnConsultar.setVisible(true);
+		btnHome.setVisible(false);
+		btnCrudLivro.setVisible(true);
+		btnEntrar.setVisible(false);
+		btnPesquisar.setVisible(false);
+		btnAdmin.setVisible(false);
+		btnLogout.setVisible(true);
+		
+		
+		
+	}
+	public void FazLogout(){
+		
+		btnConsultar.setVisible(false);
+		btnHome.setVisible(true);
+		btnCrudLivro.setVisible(false);
+		btnEntrar.setVisible(true);
+		btnPesquisar.setVisible(true);
+		btnAdmin.setVisible(true);
+		btnLogout.setVisible(false);
+		
+	}
+	
 }
