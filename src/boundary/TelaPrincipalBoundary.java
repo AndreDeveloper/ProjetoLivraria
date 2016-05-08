@@ -97,7 +97,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		btnLogout.setBackground(Color.WHITE);
 		btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnLogout.setBorder(BorderFactory.createEmptyBorder());
-		btnLogout.setToolTipText("Sair do modo administrador");
+		btnLogout.setToolTipText("Sair do em modo administrador");
 		btnLogout.setFont(new Font("Papyrus", Font.BOLD, 18));
 		btnLogout.addActionListener(this);
 		btnLogout.setVisible(false);
