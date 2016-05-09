@@ -25,6 +25,7 @@ import javax.swing.UIManager;
 
 import edu.livraria.control.Observer;
 import edu.livraria.entity.ItemCarrinho;
+import edu.livraria.entity.Livro;
 
 
 public class TelaPrincipalBoundary implements ActionListener, Observer {
@@ -46,7 +47,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 	private CarrinhoBoundary formCarrinho = new CarrinhoBoundary();
 	private LivroBoundary formLivro = new LivroBoundary();
 	private PesquisaBoundary formPesquisa = new PesquisaBoundary(formCarrinho, this);
-	//private ConsultaClienteBoundary consultaCliente = new ConsultaClienteBoundary();
+	private HomeBoundary formHome = new HomeBoundary(this);
 	private VisualizaAtualizaClienteBoundary VA = new VisualizaAtualizaClienteBoundary();
 	
 	
@@ -226,6 +227,8 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		tela.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		tela.setSize(1100, 700);
 		tela.setVisible(true);
+		
+		selectTela(formHome.getPainelPrincipal());
 	}
 	
 	public void selectTela(JPanel jpanel){
@@ -252,6 +255,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		}else if(e.getSource() == btnPesquisar){
 			selectTela(formPesquisa.getTela());
 		}else if(e.getSource() == btnHome){
+			selectTela(formHome.getPainelPrincipal());
 			
 		}else if(e.getSource() == btnCarrinho){
 			selectTela(formCarrinho.getTela());
@@ -265,6 +269,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 			AtivaModoADM();
 		}else if (e.getSource() == btnLogout){
 			FazLogout();
+			selectTela(formHome.getPainelPrincipal());
 		}
 	}
 	public static void main(String[] args) {
@@ -305,6 +310,14 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		btnPesquisar.setVisible(true);
 		btnAdmin.setVisible(true);
 		btnLogout.setVisible(false);
+		
+	}
+
+	@Override
+	public void update(Livro livro) {
+		InfoLivroBoundary infoLivroBoundary = new InfoLivroBoundary(livro);
+		infoLivroBoundary.addObserver(this);
+		selectTela(infoLivroBoundary.getPainelPrincipal());
 		
 	}
 	

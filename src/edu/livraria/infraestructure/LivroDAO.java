@@ -340,7 +340,10 @@ public class LivroDAO {
 		try {
 			Connection con = JDBCUtil.getConnection();
 
-			String query = "SELECT * FROM Livro;";
+			String query = "select * from Livro " +
+					"left outer join Autor ON Autor.CodAutor = Livro.CodAutor " +
+					"left outer join Editora ON Editora.CodEditora = Livro.CodEditora " +
+					"left outer join Categoria ON Categoria.CodCategoria = Livro.CodCategoria ";
 			PreparedStatement stmt = con.prepareStatement(query);
 
 			ResultSet rs = stmt.executeQuery();
@@ -348,19 +351,24 @@ public class LivroDAO {
 				
 				Livro livro = new Livro();
 				
-				stmt.setInt(1, livro.getIdAutor());
-				stmt.setInt(2, livro.getIdCategoriaLivro());
-				stmt.setInt(3, livro.getIdEditora());
-				stmt.setDate(4, new Date(livro.getDataPublicacao().getTime()));
-				stmt.setInt(5, livro.getFormato());
-				stmt.setInt(6, livro.getIsbn());
-				stmt.setDouble(7, livro.getMargemLucro());
-				stmt.setInt(8, livro.getNumeroPaginas());
-				stmt.setDouble(9, livro.getPrecoCusto());
-				stmt.setDouble(10, livro.getPrecoVenda());
-				stmt.setInt(11, livro.getQtdeEmEstoque());
-				stmt.setString(12, livro.getResumo());
-				stmt.setString(13, livro.getTituloLivro());
+				livro.setIsbn(rs.getInt("ISBN"));
+			    livro.setTituloLivro(rs.getString("Titulo"));
+				livro.setIdAutor(rs.getInt("CodAutor"));
+				livro.setIdCategoriaLivro(rs.getInt("CodCategoria"));
+				livro.setIdEditora(rs.getInt("CodEditora"));
+				livro.setNumeroPaginas(rs.getInt("NumeroPaginas"));
+				livro.setResumo(rs.getString("Resumo"));
+				livro.setSumario(rs.getString("Sumario"));
+				livro.setFormato(rs.getInt("Formato"));
+				livro.setDataPublicacao(rs.getDate("DataPublicacao"));
+				livro.setPrecoVenda(rs.getDouble("PrecoVenda"));
+				livro.setPrecoCusto(rs.getDouble("PrecoCusto"));
+				livro.setMargemLucro(rs.getDouble("MargemLucro"));
+				livro.setQtdeEmEstoque(rs.getInt("QtdeEmEstoque"));
+				livro.setImagem(ImagemFormater.bytesParaImagem(rs.getBytes("Imagem")));
+				livro.setNomeAutor(rs.getString(18));
+				livro.setEditora(rs.getString(25));
+				livro.setCategoriaLivro(rs.getString(36));
 
 				books.add(livro);
 			}

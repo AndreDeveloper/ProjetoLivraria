@@ -363,4 +363,12 @@ public class InfoLivroBoundary implements ActionListener, Subject{
 			o.update(carrinhoEntity);
 		}
 	}
+
+
+
+	@Override
+	public void notificar(Livro livro) {
+		// TODO Auto-generated method stub
+		
+	}
 }
