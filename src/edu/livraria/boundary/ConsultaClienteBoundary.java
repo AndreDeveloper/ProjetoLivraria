@@ -56,6 +56,10 @@ public class ConsultaClienteBoundary implements ActionListener, MouseListener {
 		consultaCltDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		consultaCltDialog.setLocationRelativeTo(null);
 		consultaCltDialog.setVisible(true);
+		
+		
+		
+		
 
 	}
 

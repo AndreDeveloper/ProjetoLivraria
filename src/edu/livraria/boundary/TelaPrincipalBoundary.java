@@ -297,8 +297,8 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		btnPesquisar.setVisible(false);
 		btnAdmin.setVisible(false);
 		btnLogout.setVisible(true);
-		
-		
+		btnCarrinho.setVisible(false);
+	
 		
 	}
 	public void FazLogout(){
@@ -310,7 +310,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		btnPesquisar.setVisible(true);
 		btnAdmin.setVisible(true);
 		btnLogout.setVisible(false);
-		
+		btnCarrinho.setVisible(true);
 	}
 
 	@Override
