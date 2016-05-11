@@ -463,14 +463,17 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 			}
 		}
 		else if(e.getSource() == pesquisaLivro){
-			Livro livro = livroControl.pesquisar(Integer.parseInt(txtIsbn.getText()));
-			if (livro.getIsbn() > 0){
-				livroToForm(
-						livro
-						);	
-				telaAlterar();
-			}
-			
+			new AuxiliarPesquisa(txtIsbn, "PesquisaLivro");
+				if (txtIsbn.getText().length() > 0){
+					Livro livro = livroControl.pesquisar(Integer.parseInt(txtIsbn.getText()));
+					livroToForm(
+							livro
+							);	
+					telaAlterar();
+				
+				}else{
+					JOptionPane.showMessageDialog(null, "digite algum valor no campo isbn para pesquisar!", "erro", JOptionPane.ERROR_MESSAGE);
+				}
 		}else if(e.getSource() == btnAlterar){
 			if (formToLivro()!=null){
 				livroControl.atualizar(formToLivro());

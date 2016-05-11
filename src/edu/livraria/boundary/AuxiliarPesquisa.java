@@ -115,8 +115,19 @@ public class AuxiliarPesquisa implements MouseListener, KeyListener{
 					"id", "Nome"
 				}
 			);
-		tabela.setModel(modelotabela);
+		DefaultTableModel modelotabelalivro = new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+						"ISBN", "Livro"
+				}
+				);
+		if(param.equals("PesquisaLivro")){
 		
+			tabela.setModel(modelotabelalivro);
+		}else{
+			tabela.setModel(modelotabela);
+		}
 		controller.preencheTabela(tabela, param);
 		
 		tela.setContentPane(painelPrincipal);
@@ -133,9 +144,13 @@ public class AuxiliarPesquisa implements MouseListener, KeyListener{
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		int linha = tabela.getSelectedRow();
-		long id =  (Long) tabela.getValueAt(linha, 0);
-		String nome = (String) tabela.getValueAt(linha, 1);
-		txtCampo.setText(id + " - " + nome);
+		String isbn = "" + tabela.getValueAt(linha, 0);
+		String nome = isbn + " - " + tabela.getValueAt(linha, 1);
+		if (param.equals("PesquisaLivro")){
+			txtCampo.setText("" + isbn);			
+		}else{
+		txtCampo.setText(nome);
+		}
 		tela.dispose();
 	}
 

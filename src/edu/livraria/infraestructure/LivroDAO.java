@@ -310,19 +310,21 @@ public class LivroDAO {
 				
 				Livro livro = new Livro();
 				
-				stmt.setInt(1, livro.getIdAutor());
-				stmt.setInt(2, livro.getIdCategoriaLivro());
-				stmt.setInt(3, livro.getIdEditora());
-				stmt.setDate(4, new Date(livro.getDataPublicacao().getTime()));
-				stmt.setInt(5, livro.getFormato());
-				stmt.setInt(6, livro.getIsbn());
-				stmt.setDouble(7, livro.getMargemLucro());
-				stmt.setInt(8, livro.getNumeroPaginas());
-				stmt.setDouble(9, livro.getPrecoCusto());
-				stmt.setDouble(10, livro.getPrecoVenda());
-				stmt.setInt(11, livro.getQtdeEmEstoque());
-				stmt.setString(12, livro.getResumo());
-				stmt.setString(13, livro.getTituloLivro());
+				livro.setIsbn(rs.getInt("ISBN"));
+			    livro.setTituloLivro(rs.getString("Titulo"));
+				livro.setIdAutor(rs.getInt("CodAutor"));
+				livro.setIdCategoriaLivro(rs.getInt("CodCategoria"));
+				livro.setIdEditora(rs.getInt("CodEditora"));
+				livro.setNumeroPaginas(rs.getInt("NumeroPaginas"));
+				livro.setResumo(rs.getString("Resumo"));
+				livro.setSumario(rs.getString("Sumario"));
+				livro.setFormato(rs.getInt("Formato"));
+				livro.setDataPublicacao(rs.getDate("DataPublicacao"));
+				livro.setPrecoVenda(rs.getDouble("PrecoVenda"));
+				livro.setPrecoCusto(rs.getDouble("PrecoCusto"));
+				livro.setMargemLucro(rs.getDouble("MargemLucro"));
+				livro.setQtdeEmEstoque(rs.getInt("QtdeEmEstoque"));
+				livro.setImagem(ImagemFormater.bytesParaImagem(rs.getBytes("Imagem")));
 				
 				books.add(livro);
 			}
@@ -330,6 +332,46 @@ public class LivroDAO {
 			e.printStackTrace();
 		}
 
+		return books;
+	}
+
+	public List<Livro> selectByNome(String name) {
+		List<Livro> books = new ArrayList<Livro>();
+		try {
+			Connection con = JDBCUtil.getConnection();
+			
+			String query = "SELECT * FROM Livro WHERE Titulo LIKE ?;";
+			PreparedStatement stmt = con.prepareStatement(query);
+			
+			stmt.setString(1, "%" + name + "%");
+			
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				
+				Livro livro = new Livro();
+				
+				livro.setIsbn(rs.getInt("ISBN"));
+			    livro.setTituloLivro(rs.getString("Titulo"));
+				livro.setIdAutor(rs.getInt("CodAutor"));
+				livro.setIdCategoriaLivro(rs.getInt("CodCategoria"));
+				livro.setIdEditora(rs.getInt("CodEditora"));
+				livro.setNumeroPaginas(rs.getInt("NumeroPaginas"));
+				livro.setResumo(rs.getString("Resumo"));
+				livro.setSumario(rs.getString("Sumario"));
+				livro.setFormato(rs.getInt("Formato"));
+				livro.setDataPublicacao(rs.getDate("DataPublicacao"));
+				livro.setPrecoVenda(rs.getDouble("PrecoVenda"));
+				livro.setPrecoCusto(rs.getDouble("PrecoCusto"));
+				livro.setMargemLucro(rs.getDouble("MargemLucro"));
+				livro.setQtdeEmEstoque(rs.getInt("QtdeEmEstoque"));
+				livro.setImagem(ImagemFormater.bytesParaImagem(rs.getBytes("Imagem")));
+				
+				books.add(livro);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return books;
 	}
 	
