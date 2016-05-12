@@ -477,6 +477,7 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 		}else if(e.getSource() == btnAlterar){
 			if (formToLivro()!=null){
 				livroControl.atualizar(formToLivro());
+				
 			}
 		}else if(e.getSource() == btnExcluir){
 			livroControl.deletar(formToLivro().getIsbn());
@@ -530,7 +531,7 @@ public class LivroBoundary implements ActionListener, KeyListener, MouseListener
 			livro.setSumario(txtSumario.getText());
 			livro.setTituloLivro(txtTituloLivro.getText());
 			
-			System.out.println(livro.toString());
+			
 			return livro;
 		}else{
 			JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campo!",null,JOptionPane.ERROR_MESSAGE);

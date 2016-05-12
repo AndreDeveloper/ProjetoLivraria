@@ -90,7 +90,7 @@ public class CategoriaDAO {
 		try {
 			Connection con = JDBCUtil.getConnection();
 
-			String query = "SELECT * FROM Categoria;";
+			String query = "SELECT * FROM Categoria order by Nome;";
 			PreparedStatement stmt = con.prepareStatement(query);
 
 			ResultSet rs = stmt.executeQuery();
