@@ -251,7 +251,7 @@ public class LivroDAO {
 					+ "((Autor.Nome LIKE ? OR ISBN < ?)) AND "
 					+ "((Editora.Nome LIKE ? OR ISBN < ?)) AND "
 					+ "((Livro.CodCategoria = ? OR ISBN < ?)));";
-			System.out.println(query);
+			
 			PreparedStatement stmt = con.prepareStatement(query);
 
 			stmt.setString(1, "%" + titulo + "%");

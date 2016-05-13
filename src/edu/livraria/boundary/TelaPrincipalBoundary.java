@@ -29,7 +29,7 @@ import edu.livraria.entity.Livro;
 
 
 public class TelaPrincipalBoundary implements ActionListener, Observer {
-	private JFrame tela = new JFrame("Livraria Digital");
+	private JFrame tela = new JFrame("Livraria Digital - Thread Lock");
 	private JPanel painelPrincipal = new JPanel();
 	private BorderLayout borderLayout = new BorderLayout();
 	private JPanel painelMenu = new JPanel(new GridLayout(1, 3, 3, 3));
@@ -67,7 +67,7 @@ public class TelaPrincipalBoundary implements ActionListener, Observer {
 		coluna1.setForeground(Color.blue);
 		coluna1.setBackground(Color.white);
 		JLabel iconeLivro = new JLabel("");
-		JLabel livraria = new JLabel("Livraria \nDigital");
+		JLabel livraria = new JLabel("Thread Lock");
 		iconeLivro.setIcon(
 				new ImageIcon(TelaPrincipalBoundary.class.getResource("/resource/livros.png"))
 				);

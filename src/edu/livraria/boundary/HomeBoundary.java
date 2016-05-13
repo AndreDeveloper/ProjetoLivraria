@@ -30,13 +30,16 @@ public class HomeBoundary {
 	}
 	
 	private void create(){
-		GridLayout gridLayout = new GridLayout(4,4, 5, 5);
+		GridLayout gridLayout = new GridLayout(1,4, 5, 5);
 		JPanel painelLivros = new JPanel(gridLayout);
 		List<Livro> listaLivros = control.selectAll();
 		
 		int rows = gridLayout.getRows();
 		int columns = gridLayout.getColumns();
 		for(Livro livro: listaLivros){
+			if(painelLivros.getComponentCount()%5==0){
+				gridLayout.setRows(gridLayout.getRows()+1);
+			}
 			ItemHomeBoundary homeBoundary = new ItemHomeBoundary(livro);
 			homeBoundary.addObserver(formPrincipal);
 			painelLivros.add(homeBoundary.getPainelPrincipal());

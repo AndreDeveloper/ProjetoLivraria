@@ -8,8 +8,8 @@ import java.sql.SQLException;
 public class JDBCCEP {
 
 	private static String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	private static String JDBC_URL = "jdbc:mysql://mysql.asgardprint.com.br/asgardprint03";
-	private static String JDBC_USER = "asgardprint03";
+	private static String JDBC_URL = "jdbc:mysql://localhost/Cep";
+	private static String JDBC_USER = "root";
 	private static String JDBC_PASSWORD = "ads2016";
 	private static Driver driver = null;
 

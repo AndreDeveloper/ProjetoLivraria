@@ -232,7 +232,7 @@ public class PesquisaBoundary implements ActionListener{
      
 	
 	 public void mostraPesquisa(java.util.List<Livro> listaLivro){
-		 System.out.println(listaLivro.size());
+		 
 		 painelResultado.removeAll();
 		 painelResultado.add(painelIndice, BorderLayout.NORTH);
 		 JScrollPane spane = new JScrollPane();

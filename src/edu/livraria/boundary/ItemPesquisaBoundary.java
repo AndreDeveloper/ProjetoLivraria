@@ -43,7 +43,7 @@ public class ItemPesquisaBoundary extends JPanel implements ActionListener{
 
 	private void criarTela(){
 		GridLayout gridlayout = new GridLayout(1, 5, 5, 5);
-		JLabel lbAutor = new JLabel(livro.getNomeAutor());
+		JTextArea lbAutor = new JTextArea(livro.getNomeAutor());
 		JTextArea lbTitulo = new  JTextArea(livro.getTituloLivro());
 		JLabel lbPreco = new JLabel("R$ " + livro.getPrecoVenda());
 		
@@ -88,11 +88,12 @@ public class ItemPesquisaBoundary extends JPanel implements ActionListener{
 		btnAddCarrinho.addActionListener(this);
 		
 		
-		lbAutor.setHorizontalAlignment(JLabel.CENTER);
-		lbAutor.setVerticalAlignment(JLabel.CENTER);
+		//lbAutor.setHorizontalAlignment(JLabel.CENTER);
+		//lbAutor.setVerticalAlignment(JLabel.CENTER);
 		lbAutor.setForeground(Color.BLUE);
 		lbAutor.setBackground(Color.WHITE);
 		lbAutor.setFont(new Font("Palatino Linotype", Font.BOLD, 18));
+		lbAutor.setLineWrap(true);
 		
 		lbTitulo.setForeground(Color.BLUE);
 		lbTitulo.setBackground(Color.WHITE);
